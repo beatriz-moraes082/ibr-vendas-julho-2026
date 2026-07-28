@@ -1,0 +1,406 @@
+<style>
+*{box-sizing:border-box}
+.viz-root{--surface-1:#fcfcfb;--plane:#f9f9f7;--text:#0b0b0b;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--baseline:#c3c2b7;--ring:rgba(11,11,11,.10);
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;--series-1:#2a78d6;--good:#006300;
+color-scheme:light;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:var(--plane);
+line-height:1.45;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .viz-root{color-scheme:dark;
+--surface-1:#1a1a19;--plane:#0d0d0d;--text:#fff;--text2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--baseline:#383835;--ring:rgba(255,255,255,.10);
+--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;--series-1:#3987e5;--good:#0ca30c}}
+:root[data-theme="dark"] .viz-root{color-scheme:dark;--surface-1:#1a1a19;--plane:#0d0d0d;--text:#fff;--text2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--baseline:#383835;--ring:rgba(255,255,255,.10);--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;--series-1:#3987e5;--good:#0ca30c}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 48px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.hd h1{font-size:30px;margin:4px 0 2px;letter-spacing:-.02em}
+.hd .sub{color:var(--text2);font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0}
+.kpi{background:var(--surface-1);border:1px solid var(--ring);border-radius:14px;padding:16px 16px}
+.kpi.hero{background:linear-gradient(135deg,var(--s1),var(--s7));border:none}
+.kpi.hero .kn,.kpi.hero .kl{color:#fff}
+.kn{font-size:26px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.kn .u{font-size:14px;font-weight:600;color:var(--text2)}
+.kl{font-size:12px;color:var(--text2);margin-top:3px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.card{background:var(--surface-1);border:1px solid var(--ring);border-radius:14px;padding:16px 18px}
+.span12{grid-column:span 12}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}
+.card h2{font-size:15px;margin:0 0 1px}.cap{font-size:12px;color:var(--muted);margin:0 0 12px}
+.barlist{display:flex;flex-direction:column;gap:9px}
+.row{display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:10px}
+.barlist.small .row{grid-template-columns:190px 1fr auto}
+.lab{font-size:12.5px;color:var(--text2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.track{height:14px;background:var(--grid);border-radius:7px;overflow:hidden}
+.bar{height:100%;border-radius:7px;min-width:4px}
+.val{font-size:12.5px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.val .fat{color:var(--muted);font-weight:500;font-size:11.5px;margin-left:2px}
+.note{font-size:11.5px;color:var(--muted);margin:12px 0 0;border-top:1px solid var(--grid);padding-top:9px}
+/* profile */
+.proflist{display:grid;grid-template-columns:1fr 1fr;gap:11px 26px}
+.prow{display:grid;grid-template-columns:1fr 120px 42px;align-items:center;gap:12px}
+.plab{font-size:13px;color:var(--text2)}.plab b{color:var(--text)}
+.ptrack{position:relative;height:16px;background:var(--grid);border-radius:8px}
+.pbar{position:absolute;inset:0 auto 0 0;background:var(--s1);border-radius:8px}
+.ppct{position:absolute;right:6px;top:0;line-height:16px;font-size:10.5px;font-weight:700;color:#fff}
+.pfrac{font-size:11px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+/* timeline */
+.timeline{display:flex;align-items:flex-end;gap:6px;height:150px;padding-top:6px}
+.tcol{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
+.tbarwrap{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.tbar{width:70%;max-width:26px;background:var(--s1);border-radius:5px 5px 0 0;min-height:6px}
+.tnum{font-size:10.5px;font-weight:700;color:var(--text2);margin-bottom:2px}
+.tday{font-size:9.5px;color:var(--muted);margin-top:5px;font-variant-numeric:tabular-nums}
+/* insights */
+.insights ul{margin:2px 0 0;padding-left:18px}
+.insights li{font-size:13.5px;color:var(--text2);margin-bottom:8px}
+.insights b{color:var(--text)}
+.ft{font-size:11px;color:var(--muted);margin-top:20px;text-align:center}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid>*{grid-column:span 12!important}.proflist{grid-template-columns:1fr}.row{grid-template-columns:120px 1fr auto}}
+</style>
+<div class="wrap viz-root">
+<header class="hd">
+  <div><div class="eyebrow">Ipioca Beach Residence · Kommo CRM</div>
+  <h1>Vendas de Julho / 2026</h1>
+  <div class="sub">27 negócios ganhos no funil Closer · análise de canal, público, criativo e perfil</div></div>
+</header>
+
+<section class="kpis">
+  <div class="kpi"><div class="kn">27</div><div class="kl">Vendas ganhas</div></div>
+  <div class="kpi hero"><div class="kn">R$ 1.191.955</div><div class="kl">Faturamento</div></div>
+  <div class="kpi"><div class="kn">R$ 44.146</div><div class="kl">Ticket médio</div></div>
+  <div class="kpi"><div class="kn">0<span class="u"> dia</span></div><div class="kl">Ciclo mediano (mesmo dia)</div></div>
+  <div class="kpi"><div class="kn">35,5<span class="u">%</span></div><div class="kl">Conversão no Closer</div></div>
+</section>
+
+<div class="grid">
+  <div class="card span6">
+    <h2>Canal de aquisição</h2><p class="cap">nº de vendas · faturamento</p>
+    <div class="barlist"><div class="row" title="Meta Ads: 10 vendas · R$ 484.954">
+          <div class="lab"><span class="dot" style="background:var(--s1)"></span>Meta Ads</div>
+          <div class="track"><div class="bar" style="width:100.0%;background:var(--s1)"></div></div>
+          <div class="val">10 <span class="fat">R$ 485,0k</span></div></div>
+<div class="row" title="Não rastreado: 9 vendas · R$ 402.271">
+          <div class="lab"><span class="dot" style="background:var(--muted)"></span>Não rastreado</div>
+          <div class="track"><div class="bar" style="width:90.0%;background:var(--muted)"></div></div>
+          <div class="val">9 <span class="fat">R$ 402,3k</span></div></div>
+<div class="row" title="Google Ads: 8 vendas · R$ 304.730">
+          <div class="lab"><span class="dot" style="background:var(--s2)"></span>Google Ads</div>
+          <div class="track"><div class="bar" style="width:80.0%;background:var(--s2)"></div></div>
+          <div class="val">8 <span class="fat">R$ 304,7k</span></div></div></div>
+    <p class="note">⚠️ 9 de 27 (33%) sem rastreio de canal — atribuição incompleta no CRM.</p>
+  </div>
+  <div class="card span6">
+    <h2>Público / audiência</h2><p class="cap">nº de vendas</p>
+    <div class="barlist"><div class="row" title="Não rastreado: 9 venda(s) · R$ 402.271">
+          <div class="lab">Não rastreado</div>
+          <div class="track"><div class="bar" style="width:100.0%;background:var(--s1)"></div></div>
+          <div class="val">9 <span class="fat">R$ 402,3k</span></div></div>
+<div class="row" title="Remarketing: 5 venda(s) · R$ 255.503">
+          <div class="lab">Remarketing</div>
+          <div class="track"><div class="bar" style="width:55.6%;background:var(--s1)"></div></div>
+          <div class="val">5 <span class="fat">R$ 255,5k</span></div></div>
+<div class="row" title="Interesses (alto padrão): 3 venda(s) · R$ 142.403">
+          <div class="lab">Interesses (alto padrão)</div>
+          <div class="track"><div class="bar" style="width:33.3%;background:var(--s1)"></div></div>
+          <div class="val">3 <span class="fat">R$ 142,4k</span></div></div>
+<div class="row" title="Lista morna / oportunidades: 3 venda(s) · R$ 114.731">
+          <div class="lab">Lista morna / oportunidades</div>
+          <div class="track"><div class="bar" style="width:33.3%;background:var(--s1)"></div></div>
+          <div class="val">3 <span class="fat">R$ 114,7k</span></div></div>
+<div class="row" title="Prospecção / outros: 3 venda(s) · R$ 114.359">
+          <div class="lab">Prospecção / outros</div>
+          <div class="track"><div class="bar" style="width:33.3%;background:var(--s1)"></div></div>
+          <div class="val">3 <span class="fat">R$ 114,4k</span></div></div>
+<div class="row" title="Busca / marca: 2 venda(s) · R$ 85.064">
+          <div class="lab">Busca / marca</div>
+          <div class="track"><div class="bar" style="width:22.2%;background:var(--s1)"></div></div>
+          <div class="val">2 <span class="fat">R$ 85,1k</span></div></div>
+<div class="row" title="Institucional / prospecção: 2 venda(s) · R$ 77.624">
+          <div class="lab">Institucional / prospecção</div>
+          <div class="track"><div class="bar" style="width:22.2%;background:var(--s1)"></div></div>
+          <div class="val">2 <span class="fat">R$ 77,6k</span></div></div></div>
+  </div>
+
+  <div class="card span6">
+    <h2>Criativo / anúncio</h2><p class="cap">nº de vendas</p>
+    <div class="barlist"><div class="row" title="(não rastreado): 12 venda(s) · R$ 516.630">
+          <div class="lab">(não rastreado)</div>
+          <div class="track"><div class="bar" style="width:100.0%;background:var(--s5)"></div></div>
+          <div class="val">12 <span class="fat">R$ 516,6k</span></div></div>
+<div class="row" title="anuncio_2: 5 venda(s) · R$ 290.615">
+          <div class="lab">anuncio_2</div>
+          <div class="track"><div class="bar" style="width:41.7%;background:var(--s5)"></div></div>
+          <div class="val">5 <span class="fat">R$ 290,6k</span></div></div>
+<div class="row" title="Google: 2 venda(s) · R$ 78.151">
+          <div class="lab">Google</div>
+          <div class="track"><div class="bar" style="width:16.7%;background:var(--s5)"></div></div>
+          <div class="val">2 <span class="fat">R$ 78,2k</span></div></div>
+<div class="row" title="criativo_video_drone: 2 venda(s) · R$ 64.263">
+          <div class="lab">criativo_video_drone</div>
+          <div class="track"><div class="bar" style="width:16.7%;background:var(--s5)"></div></div>
+          <div class="val">2 <span class="fat">R$ 64,3k</span></div></div>
+<div class="row" title="criativo_estatico_620: 2 venda(s) · R$ 77.624">
+          <div class="lab">criativo_estatico_620</div>
+          <div class="track"><div class="bar" style="width:16.7%;background:var(--s5)"></div></div>
+          <div class="val">2 <span class="fat">R$ 77,6k</span></div></div>
+<div class="row" title="multipropriedade: 1 venda(s) · R$ 36.580">
+          <div class="lab">multipropriedade</div>
+          <div class="track"><div class="bar" style="width:8.3%;background:var(--s5)"></div></div>
+          <div class="val">1 <span class="fat">R$ 36,6k</span></div></div>
+<div class="row" title="ipioca_beach_residence: 1 venda(s) · R$ 48.484">
+          <div class="lab">ipioca_beach_residence</div>
+          <div class="track"><div class="bar" style="width:8.3%;background:var(--s5)"></div></div>
+          <div class="val">1 <span class="fat">R$ 48,5k</span></div></div>
+<div class="row" title="criativo_video_leo: 1 venda(s) · R$ 50.468">
+          <div class="lab">criativo_video_leo</div>
+          <div class="track"><div class="bar" style="width:8.3%;background:var(--s5)"></div></div>
+          <div class="val">1 <span class="fat">R$ 50,5k</span></div></div>
+<div class="row" title="anuncio_3: 1 venda(s) · R$ 29.140">
+          <div class="lab">anuncio_3</div>
+          <div class="track"><div class="bar" style="width:8.3%;background:var(--s5)"></div></div>
+          <div class="val">1 <span class="fat">R$ 29,1k</span></div></div></div>
+    <p class="note">⚠️ 12 de 27 (44%) sem criativo registrado.</p>
+  </div>
+  <div class="card span6">
+    <h2>Campanhas que geraram venda</h2><p class="cap">nº de vendas</p>
+    <div class="barlist small"><div class="row" title="(não rastreado): 9 venda(s) · R$ 402.271">
+          <div class="lab">(não rastreado)</div>
+          <div class="track"><div class="bar" style="width:100.0%;background:var(--s2)"></div></div>
+          <div class="val">9 <span class="fat">R$ 402,3k</span></div></div>
+<div class="row" title="ibr_discovery_max_conv_br_01_rmkt: 3 venda(s) · R$ 177.352">
+          <div class="lab">ibr_discovery_max_conv_br_01_rmkt</div>
+          <div class="track"><div class="bar" style="width:33.3%;background:var(--s2)"></div></div>
+          <div class="val">3 <span class="fat">R$ 177,4k</span></div></div>
+<div class="row" title="morno_3_lista_oportunidades: 3 venda(s) · R$ 114.731">
+          <div class="lab">morno_3_lista_oportunidades</div>
+          <div class="track"><div class="bar" style="width:33.3%;background:var(--s2)"></div></div>
+          <div class="val">3 <span class="fat">R$ 114,7k</span></div></div>
+<div class="row" title="IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT | 2023-08-28: 2 venda(s) · R$ 78.151">
+          <div class="lab">IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT | 2023-08-28</div>
+          <div class="track"><div class="bar" style="width:22.2%;background:var(--s2)"></div></div>
+          <div class="val">2 <span class="fat">R$ 78,2k</span></div></div>
+<div class="row" title="ibr_search_max_conv_regioes_01_brandterms_2023_08_28: 2 venda(s) · R$ 85.064">
+          <div class="lab">ibr_search_max_conv_regioes_01_brandterms_2023_08_28</div>
+          <div class="track"><div class="bar" style="width:22.2%;background:var(--s2)"></div></div>
+          <div class="val">2 <span class="fat">R$ 85,1k</span></div></div>
+<div class="row" title="ibr_discovery_max_conv_br_01_institucional_2023_08_28: 2 venda(s) · R$ 77.624">
+          <div class="lab">ibr_discovery_max_conv_br_01_institucional_2023_08_28</div>
+          <div class="track"><div class="bar" style="width:22.2%;background:var(--s2)"></div></div>
+          <div class="val">2 <span class="fat">R$ 77,6k</span></div></div>
+<div class="row" title="publico_interesses_alto_padrão: 2 venda(s) · R$ 77.624">
+          <div class="lab">publico_interesses_alto_padrão</div>
+          <div class="track"><div class="bar" style="width:22.2%;background:var(--s2)"></div></div>
+          <div class="val">2 <span class="fat">R$ 77,6k</span></div></div>
+<div class="row" title="NOVA - IBR [CONVERSÃO] - Outubro 2025: 1 venda(s) · R$ 50.468">
+          <div class="lab">NOVA - IBR [CONVERSÃO] - Outubro 2025</div>
+          <div class="track"><div class="bar" style="width:11.1%;background:var(--s2)"></div></div>
+          <div class="val">1 <span class="fat">R$ 50,5k</span></div></div></div>
+  </div>
+
+  <div class="card span12 profile">
+    <h2>Perfil do cliente que fecha</h2><p class="cap">% entre os que têm o campo preenchido</p>
+    <div class="proflist"><div class="prow" title="20/22 dos preenchidos">
+          <div class="plab">Possui hábito de viajar <b>= Sim</b></div>
+          <div class="ptrack"><div class="pbar" style="width:91%"></div><span class="ppct">91%</span></div>
+          <div class="pfrac">20/22</div></div>
+<div class="prow" title="21/23 dos preenchidos">
+          <div class="plab">Viaja 1x ou mais por ano</div>
+          <div class="ptrack"><div class="pbar" style="width:91%"></div><span class="ppct">91%</span></div>
+          <div class="pfrac">21/23</div></div>
+<div class="prow" title="19/22 dos preenchidos">
+          <div class="plab">Assistiu à apresentação <b>= Sim</b></div>
+          <div class="ptrack"><div class="pbar" style="width:86%"></div><span class="ppct">86%</span></div>
+          <div class="pfrac">19/22</div></div>
+<div class="prow" title="16/17 dos preenchidos">
+          <div class="plab">Reunião por vídeo-chamada</div>
+          <div class="ptrack"><div class="pbar" style="width:94%"></div><span class="ppct">94%</span></div>
+          <div class="pfrac">16/17</div></div>
+<div class="prow" title="18/22 dos preenchidos">
+          <div class="plab">Condição financeira compatível</div>
+          <div class="ptrack"><div class="pbar" style="width:82%"></div><span class="ppct">82%</span></div>
+          <div class="pfrac">18/22</div></div>
+<div class="prow" title="14/22 dos preenchidos">
+          <div class="plab">Hospedagem atual: Hotel/Resort</div>
+          <div class="ptrack"><div class="pbar" style="width:64%"></div><span class="ppct">64%</span></div>
+          <div class="pfrac">14/22</div></div>
+<div class="prow" title="15/22 dos preenchidos">
+          <div class="plab">Sem facilitador (1ª multipropriedade)</div>
+          <div class="ptrack"><div class="pbar" style="width:68%"></div><span class="ppct">68%</span></div>
+          <div class="pfrac">15/22</div></div>
+<div class="prow" title="16/25 dos preenchidos">
+          <div class="plab">Investe até R$ 7 mil/ano em férias</div>
+          <div class="ptrack"><div class="pbar" style="width:64%"></div><span class="ppct">64%</span></div>
+          <div class="pfrac">16/25</div></div></div>
+  </div>
+
+  <div class="card span7">
+    <h2>Vendas por dia</h2><p class="cap">julho / 2026</p>
+    <div class="timeline"><div class="tcol" title="07/07: 1 venda(s) · R$ 29.140">
+          <div class="tbarwrap"><div class="tnum">1</div><div class="tbar" style="height:17%"></div></div>
+          <div class="tday">07/07</div></div>
+<div class="tcol" title="11/07: 1 venda(s) · R$ 48.484">
+          <div class="tbarwrap"><div class="tnum">1</div><div class="tbar" style="height:17%"></div></div>
+          <div class="tday">11/07</div></div>
+<div class="tcol" title="13/07: 6 venda(s) · R$ 280.322">
+          <div class="tbarwrap"><div class="tnum">6</div><div class="tbar" style="height:100%"></div></div>
+          <div class="tday">13/07</div></div>
+<div class="tcol" title="14/07: 1 venda(s) · R$ 29.140">
+          <div class="tbarwrap"><div class="tnum">1</div><div class="tbar" style="height:17%"></div></div>
+          <div class="tday">14/07</div></div>
+<div class="tcol" title="16/07: 4 venda(s) · R$ 201.143">
+          <div class="tbarwrap"><div class="tnum">4</div><div class="tbar" style="height:67%"></div></div>
+          <div class="tday">16/07</div></div>
+<div class="tcol" title="17/07: 1 venda(s) · R$ 27.683">
+          <div class="tbarwrap"><div class="tnum">1</div><div class="tbar" style="height:17%"></div></div>
+          <div class="tday">17/07</div></div>
+<div class="tcol" title="18/07: 1 venda(s) · R$ 48.484">
+          <div class="tbarwrap"><div class="tnum">1</div><div class="tbar" style="height:17%"></div></div>
+          <div class="tday">18/07</div></div>
+<div class="tcol" title="20/07: 4 venda(s) · R$ 150.784">
+          <div class="tbarwrap"><div class="tnum">4</div><div class="tbar" style="height:67%"></div></div>
+          <div class="tday">20/07</div></div>
+<div class="tcol" title="22/07: 2 venda(s) · R$ 98.952">
+          <div class="tbarwrap"><div class="tnum">2</div><div class="tbar" style="height:33%"></div></div>
+          <div class="tday">22/07</div></div>
+<div class="tcol" title="25/07: 1 venda(s) · R$ 29.140">
+          <div class="tbarwrap"><div class="tnum">1</div><div class="tbar" style="height:17%"></div></div>
+          <div class="tday">25/07</div></div>
+<div class="tcol" title="27/07: 3 venda(s) · R$ 163.619">
+          <div class="tbarwrap"><div class="tnum">3</div><div class="tbar" style="height:50%"></div></div>
+          <div class="tday">27/07</div></div>
+<div class="tcol" title="28/07: 2 venda(s) · R$ 85.064">
+          <div class="tbarwrap"><div class="tnum">2</div><div class="tbar" style="height:33%"></div></div>
+          <div class="tday">28/07</div></div></div>
+  </div>
+  <div class="card span5">
+    <h2>Vendedores (Closer)</h2><p class="cap">nº de vendas · faturamento</p>
+    <div class="barlist"><div class="row" title="Letícia Almeida: 7 venda(s) · R$ 337.078">
+          <div class="lab">Letícia Almeida</div>
+          <div class="track"><div class="bar" style="width:87.5%;background:var(--s3)"></div></div>
+          <div class="val">7 <span class="fat">R$ 337,1k</span></div></div>
+<div class="row" title="Antonio Maia: 8 venda(s) · R$ 323.009">
+          <div class="lab">Antonio Maia</div>
+          <div class="track"><div class="bar" style="width:100.0%;background:var(--s3)"></div></div>
+          <div class="val">8 <span class="fat">R$ 323,0k</span></div></div>
+<div class="row" title="Maciel Henrique: 7 venda(s) · R$ 320.696">
+          <div class="lab">Maciel Henrique</div>
+          <div class="track"><div class="bar" style="width:87.5%;background:var(--s3)"></div></div>
+          <div class="val">7 <span class="fat">R$ 320,7k</span></div></div>
+<div class="row" title="Maria Eduarda: 5 venda(s) · R$ 211.172">
+          <div class="lab">Maria Eduarda</div>
+          <div class="track"><div class="bar" style="width:62.5%;background:var(--s3)"></div></div>
+          <div class="val">5 <span class="fat">R$ 211,2k</span></div></div></div>
+  </div>
+
+  <div class="card span4">
+    <h2>SDR que originou</h2><p class="cap">nº de vendas</p>
+    <div class="barlist"><div class="row" title="Dani Clevia: 7 venda(s)">
+          <div class="lab">Dani Clevia</div>
+          <div class="track"><div class="bar" style="width:100.0%;background:var(--s7)"></div></div>
+          <div class="val">7 </div></div>
+<div class="row" title="Rayane: 5 venda(s)">
+          <div class="lab">Rayane</div>
+          <div class="track"><div class="bar" style="width:71.4%;background:var(--s7)"></div></div>
+          <div class="val">5 </div></div>
+<div class="row" title="Leticia Mendes: 4 venda(s)">
+          <div class="lab">Leticia Mendes</div>
+          <div class="track"><div class="bar" style="width:57.1%;background:var(--s7)"></div></div>
+          <div class="val">4 </div></div>
+<div class="row" title="Maria Eduarda: 3 venda(s)">
+          <div class="lab">Maria Eduarda</div>
+          <div class="track"><div class="bar" style="width:42.9%;background:var(--s7)"></div></div>
+          <div class="val">3 </div></div>
+<div class="row" title="Duda: 2 venda(s)">
+          <div class="lab">Duda</div>
+          <div class="track"><div class="bar" style="width:28.6%;background:var(--s7)"></div></div>
+          <div class="val">2 </div></div>
+<div class="row" title="—: 2 venda(s)">
+          <div class="lab">—</div>
+          <div class="track"><div class="bar" style="width:28.6%;background:var(--s7)"></div></div>
+          <div class="val">2 </div></div>
+<div class="row" title="SEM: 1 venda(s)">
+          <div class="lab">SEM</div>
+          <div class="track"><div class="bar" style="width:14.3%;background:var(--s7)"></div></div>
+          <div class="val">1 </div></div>
+<div class="row" title="LUIZ GUSTAVO: 1 venda(s)">
+          <div class="lab">LUIZ GUSTAVO</div>
+          <div class="track"><div class="bar" style="width:14.3%;background:var(--s7)"></div></div>
+          <div class="val">1 </div></div>
+<div class="row" title="DANI CLEVIA: 1 venda(s)">
+          <div class="lab">DANI CLEVIA</div>
+          <div class="track"><div class="bar" style="width:14.3%;background:var(--s7)"></div></div>
+          <div class="val">1 </div></div>
+<div class="row" title="Letícia Almeida: 1 venda(s)">
+          <div class="lab">Letícia Almeida</div>
+          <div class="track"><div class="bar" style="width:14.3%;background:var(--s7)"></div></div>
+          <div class="val">1 </div></div></div>
+  </div>
+  <div class="card span4">
+    <h2>Produto</h2><p class="cap">nº de vendas</p>
+    <div class="barlist"><div class="row" title="Esmeralda: 2"><div class="lab">Esmeralda</div>
+        <div class="track"><div class="bar" style="width:66.7%;background:var(--s3)"></div></div>
+        <div class="val">2 <span class="fat">R$ 100,9k</span></div></div>
+<div class="row" title="ESMERALDA: 2"><div class="lab">ESMERALDA</div>
+        <div class="track"><div class="bar" style="width:66.7%;background:var(--s3)"></div></div>
+        <div class="val">2 <span class="fat">R$ 100,9k</span></div></div>
+<div class="row" title="Prata: 2"><div class="lab">Prata</div>
+        <div class="track"><div class="bar" style="width:66.7%;background:var(--s3)"></div></div>
+        <div class="val">2 <span class="fat">R$ 97,0k</span></div></div>
+<div class="row" title="JADE: 3"><div class="lab">JADE</div>
+        <div class="track"><div class="bar" style="width:100.0%;background:var(--s3)"></div></div>
+        <div class="val">3 <span class="fat">R$ 86,0k</span></div></div>
+<div class="row" title="OURO: 1"><div class="lab">OURO</div>
+        <div class="track"><div class="bar" style="width:33.3%;background:var(--s3)"></div></div>
+        <div class="val">1 <span class="fat">R$ 78,4k</span></div></div>
+<div class="row" title="Ouro: 1"><div class="lab">Ouro</div>
+        <div class="track"><div class="bar" style="width:33.3%;background:var(--s3)"></div></div>
+        <div class="val">1 <span class="fat">R$ 74,5k</span></div></div></div>
+  </div>
+  <div class="card span4">
+    <h2>Faixas de preço</h2><p class="cap">recorrência dos pacotes</p>
+    <div class="barlist"><div class="row" title="R$ 29.140: 6 vendas"><div class="lab">R$ 29.140</div>
+        <div class="track"><div class="bar" style="width:100.0%;background:var(--s4)"></div></div>
+        <div class="val">6×</div></div>
+<div class="row" title="R$ 48.484: 6 vendas"><div class="lab">R$ 48.484</div>
+        <div class="track"><div class="bar" style="width:100.0%;background:var(--s4)"></div></div>
+        <div class="val">6×</div></div>
+<div class="row" title="R$ 50.468: 4 vendas"><div class="lab">R$ 50.468</div>
+        <div class="track"><div class="bar" style="width:66.7%;background:var(--s4)"></div></div>
+        <div class="val">4×</div></div>
+<div class="row" title="R$ 36.580: 3 vendas"><div class="lab">R$ 36.580</div>
+        <div class="track"><div class="bar" style="width:50.0%;background:var(--s4)"></div></div>
+        <div class="val">3×</div></div>
+<div class="row" title="R$ 27.683: 2 vendas"><div class="lab">R$ 27.683</div>
+        <div class="track"><div class="bar" style="width:33.3%;background:var(--s4)"></div></div>
+        <div class="val">2×</div></div>
+<div class="row" title="R$ 74.508: 1 vendas"><div class="lab">R$ 74.508</div>
+        <div class="track"><div class="bar" style="width:16.7%;background:var(--s4)"></div></div>
+        <div class="val">1×</div></div>
+<div class="row" title="R$ 56.327: 1 vendas"><div class="lab">R$ 56.327</div>
+        <div class="track"><div class="bar" style="width:16.7%;background:var(--s4)"></div></div>
+        <div class="val">1×</div></div>
+<div class="row" title="R$ 50.438: 1 vendas"><div class="lab">R$ 50.438</div>
+        <div class="track"><div class="bar" style="width:16.7%;background:var(--s4)"></div></div>
+        <div class="val">1×</div></div>
+<div class="row" title="R$ 78.430: 1 vendas"><div class="lab">R$ 78.430</div>
+        <div class="track"><div class="bar" style="width:16.7%;background:var(--s4)"></div></div>
+        <div class="val">1×</div></div>
+<div class="row" title="R$ 34.751: 1 vendas"><div class="lab">R$ 34.751</div>
+        <div class="track"><div class="bar" style="width:16.7%;background:var(--s4)"></div></div>
+        <div class="val">1×</div></div>
+<div class="row" title="R$ 64.779: 1 vendas"><div class="lab">R$ 64.779</div>
+        <div class="track"><div class="bar" style="width:16.7%;background:var(--s4)"></div></div>
+        <div class="val">1×</div></div></div>
+  </div>
+
+  <div class="card span12 insights">
+    <h2>Leituras-chave</h2>
+    <ul>
+      <li><b>Perfil vencedor:</b> viajante frequente (91% viajam 1x+/ano), hoje se hospeda em hotel/resort e <b>ainda não tinha multipropriedade</b> — é o comprador de primeira viagem no modelo.</li>
+      <li><b>A venda se ganha na apresentação:</b> 86% assistiram à apresentação e 94% das reuniões foram por <b>vídeo-chamada</b>; ciclo <b>mediano de 0 dia</b> (fecha no mesmo dia).</li>
+      <li><b>Meta + Google empatam</b> (10 × 8), com forte peso de <b>remarketing</b> e <b>interesses de alto padrão</b>. Criativos de vídeo (drone/Léo) aparecem entre os que fecham.</li>
+      <li><b>Quebra de mito — Lead Score não prevê fechamento:</b> vendas vieram de todos os scores, inclusive muitos <b>E e D</b>. Priorizar só "A" perde venda.</li>
+      <li><b>Ação de dados:</b> 33% das vendas sem canal e 44% sem criativo no CRM — corrigir o rastreio (UTMs/integração) tornaria esta análise muito mais precisa.</li>
+    </ul>
+  </div>
+</div>
+<footer class="ft">Fonte: Kommo (ipiocabeachresidence) · funil Closer · fechados entre 01–31/07/2026 · gerado em 28/07/2026</footer>
+</div>
