@@ -1,0 +1,11 @@
+# credenciais / dados sensíveis — nunca versionar
+*token*
+*.env
+.env*
+secrets*
+*.key
+# dados brutos com PII de clientes
+data.json
+sales_full.json
+mkt_rows.json
+raw/
