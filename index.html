@@ -1,536 +1,427 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vendas Julho/2026 · Ipioca Beach Residence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
- --plane:#f1ebe0; --surface:#fffefa; --ink:#12303a; --ink2:#516369; --mut:#8b979b; --line:#e7dece;
- --c-ocean:#0e6a7e; --c-sand:#bd8d3a; --c-vio:#4a3aa7; --c-mut:#aab3b5; --bar:#0e7c93;
- --hero-ink:#f4efe3; --sh:0 1px 2px rgba(18,48,58,.05),0 14px 34px -18px rgba(18,48,58,.22);
- --grad:radial-gradient(130% 110% at 18% -10%, #14586d 0%, #0b3d4c 46%, #06222c 100%);
+ --plane:#f4f1e9; --surface:#ffffff; --ink:#131211; --ink2:#57544d; --mut:#9b968a; --line:#e7e2d6;
+ --accent:#ff4a24; --accent-2:#0f7d86; --bar:#1b1a17; --track:#eae6db; --lead:#ff4a24;
+ --shadow:0 2px 0 rgba(19,18,17,.04),0 18px 40px -24px rgba(19,18,17,.30);
+ --f-disp:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+ --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+ --f-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){
- --plane:#061a20; --surface:#0c2831; --ink:#f0ece2; --ink2:#b3bfc2; --mut:#7a878b; --line:#173b44;
- --c-ocean:#2aa7bf; --c-sand:#e0b56a; --c-vio:#9085e9; --c-mut:#495a5f; --bar:#2aa7bf;
- --sh:0 1px 2px rgba(0,0,0,.3),0 16px 40px -20px rgba(0,0,0,.6);
+ --plane:#0b0b0c; --surface:#161618; --ink:#f5f2ea; --ink2:#b6b1a5; --mut:#78746a; --line:#28282c;
+ --accent:#ff5f3a; --accent-2:#39b9c4; --bar:#eceae0; --track:#242428; --lead:#ff5f3a;
+ --shadow:0 2px 0 rgba(0,0,0,.4),0 22px 46px -26px rgba(0,0,0,.7);
 }}
 :root[data-theme="dark"]{
- --plane:#061a20; --surface:#0c2831; --ink:#f0ece2; --ink2:#b3bfc2; --mut:#7a878b; --line:#173b44;
- --c-ocean:#2aa7bf; --c-sand:#e0b56a; --c-vio:#9085e9; --c-mut:#495a5f; --bar:#2aa7bf;
- --sh:0 1px 2px rgba(0,0,0,.3),0 16px 40px -20px rgba(0,0,0,.6);
+ --plane:#0b0b0c; --surface:#161618; --ink:#f5f2ea; --ink2:#b6b1a5; --mut:#78746a; --line:#28282c;
+ --accent:#ff5f3a; --accent-2:#39b9c4; --bar:#eceae0; --track:#242428; --lead:#ff5f3a;
+ --shadow:0 2px 0 rgba(0,0,0,.4),0 22px 46px -26px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:76px}
-body{background:var(--plane);color:var(--ink);
- font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;
- overflow-x:hidden}
-.serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif}
-h1,h2,h3,.hm-n,.c-n,.sec-ix,.ins-k{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
-:root[data-theme="dark"] .grain,@media (prefers-color-scheme:dark){.grain{mix-blend-mode:screen;opacity:.06}}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--plane);color:var(--ink);font-family:var(--f-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.c-n,.hm-n,.sec-ix,.brand{font-family:var(--f-disp)}
+.hm-n,.c-n,.val,.tnum,.ppct,.tday{font-variant-numeric:tabular-nums}
 /* topbar */
-.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:18px;
- padding:12px clamp(16px,4vw,40px);background:color-mix(in srgb,var(--plane) 82%,transparent);
- backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:600;
- font-size:14.5px;letter-spacing:.01em;white-space:nowrap}
-.brand svg{flex:none}
-.nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:16px;padding:11px clamp(15px,4vw,40px);
+ background:color-mix(in srgb,var(--plane) 84%,transparent);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1.5px solid var(--ink)}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;letter-spacing:-.02em;white-space:nowrap}
+.brand-mark{color:var(--accent);font-size:16px}
+.nav{display:flex;gap:3px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.np{padding:7px 14px;border-radius:20px;text-decoration:none;color:var(--ink2);font-size:13px;font-weight:500;
- white-space:nowrap;transition:.25s;position:relative}
-.np:hover{color:var(--ink);background:color-mix(in srgb,var(--c-ocean) 12%,transparent)}
-.np.active{color:#fff;background:var(--c-ocean)}
-:root[data-theme="dark"] .np.active,@media(prefers-color-scheme:dark){.np.active{color:#06222c}}
-.toggle{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);
- color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.25s}
-.toggle:hover{border-color:var(--c-ocean);color:var(--c-ocean);transform:rotate(-12deg)}
+.np{padding:7px 14px;border-radius:2px;text-decoration:none;color:var(--ink2);font-size:13px;font-weight:600;white-space:nowrap;transition:.2s;border:1.5px solid transparent}
+.np:hover{color:var(--ink);border-color:var(--line)}
+.np.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+.toggle{flex:none;width:38px;height:38px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.toggle:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .i-moon{display:none}
-:root[data-theme="dark"] .i-sun,@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .i-sun{display:none}}
-:root[data-theme="dark"] .i-moon{display:block}
-@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .i-moon{display:block}}
+:root[data-theme="dark"] .i-sun{display:none}:root[data-theme="dark"] .i-moon{display:block}
+@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .i-sun{display:none}:root:where(:not([data-theme="light"])) .i-moon{display:block}}
 /* hero */
-.hero{position:relative;background:var(--grad);color:#f4efe3;overflow:hidden;isolation:isolate;
- padding:clamp(48px,9vw,104px) clamp(16px,4vw,40px) 0;text-align:center}
-.hero-bg{position:absolute;inset:0;z-index:-1;
- background:radial-gradient(50% 60% at 82% 6%, rgba(224,181,106,.30), transparent 60%),
- radial-gradient(40% 50% at 10% 90%, rgba(42,167,191,.22), transparent 70%)}
-.hero-inner{max-width:820px;margin:0 auto;padding-bottom:clamp(56px,8vw,96px)}
-.eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--c-sand);font-weight:600}
-.hero h1{font-size:clamp(52px,12vw,120px);line-height:.92;font-weight:600;letter-spacing:-.02em;margin:14px 0 0}
-.hero h1 span{display:block;font-style:italic;color:var(--c-sand);font-weight:500}
-.lede{max-width:560px;margin:22px auto 0;font-size:clamp(15px,2.2vw,18px);color:#cfe0e2;line-height:1.6}
-.lede em{font-style:italic;color:#fff}
-.hero-metrics{display:flex;align-items:center;justify-content:center;gap:clamp(16px,4vw,44px);margin-top:40px;flex-wrap:wrap}
-.hm-n{font-size:clamp(26px,5vw,40px);font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
-.hm-l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#9fb6b9;margin-top:4px}
-.hm-sep{width:1px;height:40px;background:linear-gradient(transparent,rgba(224,181,106,.5),transparent)}
-.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:clamp(48px,7vw,90px);display:block}
-.wave path{fill:var(--plane)}
+.hero{position:relative;overflow:hidden;padding:clamp(44px,8vw,90px) clamp(15px,4vw,40px) clamp(30px,5vw,54px);text-align:center}
+.hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:radial-gradient(38% 55% at 82% 12%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%),
+ radial-gradient(42% 60% at 12% 96%,color-mix(in srgb,var(--accent-2) 20%,transparent),transparent 72%);filter:blur(6px)}
+.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero h1{font-size:clamp(72px,19vw,220px);line-height:.82;font-weight:800;letter-spacing:-.045em;margin:12px 0 0;position:relative;display:inline-block}
+.hero h1 .yr{color:var(--accent)}
+.hero h1 .ast{position:absolute;top:-.1em;right:-.5em;font-size:.24em;color:var(--accent-2);animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lede{max-width:520px;margin:24px auto 0;font-size:clamp(15px,2.1vw,18px);color:var(--ink2);line-height:1.55}
+.lede em{font-style:normal;color:var(--ink);font-weight:700;box-shadow:inset 0 -.5em 0 color-mix(in srgb,var(--accent) 24%,transparent)}
+.hero-metrics{display:flex;align-items:flex-start;justify-content:center;gap:clamp(20px,5vw,56px);margin-top:38px;flex-wrap:wrap}
+.hm-n{font-family:var(--f-mono);font-size:clamp(22px,4.4vw,34px);font-weight:700;letter-spacing:-.02em}
+.hm-l{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin-top:6px;font-weight:600}
+/* ticker */
+.ticker{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--ink);overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;align-items:center;gap:22px;padding:11px 0;animation:marq 34s linear infinite;will-change:transform}
+.ticker-track span{color:var(--plane);font-weight:700;font-size:14px;letter-spacing:-.01em}
+.ticker-track b{color:var(--accent);font-size:11px}
+@keyframes marq{to{transform:translateX(-50%)}}
+.ticker:hover .ticker-track{animation-play-state:paused}
 /* layout */
-.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 60px;position:relative;z-index:2}
-.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:-34px 0 8px;position:relative;z-index:3}
-.chip{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:var(--sh)}
-.c-n{font-size:30px;font-weight:600;letter-spacing:-.01em;display:block}
-.c-n i{font-style:normal;font-size:15px;color:var(--mut);margin-left:2px}
-.c-l{font-size:12px;color:var(--ink2);margin-top:3px;display:block}
-.sec{padding-top:56px}
-.sec-head{margin-bottom:22px;position:relative}
-.sec-ix{font-size:13px;font-weight:600;color:var(--c-sand);letter-spacing:.1em}
-.sec-head h2{font-size:clamp(26px,4vw,36px);font-weight:600;letter-spacing:-.02em;margin:2px 0 4px;line-height:1.05}
-.sec-head p{color:var(--ink2);font-size:14.5px;max-width:560px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(15px,4vw,40px) 64px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:36px 0 8px}
+.chip{background:var(--surface);border:1.5px solid var(--ink);border-radius:3px;padding:18px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.chip:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--accent)}
+.c-n{font-size:34px;font-weight:800;letter-spacing:-.03em;display:block;line-height:1}
+.c-n i{font-style:normal;font-size:15px;color:var(--mut);margin-left:2px;font-family:var(--f-body)}
+.c-l{font-size:11.5px;color:var(--ink2);margin-top:8px;display:block;font-weight:500}
+.sec{padding-top:64px}
+.sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px}
+.sec-ix{font-size:clamp(30px,5vw,44px);font-weight:800;color:var(--accent);line-height:.8;letter-spacing:-.04em;-webkit-text-stroke:0}
+.sec-head h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.035em;line-height:.98}
+.sec-head p{color:var(--ink2);font-size:14.5px;margin-top:5px;max-width:560px}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 22px;box-shadow:var(--sh);
- transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
-.card:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(18,48,58,.05),0 22px 50px -22px rgba(18,48,58,.3)}
+.card{background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:20px 22px;box-shadow:var(--shadow);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
 .span12{grid-column:span 12}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}
-.ch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.ch h3{font-size:16px;font-weight:600;font-family:system-ui,sans-serif;letter-spacing:-.01em}
-.cap{font-size:11.5px;color:var(--mut);letter-spacing:.02em}
+.ch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1.5px dashed var(--line)}
+.ch h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.cap{font-family:var(--f-mono);font-size:10.5px;color:var(--mut);letter-spacing:.02em;text-transform:uppercase}
 /* bars */
 .barlist{display:flex;flex-direction:column;gap:11px}
-.row{display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:12px;cursor:default}
-.barlist.small .row{grid-template-columns:188px 1fr auto}
-.lab{font-size:12.5px;color:var(--ink2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row{display:grid;grid-template-columns:148px 1fr auto;align-items:center;gap:12px}
+.barlist.small .row{grid-template-columns:172px 1fr auto}
+.lab{font-size:12.5px;color:var(--ink2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 .lab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
-.track{height:15px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:8px;overflow:hidden}
-.bar{height:100%;width:var(--w);border-radius:8px;min-width:4px}
-.val{font-size:12.5px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}
-.val .fat{color:var(--mut);font-weight:500;font-size:11px;margin-left:1px}
-.row:hover .lab{color:var(--ink)}
-.note{font-size:11.5px;color:var(--mut);margin-top:15px;border-top:1px solid var(--line);padding-top:11px}
+.track{height:16px;background:var(--track);border-radius:2px;overflow:hidden}
+.bar{height:100%;width:var(--w);border-radius:2px;min-width:4px;background:var(--bar)}
+.bar.lead{background:var(--accent)}
+.dot.ch-meta,.bar.ch-meta{background:var(--accent)}
+.dot.ch-google,.bar.ch-google{background:var(--accent-2)}
+.dot.ch-none,.bar.ch-none{background:var(--mut)}
+.val{font-size:13px;font-weight:700;white-space:nowrap;color:var(--ink)}
+.val .fat{color:var(--mut);font-weight:500;font-size:11px;margin-left:2px;font-family:var(--f-mono)}
+.row:hover .bar{filter:saturate(1.3)}
+.note{font-size:11.5px;color:var(--mut);margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;font-weight:500}
 .note b{color:var(--ink2)}
 /* profile */
-.proflist{display:grid;grid-template-columns:1fr 1fr;gap:14px 34px}
-.prow{display:grid;grid-template-columns:1fr 128px 46px;align-items:center;gap:14px}
-.plab{font-size:13.5px;color:var(--ink2)}.plab b{color:var(--ink);font-weight:600}
-.ptrack{height:9px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:6px;overflow:hidden}
-.pbar{height:100%;width:var(--w);border-radius:6px;background:linear-gradient(90deg,var(--c-ocean),color-mix(in srgb,var(--c-ocean) 55%,var(--c-sand)))}
-.ppct{font-size:16px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.proflist{display:grid;grid-template-columns:1fr 1fr;gap:16px 36px}
+.prow{display:grid;grid-template-columns:1fr 120px 50px;align-items:center;gap:14px}
+.plab{font-size:13.5px;color:var(--ink2);font-weight:500}.plab b{color:var(--ink);font-weight:700}
+.ptrack{height:10px;background:var(--track);border-radius:2px;overflow:hidden}
+.pbar{height:100%;width:var(--w);border-radius:2px;background:var(--accent)}
+.ppct{font-family:var(--f-mono);font-size:17px;font-weight:700;text-align:right}
 .ppct span{font-size:11px;color:var(--mut)}
 /* timeline */
-.timeline{display:flex;align-items:flex-end;gap:5px;height:170px;padding-top:10px}
-.tcol{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;cursor:default}
-.tbarwrap{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
-.tbar{width:66%;max-width:26px;height:var(--h);border-radius:6px 6px 0 0;
- background:linear-gradient(180deg,var(--c-ocean),color-mix(in srgb,var(--c-ocean) 40%,transparent));transition:filter .2s}
-.tcol:hover .tbar{filter:brightness(1.15) saturate(1.2)}
-.tnum{font-size:10.5px;font-weight:700;color:var(--ink2);margin-bottom:3px}
-.tday{font-size:9.5px;color:var(--mut);margin-top:6px;font-variant-numeric:tabular-nums}
+.timeline{display:flex;align-items:flex-end;gap:6px;height:178px;padding-top:12px}
+.tcol{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
+.tbarwrap{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.tbar{width:72%;max-width:30px;height:var(--h);border-radius:2px 2px 0 0;background:var(--bar);transition:background .2s,transform .2s;transform-origin:bottom}
+.tcol:hover .tbar{background:var(--accent);transform:scaleY(1.03)}
+.tnum{font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:4px}
+.tday{font-family:var(--f-mono);font-size:9.5px;color:var(--mut);margin-top:7px}
 /* insights */
 .insight-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.ins{grid-column:span 2;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--sh)}
-.ins:first-child{grid-column:span 3}.ins:nth-child(2){grid-column:span 3}
-.ins-k{font-size:13px;font-weight:600;color:var(--c-sand);letter-spacing:.03em;display:block;margin-bottom:8px}
-.ins p{font-size:13.5px;color:var(--ink2);line-height:1.55}.ins b{color:var(--ink)}
-.ins.accent{background:linear-gradient(135deg,var(--c-ocean),var(--c-vio));border:none}
-.ins.accent .ins-k{color:#ffe6b8}.ins.accent p,.ins.accent b{color:#fff}
-.ins.warn{border-color:color-mix(in srgb,var(--c-sand) 55%,var(--line))}
-.ins.warn .ins-k{color:var(--c-sand)}
+.ins{grid-column:span 2;background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:22px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.ins:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--accent-2)}
+.ins.big{grid-column:span 3}
+.ins-k{font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:12px}
+.ins p{font-size:14px;color:var(--ink2);line-height:1.55}.ins b{color:var(--ink);font-weight:700}
+.ins.accent{background:var(--accent);border-color:var(--accent)}
+.ins.accent:hover{box-shadow:7px 7px 0 var(--ink)}
+.ins.accent .ins-k{color:#2a0d05}.ins.accent p,.ins.accent b{color:#fff}
 /* footer */
-.ft{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-size:11.5px;color:var(--mut);line-height:1.8}
+.ft{margin-top:60px;padding-top:24px;border-top:1.5px solid var(--ink);text-align:center;font-size:11.5px;color:var(--mut);line-height:1.9;font-family:var(--f-mono)}
 .ft b{color:var(--ink2)}.ft span{opacity:.8}
 /* tooltip */
-[data-tip]{position:relative}
+[data-tip]{position:relative;cursor:default}
 [data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);
- background:var(--ink);color:var(--plane);font-size:11.5px;font-weight:500;padding:6px 10px;border-radius:8px;white-space:nowrap;
- z-index:60;pointer-events:none;box-shadow:0 8px 24px -8px rgba(0,0,0,.4);animation:tipin .16s ease}
-@keyframes tipin{from{opacity:0;transform:translateX(-50%) translateY(3px)}}
-/* reveal (progressive enhancement) */
-.js .reveal{opacity:0;transform:translateY(20px)}
-.js .reveal.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+ background:var(--ink);color:var(--plane);font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:3px;white-space:nowrap;z-index:60;pointer-events:none;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(22px)}
+.js .reveal.in{opacity:1;transform:none;transition:opacity .6s ease,transform .7s cubic-bezier(.2,.85,.25,1)}
 .js .reveal .bar,.js .reveal .pbar{width:0}
-.js .reveal.in .bar,.js .reveal.in .pbar{width:var(--w);transition:width .95s cubic-bezier(.2,.8,.2,1) .15s}
+.js .reveal.in .bar,.js .reveal.in .pbar{width:var(--w);transition:width .9s cubic-bezier(.2,.85,.25,1) .12s}
 .js .reveal .tbar{height:0}
-.js .reveal.in .tbar{height:var(--h);transition:height .8s cubic-bezier(.2,.8,.2,1)}
-@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none}.js .reveal .bar,.js .reveal .pbar{width:var(--w)}.js .reveal .tbar{height:var(--h)}html{scroll-behavior:auto}}
-/* responsive */
-@media(max-width:920px){
- .nav{display:none}
- .chips{grid-template-columns:repeat(2,1fr);margin-top:-24px}
- .grid>*{grid-column:span 12!important}
- .proflist{grid-template-columns:1fr}
- .insight-grid{grid-template-columns:1fr}.ins,.ins:first-child,.ins:nth-child(2){grid-column:span 1}
- .row{grid-template-columns:118px 1fr auto}.barlist.small .row{grid-template-columns:130px 1fr auto}
-}
-</style>
+.js .reveal.in .tbar{height:var(--h);transition:height .75s cubic-bezier(.2,.85,.25,1)}
+@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none}.js .reveal .bar,.js .reveal .pbar{width:var(--w)}.js .reveal .tbar{height:var(--h)}.hero h1 .ast,.ticker-track{animation:none}html{scroll-behavior:auto}}
+@media(max-width:940px){.nav{display:none}.chips{grid-template-columns:repeat(2,1fr)}.grid>*{grid-column:span 12!important}.proflist{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.ins,.ins.big{grid-column:span 1}.row{grid-template-columns:112px 1fr auto}.barlist.small .row{grid-template-columns:130px 1fr auto}}
+</style></head><body>
 
-<div class="grain"></div>
 <header class="topbar" id="top">
-  <a class="brand" href="#top">
-    <svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="var(--c-sand)"/><path d="M2 30c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4 4-4 4-4" fill="none" stroke="var(--c-ocean)" stroke-width="2.4" stroke-linecap="round"/><path d="M2 35c4 0 4-3 8-3s4 3 8 3 4-3 8-3 4 3 8 3" fill="none" stroke="var(--c-ocean)" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg>
-    <span>Ipioca Beach Residence</span>
-  </a>
+  <a class="brand" href="#top"><span class="brand-mark">✦</span><span>Ipioca Beach Residence</span></a>
   <nav class="nav"><a href="#visao" class="np" data-sec="visao">Visão</a><a href="#midia" class="np" data-sec="midia">Mídia</a><a href="#perfil" class="np" data-sec="perfil">Perfil</a><a href="#vendas" class="np" data-sec="vendas">Vendas</a><a href="#produtos" class="np" data-sec="produtos">Produtos</a><a href="#insights" class="np" data-sec="insights">Insights</a></nav>
   <button class="toggle" id="themeToggle" aria-label="Alternar tema">
-    <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M17.5 17.5l2 2M19.5 4.5l-2 2M6.5 17.5l-2 2"/></g></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M17.5 17.5l2 2M19.5 4.5l-2 2M6.5 17.5l-2 2"/></g></svg>
     <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="currentColor"/></svg>
   </button>
 </header>
 
 <section class="hero" id="visao">
-  <div class="hero-bg"></div>
+  <div class="hero-mesh"></div>
   <div class="hero-inner reveal">
     <div class="eyebrow">Relatório de Vendas · Kommo CRM</div>
-    <h1>Julho <span>2026</span></h1>
-    <p class="lede">Um mês em que a venda se ganhou <em>na apresentação</em> e <em>no mesmo dia</em>. Veja de onde vieram os negócios e quem é o cliente que fecha.</p>
+    <h1>Julho<span class="yr">’26</span><span class="ast">✦</span></h1>
+    <p class="lede">A venda se ganhou <em>na apresentação</em> e <em>no mesmo dia</em>. Veja de onde vieram os negócios e quem é o cliente que fecha.</p>
     <div class="hero-metrics">
       <div class="hm"><div class="hm-n" data-count="1191955" data-prefix="R$ ">R$ 1.191.955</div><div class="hm-l">Faturamento</div></div>
-      <div class="hm-sep"></div>
       <div class="hm"><div class="hm-n" data-count="27">27</div><div class="hm-l">Vendas ganhas</div></div>
-      <div class="hm-sep"></div>
       <div class="hm"><div class="hm-n" data-count="44146" data-prefix="R$ ">R$ 44.146</div><div class="hm-l">Ticket médio</div></div>
     </div>
   </div>
-  <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 55C240 90 480 20 720 40s480 70 720 25v25H0z"/></svg>
 </section>
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>27 vendas ganhas</span><b>✦</b><span>R$ 1.191.955 faturados</span><b>✦</b><span>ticket médio R$ 44.146</span><b>✦</b><span>conversão 35,5% no Closer</span><b>✦</b><span>ciclo de 0 dia — fecha no mesmo dia</span><b>✦</b><span>Meta + Google empatam</span><b>✦</b><span>Lead Score não prevê venda</span><b>✦</b><span>86% assistiram à apresentação</span><b>✦</b><span>27 vendas ganhas</span><b>✦</b><span>R$ 1.191.955 faturados</span><b>✦</b><span>ticket médio R$ 44.146</span><b>✦</b><span>conversão 35,5% no Closer</span><b>✦</b><span>ciclo de 0 dia — fecha no mesmo dia</span><b>✦</b><span>Meta + Google empatam</span><b>✦</b><span>Lead Score não prevê venda</span><b>✦</b><span>86% assistiram à apresentação</span><b>✦</b></div></div>
 
 <main class="wrap">
-
   <section class="chips reveal">
     <div class="chip"><span class="c-n">0<i>dia</i></span><span class="c-l">Ciclo mediano de venda</span></div>
     <div class="chip"><span class="c-n">35,5<i>%</i></span><span class="c-l">Conversão no funil Closer</span></div>
     <div class="chip"><span class="c-n">4</span><span class="c-l">Closers ativos</span></div>
-    <div class="chip"><span class="c-n">R$ 78,4<i>k</i></span><span class="c-l">Maior venda do mês</span></div>
+    <div class="chip"><span class="c-n">78,4<i>k</i></span><span class="c-l">Maior venda (R$)</span></div>
   </section>
 
   <section id="midia" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">01</span><h2>Canal &amp; Mídia</h2><p>De onde vieram os negócios — canal, público e criativo.</p></div>
+    <div class="sec-head reveal"><span class="sec-ix">01</span><div><h2>Canal &amp; Mídia</h2><p>De onde vieram os negócios — canal, público e criativo.</p></div></div>
     <div class="grid">
-      <article class="card span6 reveal"><div class="ch"><h3>Canal de aquisição</h3><span class="cap">vendas · faturamento</span></div>
-        <div class="barlist"><div class="row" data-tip="Meta Ads: 10 venda(s) · R$ 484.954">
-          <div class="lab"><span class="dot" style="background:var(--c-ocean)"></span>Meta Ads</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--c-ocean)"></div></div>
+      <article class="card span6 reveal"><div class="ch"><h3>Canal de aquisição</h3><span class="cap">vendas · faturamento</span></div><div class="barlist"><div class="row" data-tip="Meta Ads: 10 venda(s) · R$ 484.954"><div class="lab"><span class="dot ch-meta"></span>Meta Ads</div>
+          <div class="track"><div class="bar ch-meta" style="--w:100.0%"></div></div>
           <div class="val">10 <span class="fat">R$ 485,0k</span></div></div>
-<div class="row" data-tip="Não rastreado: 9 venda(s) · R$ 402.271">
-          <div class="lab"><span class="dot" style="background:var(--c-mut)"></span>Não rastreado</div>
-          <div class="track"><div class="bar" style="--w:90.0%;background:var(--c-mut)"></div></div>
+<div class="row" data-tip="Não rastreado: 9 venda(s) · R$ 402.271"><div class="lab"><span class="dot ch-none"></span>Não rastreado</div>
+          <div class="track"><div class="bar ch-none" style="--w:90.0%"></div></div>
           <div class="val">9 <span class="fat">R$ 402,3k</span></div></div>
-<div class="row" data-tip="Google Ads: 8 venda(s) · R$ 304.730">
-          <div class="lab"><span class="dot" style="background:var(--c-sand)"></span>Google Ads</div>
-          <div class="track"><div class="bar" style="--w:80.0%;background:var(--c-sand)"></div></div>
+<div class="row" data-tip="Google Ads: 8 venda(s) · R$ 304.730"><div class="lab"><span class="dot ch-google"></span>Google Ads</div>
+          <div class="track"><div class="bar ch-google" style="--w:80.0%"></div></div>
           <div class="val">8 <span class="fat">R$ 304,7k</span></div></div></div><p class="note">33% das vendas sem canal rastreado no CRM.</p></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Público / audiência</h3><span class="cap">nº de vendas</span></div>
-        <div class="barlist"><div class="row" data-tip="Não rastreado: 9 venda(s)">
-          <div class="lab">Não rastreado</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+      <article class="card span6 reveal"><div class="ch"><h3>Público / audiência</h3><span class="cap">nº de vendas</span></div><div class="barlist"><div class="row" data-tip="Não rastreado: 9 venda(s)"><div class="lab">Não rastreado</div>
+          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
           <div class="val">9 </div></div>
-<div class="row" data-tip="Remarketing: 5 venda(s)">
-          <div class="lab">Remarketing</div>
-          <div class="track"><div class="bar" style="--w:55.6%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Remarketing: 5 venda(s)"><div class="lab">Remarketing</div>
+          <div class="track"><div class="bar" style="--w:55.6%"></div></div>
           <div class="val">5 </div></div>
-<div class="row" data-tip="Interesses (alto padrão): 3 venda(s)">
-          <div class="lab">Interesses (alto padrão)</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Interesses (alto padrão): 3 venda(s)"><div class="lab">Interesses (alto padrão)</div>
+          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
           <div class="val">3 </div></div>
-<div class="row" data-tip="Lista morna / oportunidades: 3 venda(s)">
-          <div class="lab">Lista morna / oportunidades</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Lista morna / oportunidades: 3 venda(s)"><div class="lab">Lista morna / oportunidades</div>
+          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
           <div class="val">3 </div></div>
-<div class="row" data-tip="Prospecção / outros: 3 venda(s)">
-          <div class="lab">Prospecção / outros</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Prospecção / outros: 3 venda(s)"><div class="lab">Prospecção / outros</div>
+          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
           <div class="val">3 </div></div>
-<div class="row" data-tip="Busca / marca: 2 venda(s)">
-          <div class="lab">Busca / marca</div>
-          <div class="track"><div class="bar" style="--w:22.2%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Busca / marca: 2 venda(s)"><div class="lab">Busca / marca</div>
+          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="Institucional / prospecção: 2 venda(s)">
-          <div class="lab">Institucional / prospecção</div>
-          <div class="track"><div class="bar" style="--w:22.2%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Institucional / prospecção: 2 venda(s)"><div class="lab">Institucional / prospecção</div>
+          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
           <div class="val">2 </div></div></div></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Criativo / anúncio</h3><span class="cap">nº de vendas</span></div>
-        <div class="barlist"><div class="row" data-tip="(não rastreado): 12 venda(s)">
-          <div class="lab">(não rastreado)</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+      <article class="card span6 reveal"><div class="ch"><h3>Criativo / anúncio</h3><span class="cap">nº de vendas</span></div><div class="barlist"><div class="row" data-tip="(não rastreado): 12 venda(s)"><div class="lab">(não rastreado)</div>
+          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
           <div class="val">12 </div></div>
-<div class="row" data-tip="anuncio_2: 5 venda(s)">
-          <div class="lab">anuncio_2</div>
-          <div class="track"><div class="bar" style="--w:41.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="anuncio_2: 5 venda(s)"><div class="lab">anuncio_2</div>
+          <div class="track"><div class="bar" style="--w:41.7%"></div></div>
           <div class="val">5 </div></div>
-<div class="row" data-tip="Google: 2 venda(s)">
-          <div class="lab">Google</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Google: 2 venda(s)"><div class="lab">Google</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="criativo_video_drone: 2 venda(s)">
-          <div class="lab">criativo_video_drone</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="criativo_video_drone: 2 venda(s)"><div class="lab">criativo_video_drone</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="criativo_estatico_620: 2 venda(s)">
-          <div class="lab">criativo_estatico_620</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="criativo_estatico_620: 2 venda(s)"><div class="lab">criativo_estatico_620</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="multipropriedade: 1 venda(s)">
-          <div class="lab">multipropriedade</div>
-          <div class="track"><div class="bar" style="--w:8.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="multipropriedade: 1 venda(s)"><div class="lab">multipropriedade</div>
+          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
           <div class="val">1 </div></div>
-<div class="row" data-tip="ipioca_beach_residence: 1 venda(s)">
-          <div class="lab">ipioca_beach_residence</div>
-          <div class="track"><div class="bar" style="--w:8.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="ipioca_beach_residence: 1 venda(s)"><div class="lab">ipioca_beach_residence</div>
+          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
           <div class="val">1 </div></div>
-<div class="row" data-tip="criativo_video_leo: 1 venda(s)">
-          <div class="lab">criativo_video_leo</div>
-          <div class="track"><div class="bar" style="--w:8.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="criativo_video_leo: 1 venda(s)"><div class="lab">criativo_video_leo</div>
+          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
           <div class="val">1 </div></div>
-<div class="row" data-tip="anuncio_3: 1 venda(s)">
-          <div class="lab">anuncio_3</div>
-          <div class="track"><div class="bar" style="--w:8.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="anuncio_3: 1 venda(s)"><div class="lab">anuncio_3</div>
+          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
           <div class="val">1 </div></div></div><p class="note">44% sem criativo registrado — vídeo aparece entre os que fecham.</p></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Campanhas que geraram venda</h3><span class="cap">nº de vendas</span></div>
-        <div class="barlist small"><div class="row" data-tip="(não rastreado): 9 venda(s)">
-          <div class="lab">(não rastreado)</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+      <article class="card span6 reveal"><div class="ch"><h3>Campanhas que geraram venda</h3><span class="cap">nº de vendas</span></div><div class="barlist small"><div class="row" data-tip="(não rastreado): 9 venda(s)"><div class="lab">(não rastreado)</div>
+          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
           <div class="val">9 </div></div>
-<div class="row" data-tip="ibr_discovery_max_conv_br_01_rmkt: 3 venda(s)">
-          <div class="lab">ibr_discovery_max_conv_br_01_rmkt</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="ibr_discovery_max_conv_br_01_rmkt: 3 venda(s)"><div class="lab">ibr_discovery_max_conv_br_01_rmkt</div>
+          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
           <div class="val">3 </div></div>
-<div class="row" data-tip="morno_3_lista_oportunidades: 3 venda(s)">
-          <div class="lab">morno_3_lista_oportunidades</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="morno_3_lista_oportunidades: 3 venda(s)"><div class="lab">morno_3_lista_oportunidades</div>
+          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
           <div class="val">3 </div></div>
-<div class="row" data-tip="IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT | 2023-08-28: 2 venda(s)">
-          <div class="lab">IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT | 2023-08-28</div>
-          <div class="track"><div class="bar" style="--w:22.2%;background:var(--bar)"></div></div>
+<div class="row" data-tip="IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT: 2 venda(s)"><div class="lab">IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT</div>
+          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="ibr_search_max_conv_regioes_01_brandterms_2023_08_28: 2 venda(s)">
-          <div class="lab">ibr_search_max_conv_regioes_01_brandterms_2023_08_28</div>
-          <div class="track"><div class="bar" style="--w:22.2%;background:var(--bar)"></div></div>
+<div class="row" data-tip="ibr_search_max_conv_regioes_01_brandterms: 2 venda(s)"><div class="lab">ibr_search_max_conv_regioes_01_brandterms</div>
+          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="ibr_discovery_max_conv_br_01_institucional_2023_08_28: 2 venda(s)">
-          <div class="lab">ibr_discovery_max_conv_br_01_institucional_2023_08_28</div>
-          <div class="track"><div class="bar" style="--w:22.2%;background:var(--bar)"></div></div>
+<div class="row" data-tip="ibr_discovery_max_conv_br_01_institucional: 2 venda(s)"><div class="lab">ibr_discovery_max_conv_br_01_institucional</div>
+          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="publico_interesses_alto_padrão: 2 venda(s)">
-          <div class="lab">publico_interesses_alto_padrão</div>
-          <div class="track"><div class="bar" style="--w:22.2%;background:var(--bar)"></div></div>
+<div class="row" data-tip="publico_interesses_alto_padrão: 2 venda(s)"><div class="lab">publico_interesses_alto_padrão</div>
+          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="NOVA - IBR [CONVERSÃO] - Outubro 2025: 1 venda(s)">
-          <div class="lab">NOVA - IBR [CONVERSÃO] - Outubro 2025</div>
-          <div class="track"><div class="bar" style="--w:11.1%;background:var(--bar)"></div></div>
+<div class="row" data-tip="NOVA - IBR [CONVERSÃO] - Out/2025: 1 venda(s)"><div class="lab">NOVA - IBR [CONVERSÃO] - Out/2025</div>
+          <div class="track"><div class="bar" style="--w:11.1%"></div></div>
           <div class="val">1 </div></div></div></article>
     </div>
   </section>
 
   <section id="perfil" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">02</span><h2>Perfil do cliente que fecha</h2><p>% entre os negócios com o campo preenchido.</p></div>
-    <article class="card span12 reveal"><div class="proflist"><div class="prow" data-tip="20/22 dos preenchidos">
-          <div class="plab">Possui hábito de viajar <b>Sim</b></div>
-          <div class="ptrack"><div class="pbar" style="--w:91%"></div></div>
-          <div class="ppct">91<span>%</span></div></div>
-<div class="prow" data-tip="21/23 dos preenchidos">
-          <div class="plab">Viaja 1x ou mais por ano</div>
-          <div class="ptrack"><div class="pbar" style="--w:91%"></div></div>
-          <div class="ppct">91<span>%</span></div></div>
-<div class="prow" data-tip="19/22 dos preenchidos">
-          <div class="plab">Assistiu à apresentação <b>Sim</b></div>
-          <div class="ptrack"><div class="pbar" style="--w:86%"></div></div>
-          <div class="ppct">86<span>%</span></div></div>
-<div class="prow" data-tip="16/17 dos preenchidos">
-          <div class="plab">Reunião por vídeo-chamada</div>
-          <div class="ptrack"><div class="pbar" style="--w:94%"></div></div>
-          <div class="ppct">94<span>%</span></div></div>
-<div class="prow" data-tip="18/22 dos preenchidos">
-          <div class="plab">Condição financeira compatível</div>
-          <div class="ptrack"><div class="pbar" style="--w:82%"></div></div>
-          <div class="ppct">82<span>%</span></div></div>
-<div class="prow" data-tip="14/22 dos preenchidos">
-          <div class="plab">Hospedagem atual: Hotel/Resort</div>
-          <div class="ptrack"><div class="pbar" style="--w:64%"></div></div>
-          <div class="ppct">64<span>%</span></div></div>
-<div class="prow" data-tip="15/22 dos preenchidos">
-          <div class="plab">Sem facilitador (1ª multipropriedade)</div>
-          <div class="ptrack"><div class="pbar" style="--w:68%"></div></div>
-          <div class="ppct">68<span>%</span></div></div>
-<div class="prow" data-tip="16/25 dos preenchidos">
-          <div class="plab">Investe até R$ 7 mil/ano em férias</div>
-          <div class="ptrack"><div class="pbar" style="--w:64%"></div></div>
-          <div class="ppct">64<span>%</span></div></div></div>
-      <p class="note">O viajante frequente, hoje em hotel/resort e <b>sem multipropriedade</b>, que assistiu à apresentação por vídeo.</p></article>
+    <div class="sec-head reveal"><span class="sec-ix">02</span><div><h2>Perfil do cliente que fecha</h2><p>% entre os negócios com o campo preenchido.</p></div></div>
+    <article class="card span12 reveal"><div class="proflist"><div class="prow" data-tip="20/22"><div class="plab">Possui hábito de viajar <b>Sim</b></div>
+      <div class="ptrack"><div class="pbar" style="--w:91%"></div></div>
+      <div class="ppct">91<span>%</span></div></div>
+<div class="prow" data-tip="21/23"><div class="plab">Viaja 1x ou mais por ano</div>
+      <div class="ptrack"><div class="pbar" style="--w:91%"></div></div>
+      <div class="ppct">91<span>%</span></div></div>
+<div class="prow" data-tip="19/22"><div class="plab">Assistiu à apresentação <b>Sim</b></div>
+      <div class="ptrack"><div class="pbar" style="--w:86%"></div></div>
+      <div class="ppct">86<span>%</span></div></div>
+<div class="prow" data-tip="16/17"><div class="plab">Reunião por vídeo-chamada</div>
+      <div class="ptrack"><div class="pbar" style="--w:94%"></div></div>
+      <div class="ppct">94<span>%</span></div></div>
+<div class="prow" data-tip="18/22"><div class="plab">Condição financeira compatível</div>
+      <div class="ptrack"><div class="pbar" style="--w:82%"></div></div>
+      <div class="ppct">82<span>%</span></div></div>
+<div class="prow" data-tip="14/22"><div class="plab">Hospedagem atual: Hotel/Resort</div>
+      <div class="ptrack"><div class="pbar" style="--w:64%"></div></div>
+      <div class="ppct">64<span>%</span></div></div>
+<div class="prow" data-tip="15/22"><div class="plab">Sem facilitador (1ª multipropriedade)</div>
+      <div class="ptrack"><div class="pbar" style="--w:68%"></div></div>
+      <div class="ppct">68<span>%</span></div></div>
+<div class="prow" data-tip="16/25"><div class="plab">Investe até R$ 7 mil/ano</div>
+      <div class="ptrack"><div class="pbar" style="--w:64%"></div></div>
+      <div class="ppct">64<span>%</span></div></div></div><p class="note">O viajante frequente, hoje em hotel/resort e <b>sem multipropriedade</b>, que assistiu à apresentação por vídeo.</p></article>
   </section>
 
   <section id="vendas" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">03</span><h2>Ritmo &amp; Time</h2><p>Quando as vendas aconteceram e quem fechou.</p></div>
+    <div class="sec-head reveal"><span class="sec-ix">03</span><div><h2>Ritmo &amp; Time</h2><p>Quando as vendas aconteceram e quem fechou.</p></div></div>
     <div class="grid">
-      <article class="card span7 reveal"><div class="ch"><h3>Vendas por dia</h3><span class="cap">julho / 2026</span></div>
-        <div class="timeline"><div class="tcol" data-tip="07/07: 1 venda(s) · R$ 29.140">
-          <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-          <span class="tday">07/07</span></div>
+      <article class="card span7 reveal"><div class="ch"><h3>Vendas por dia</h3><span class="cap">julho / 2026</span></div><div class="timeline"><div class="tcol" data-tip="07/07: 1 venda(s) · R$ 29.140">
+      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
+      <span class="tday">07/07</span></div>
 <div class="tcol" data-tip="11/07: 1 venda(s) · R$ 48.484">
-          <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-          <span class="tday">11/07</span></div>
+      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
+      <span class="tday">11/07</span></div>
 <div class="tcol" data-tip="13/07: 6 venda(s) · R$ 280.322">
-          <div class="tbarwrap"><span class="tnum">6</span><div class="tbar" style="--h:100%"></div></div>
-          <span class="tday">13/07</span></div>
+      <div class="tbarwrap"><span class="tnum">6</span><div class="tbar" style="--h:100%"></div></div>
+      <span class="tday">13/07</span></div>
 <div class="tcol" data-tip="14/07: 1 venda(s) · R$ 29.140">
-          <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-          <span class="tday">14/07</span></div>
+      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
+      <span class="tday">14/07</span></div>
 <div class="tcol" data-tip="16/07: 4 venda(s) · R$ 201.143">
-          <div class="tbarwrap"><span class="tnum">4</span><div class="tbar" style="--h:67%"></div></div>
-          <span class="tday">16/07</span></div>
+      <div class="tbarwrap"><span class="tnum">4</span><div class="tbar" style="--h:67%"></div></div>
+      <span class="tday">16/07</span></div>
 <div class="tcol" data-tip="17/07: 1 venda(s) · R$ 27.683">
-          <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-          <span class="tday">17/07</span></div>
+      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
+      <span class="tday">17/07</span></div>
 <div class="tcol" data-tip="18/07: 1 venda(s) · R$ 48.484">
-          <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-          <span class="tday">18/07</span></div>
+      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
+      <span class="tday">18/07</span></div>
 <div class="tcol" data-tip="20/07: 4 venda(s) · R$ 150.784">
-          <div class="tbarwrap"><span class="tnum">4</span><div class="tbar" style="--h:67%"></div></div>
-          <span class="tday">20/07</span></div>
+      <div class="tbarwrap"><span class="tnum">4</span><div class="tbar" style="--h:67%"></div></div>
+      <span class="tday">20/07</span></div>
 <div class="tcol" data-tip="22/07: 2 venda(s) · R$ 98.952">
-          <div class="tbarwrap"><span class="tnum">2</span><div class="tbar" style="--h:33%"></div></div>
-          <span class="tday">22/07</span></div>
+      <div class="tbarwrap"><span class="tnum">2</span><div class="tbar" style="--h:33%"></div></div>
+      <span class="tday">22/07</span></div>
 <div class="tcol" data-tip="25/07: 1 venda(s) · R$ 29.140">
-          <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-          <span class="tday">25/07</span></div>
+      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
+      <span class="tday">25/07</span></div>
 <div class="tcol" data-tip="27/07: 3 venda(s) · R$ 163.619">
-          <div class="tbarwrap"><span class="tnum">3</span><div class="tbar" style="--h:50%"></div></div>
-          <span class="tday">27/07</span></div>
+      <div class="tbarwrap"><span class="tnum">3</span><div class="tbar" style="--h:50%"></div></div>
+      <span class="tday">27/07</span></div>
 <div class="tcol" data-tip="28/07: 2 venda(s) · R$ 85.064">
-          <div class="tbarwrap"><span class="tnum">2</span><div class="tbar" style="--h:33%"></div></div>
-          <span class="tday">28/07</span></div></div></article>
-      <article class="card span5 reveal"><div class="ch"><h3>Vendedores (Closer)</h3><span class="cap">vendas · faturamento</span></div>
-        <div class="barlist"><div class="row" data-tip="Letícia Almeida: 7 venda(s) · R$ 337.078">
-          <div class="lab">Letícia Almeida</div>
-          <div class="track"><div class="bar" style="--w:87.5%;background:var(--bar)"></div></div>
+      <div class="tbarwrap"><span class="tnum">2</span><div class="tbar" style="--h:33%"></div></div>
+      <span class="tday">28/07</span></div></div></article>
+      <article class="card span5 reveal"><div class="ch"><h3>Vendedores (Closer)</h3><span class="cap">vendas · faturamento</span></div><div class="barlist"><div class="row" data-tip="Letícia Almeida: 7 venda(s) · R$ 337.078"><div class="lab">Letícia Almeida</div>
+          <div class="track"><div class="bar lead" style="--w:87.5%"></div></div>
           <div class="val">7 <span class="fat">R$ 337,1k</span></div></div>
-<div class="row" data-tip="Antonio Maia: 8 venda(s) · R$ 323.009">
-          <div class="lab">Antonio Maia</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Antonio Maia: 8 venda(s) · R$ 323.009"><div class="lab">Antonio Maia</div>
+          <div class="track"><div class="bar" style="--w:100.0%"></div></div>
           <div class="val">8 <span class="fat">R$ 323,0k</span></div></div>
-<div class="row" data-tip="Maciel Henrique: 7 venda(s) · R$ 320.696">
-          <div class="lab">Maciel Henrique</div>
-          <div class="track"><div class="bar" style="--w:87.5%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Maciel Henrique: 7 venda(s) · R$ 320.696"><div class="lab">Maciel Henrique</div>
+          <div class="track"><div class="bar" style="--w:87.5%"></div></div>
           <div class="val">7 <span class="fat">R$ 320,7k</span></div></div>
-<div class="row" data-tip="Maria Eduarda: 5 venda(s) · R$ 211.172">
-          <div class="lab">Maria Eduarda</div>
-          <div class="track"><div class="bar" style="--w:62.5%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Maria Eduarda: 5 venda(s) · R$ 211.172"><div class="lab">Maria Eduarda</div>
+          <div class="track"><div class="bar" style="--w:62.5%"></div></div>
           <div class="val">5 <span class="fat">R$ 211,2k</span></div></div></div></article>
-      <article class="card span12 reveal"><div class="ch"><h3>SDR que originou a venda</h3><span class="cap">nº de vendas</span></div>
-        <div class="barlist"><div class="row" data-tip="Dani Clevia: 7 venda(s)">
-          <div class="lab">Dani Clevia</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
-          <div class="val">7 </div></div>
-<div class="row" data-tip="Rayane: 5 venda(s)">
-          <div class="lab">Rayane</div>
-          <div class="track"><div class="bar" style="--w:71.4%;background:var(--bar)"></div></div>
+      <article class="card span12 reveal"><div class="ch"><h3>SDR que originou a venda</h3><span class="cap">nº de vendas</span></div><div class="barlist"><div class="row" data-tip="Dani Clevia: 8 venda(s)"><div class="lab">Dani Clevia</div>
+          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
+          <div class="val">8 </div></div>
+<div class="row" data-tip="Rayane: 5 venda(s)"><div class="lab">Rayane</div>
+          <div class="track"><div class="bar" style="--w:62.5%"></div></div>
           <div class="val">5 </div></div>
-<div class="row" data-tip="Leticia Mendes: 4 venda(s)">
-          <div class="lab">Leticia Mendes</div>
-          <div class="track"><div class="bar" style="--w:57.1%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Leticia Mendes: 4 venda(s)"><div class="lab">Leticia Mendes</div>
+          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
           <div class="val">4 </div></div>
-<div class="row" data-tip="Maria Eduarda: 3 venda(s)">
-          <div class="lab">Maria Eduarda</div>
-          <div class="track"><div class="bar" style="--w:42.9%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Maria Eduarda: 3 venda(s)"><div class="lab">Maria Eduarda</div>
+          <div class="track"><div class="bar" style="--w:37.5%"></div></div>
           <div class="val">3 </div></div>
-<div class="row" data-tip="Duda: 2 venda(s)">
-          <div class="lab">Duda</div>
-          <div class="track"><div class="bar" style="--w:28.6%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Duda: 2 venda(s)"><div class="lab">Duda</div>
+          <div class="track"><div class="bar" style="--w:25.0%"></div></div>
           <div class="val">2 </div></div>
-<div class="row" data-tip="—: 2 venda(s)">
-          <div class="lab">—</div>
-          <div class="track"><div class="bar" style="--w:28.6%;background:var(--bar)"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="SEM: 1 venda(s)">
-          <div class="lab">SEM</div>
-          <div class="track"><div class="bar" style="--w:14.3%;background:var(--bar)"></div></div>
-          <div class="val">1 </div></div>
-<div class="row" data-tip="LUIZ GUSTAVO: 1 venda(s)">
-          <div class="lab">LUIZ GUSTAVO</div>
-          <div class="track"><div class="bar" style="--w:14.3%;background:var(--bar)"></div></div>
-          <div class="val">1 </div></div>
-<div class="row" data-tip="DANI CLEVIA: 1 venda(s)">
-          <div class="lab">DANI CLEVIA</div>
-          <div class="track"><div class="bar" style="--w:14.3%;background:var(--bar)"></div></div>
-          <div class="val">1 </div></div>
-<div class="row" data-tip="Letícia Almeida: 1 venda(s)">
-          <div class="lab">Letícia Almeida</div>
-          <div class="track"><div class="bar" style="--w:14.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Luiz Gustavo: 1 venda(s)"><div class="lab">Luiz Gustavo</div>
+          <div class="track"><div class="bar" style="--w:12.5%"></div></div>
           <div class="val">1 </div></div></div></article>
     </div>
   </section>
 
   <section id="produtos" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">04</span><h2>Produtos &amp; Preço</h2><p>Pacotes que mais fecham e tabelas recorrentes.</p></div>
+    <div class="sec-head reveal"><span class="sec-ix">04</span><div><h2>Produtos &amp; Preço</h2><p>Pacotes que mais fecham e tabelas recorrentes.</p></div></div>
     <div class="grid">
-      <article class="card span6 reveal"><div class="ch"><h3>Produto</h3><span class="cap">vendas · faturamento</span></div>
-        <div class="barlist"><div class="row" data-tip="Esmeralda: 2 venda(s) · R$ 100.936">
-          <div class="lab">Esmeralda</div>
-          <div class="track"><div class="bar" style="--w:66.7%;background:var(--bar)"></div></div>
-          <div class="val">2 <span class="fat">R$ 100,9k</span></div></div>
-<div class="row" data-tip="ESMERALDA: 2 venda(s) · R$ 100.906">
-          <div class="lab">ESMERALDA</div>
-          <div class="track"><div class="bar" style="--w:66.7%;background:var(--bar)"></div></div>
-          <div class="val">2 <span class="fat">R$ 100,9k</span></div></div>
-<div class="row" data-tip="Prata: 2 venda(s) · R$ 96.968">
-          <div class="lab">Prata</div>
-          <div class="track"><div class="bar" style="--w:66.7%;background:var(--bar)"></div></div>
-          <div class="val">2 <span class="fat">R$ 97,0k</span></div></div>
-<div class="row" data-tip="JADE: 3 venda(s) · R$ 85.963">
-          <div class="lab">JADE</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+      <article class="card span6 reveal"><div class="ch"><h3>Produto</h3><span class="cap">vendas · faturamento</span></div><div class="barlist"><div class="row" data-tip="Esmeralda: 4 venda(s) · R$ 201.842"><div class="lab">Esmeralda</div>
+          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
+          <div class="val">4 <span class="fat">R$ 201,8k</span></div></div>
+<div class="row" data-tip="Jade: 3 venda(s) · R$ 85.963"><div class="lab">Jade</div>
+          <div class="track"><div class="bar" style="--w:75.0%"></div></div>
           <div class="val">3 <span class="fat">R$ 86,0k</span></div></div>
-<div class="row" data-tip="OURO: 1 venda(s) · R$ 78.430">
-          <div class="lab">OURO</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
-          <div class="val">1 <span class="fat">R$ 78,4k</span></div></div>
-<div class="row" data-tip="Ouro: 1 venda(s) · R$ 74.508">
-          <div class="lab">Ouro</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
-          <div class="val">1 <span class="fat">R$ 74,5k</span></div></div></div></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Faixas de preço</h3><span class="cap">recorrência dos pacotes</span></div>
-        <div class="barlist"><div class="row" data-tip="R$ 29.140: 6 venda(s)">
-          <div class="lab">R$ 29.140</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+<div class="row" data-tip="Prata: 2 venda(s) · R$ 96.968"><div class="lab">Prata</div>
+          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
+          <div class="val">2 <span class="fat">R$ 97,0k</span></div></div>
+<div class="row" data-tip="Ouro: 2 venda(s) · R$ 152.938"><div class="lab">Ouro</div>
+          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
+          <div class="val">2 <span class="fat">R$ 152,9k</span></div></div></div></article>
+      <article class="card span6 reveal"><div class="ch"><h3>Faixas de preço</h3><span class="cap">recorrência dos pacotes</span></div><div class="barlist"><div class="row" data-tip="R$ 29.140: 6 venda(s)"><div class="lab">R$ 29.140</div>
+          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
           <div class="val">6× </div></div>
-<div class="row" data-tip="R$ 48.484: 6 venda(s)">
-          <div class="lab">R$ 48.484</div>
-          <div class="track"><div class="bar" style="--w:100.0%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 48.484: 6 venda(s)"><div class="lab">R$ 48.484</div>
+          <div class="track"><div class="bar" style="--w:100.0%"></div></div>
           <div class="val">6× </div></div>
-<div class="row" data-tip="R$ 50.468: 4 venda(s)">
-          <div class="lab">R$ 50.468</div>
-          <div class="track"><div class="bar" style="--w:66.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 50.468: 4 venda(s)"><div class="lab">R$ 50.468</div>
+          <div class="track"><div class="bar" style="--w:66.7%"></div></div>
           <div class="val">4× </div></div>
-<div class="row" data-tip="R$ 36.580: 3 venda(s)">
-          <div class="lab">R$ 36.580</div>
-          <div class="track"><div class="bar" style="--w:50.0%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 36.580: 3 venda(s)"><div class="lab">R$ 36.580</div>
+          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
           <div class="val">3× </div></div>
-<div class="row" data-tip="R$ 27.683: 2 venda(s)">
-          <div class="lab">R$ 27.683</div>
-          <div class="track"><div class="bar" style="--w:33.3%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 27.683: 2 venda(s)"><div class="lab">R$ 27.683</div>
+          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
           <div class="val">2× </div></div>
-<div class="row" data-tip="R$ 74.508: 1 venda(s)">
-          <div class="lab">R$ 74.508</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 74.508: 1 venda(s)"><div class="lab">R$ 74.508</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 56.327: 1 venda(s)">
-          <div class="lab">R$ 56.327</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 56.327: 1 venda(s)"><div class="lab">R$ 56.327</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 50.438: 1 venda(s)">
-          <div class="lab">R$ 50.438</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 50.438: 1 venda(s)"><div class="lab">R$ 50.438</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 78.430: 1 venda(s)">
-          <div class="lab">R$ 78.430</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 78.430: 1 venda(s)"><div class="lab">R$ 78.430</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 34.751: 1 venda(s)">
-          <div class="lab">R$ 34.751</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 34.751: 1 venda(s)"><div class="lab">R$ 34.751</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 64.779: 1 venda(s)">
-          <div class="lab">R$ 64.779</div>
-          <div class="track"><div class="bar" style="--w:16.7%;background:var(--bar)"></div></div>
+<div class="row" data-tip="R$ 64.779: 1 venda(s)"><div class="lab">R$ 64.779</div>
+          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
           <div class="val">1× </div></div></div></article>
     </div>
   </section>
 
   <section id="insights" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">05</span><h2>Leituras-chave</h2><p>O que os dados dizem — e a próxima ação.</p></div>
+    <div class="sec-head reveal"><span class="sec-ix">05</span><div><h2>Leituras-chave</h2><p>O que os dados dizem — e a próxima ação.</p></div></div>
     <div class="insight-grid">
-      <article class="ins reveal"><span class="ins-k">Perfil vencedor</span><p>Viajante frequente (91% viajam 1x+/ano), hoje em hotel/resort e <b>ainda sem multipropriedade</b>. É o comprador de primeira viagem no modelo.</p></article>
-      <article class="ins reveal"><span class="ins-k">A venda é no mesmo dia</span><p>86% assistiram à apresentação e 94% das reuniões foram por <b>vídeo-chamada</b>. Ciclo mediano de <b>0 dia</b>.</p></article>
-      <article class="ins reveal"><span class="ins-k">Meta + Google empatam</span><p>10 × 8 vendas, com peso de <b>remarketing</b> e <b>interesses de alto padrão</b>. Vídeo (drone/Léo) fecha.</p></article>
-      <article class="ins reveal accent"><span class="ins-k">Quebra de mito</span><p><b>Lead Score não prevê fechamento</b> — vendas vieram de todos os scores, inclusive E e D. Priorizar só "A" perde venda.</p></article>
-      <article class="ins reveal warn"><span class="ins-k">Ação de dados</span><p>33% das vendas sem canal e 44% sem criativo no CRM. Corrigir o rastreio (UTMs + integração) é a maior alavanca de precisão.</p></article>
+      <article class="ins big reveal"><span class="ins-k">Perfil vencedor</span><p>Viajante frequente (91% viajam 1x+/ano), hoje em hotel/resort e <b>ainda sem multipropriedade</b>. É o comprador de primeira viagem no modelo.</p></article>
+      <article class="ins big reveal"><span class="ins-k">A venda é no mesmo dia</span><p>86% assistiram à apresentação e 94% das reuniões foram por <b>vídeo-chamada</b>. Ciclo mediano de <b>0 dia</b>.</p></article>
+      <article class="ins reveal"><span class="ins-k">Meta + Google empatam</span><p>10 × 8 vendas, com peso de <b>remarketing</b> e <b>interesses de alto padrão</b>.</p></article>
+      <article class="ins reveal accent"><span class="ins-k">Quebra de mito</span><p><b>Lead Score não prevê fechamento</b> — vendas vieram de todos os scores, inclusive E e D.</p></article>
+      <article class="ins reveal"><span class="ins-k">Ação de dados</span><p>33% sem canal e 44% sem criativo no CRM. Corrigir o rastreio é a maior alavanca de precisão.</p></article>
     </div>
   </section>
 
@@ -540,32 +431,20 @@ h1,h2,h3,.hm-n,.c-n,.sec-ix,.ins-k{font-family:"Iowan Old Style","Palatino Linot
 <script>
 document.documentElement.classList.add('js');
 (function(){
- // theme toggle
  var t=document.getElementById('themeToggle');
- t&&t.addEventListener('click',function(){
-   var cur=document.documentElement.getAttribute('data-theme');
-   var dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches;
-   document.documentElement.setAttribute('data-theme',dark?'light':'dark');
- });
- // reveal
+ t&&t.addEventListener('click',function(){var c=document.documentElement.getAttribute('data-theme');
+  var dark=c?c==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches;
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');});
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
- // countup
  function fmt(n){return n.toLocaleString('pt-BR')}
- var cio=new IntersectionObserver(function(es){es.forEach(function(e){
-   if(!e.isIntersecting)return; cio.unobserve(e.target);
-   var el=e.target, target=+el.getAttribute('data-count'), pre=el.getAttribute('data-prefix')||'', t0=null, dur=1300;
-   function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var e2=1-Math.pow(1-p,3);
-     el.textContent=pre+fmt(Math.round(target*e2)); if(p<1)requestAnimationFrame(step); }
-   requestAnimationFrame(step);
- })},{threshold:.5});
+ var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cio.unobserve(e.target);
+  var el=e.target,tg=+el.getAttribute('data-count'),pre=el.getAttribute('data-prefix')||'',t0=null,dur=1300;
+  function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e2=1-Math.pow(1-p,3);el.textContent=pre+fmt(Math.round(tg*e2));if(p<1)requestAnimationFrame(s)}
+  requestAnimationFrame(s);})},{threshold:.6});
  document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el)});
- // scroll-spy
- var secs=[].slice.call(document.querySelectorAll('section[id]'));
  var nps=[].slice.call(document.querySelectorAll('.np'));
- var sio=new IntersectionObserver(function(es){es.forEach(function(e){
-   if(e.isIntersecting){ nps.forEach(function(n){n.classList.toggle('active', n.getAttribute('data-sec')===e.target.id)}); }
- })},{rootMargin:'-45% 0px -50% 0px'});
- secs.forEach(function(s){sio.observe(s)});
+ var sio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){nps.forEach(function(n){n.classList.toggle('active',n.getAttribute('data-sec')===e.target.id)})}})},{rootMargin:'-45% 0px -50% 0px'});
+ document.querySelectorAll('section[id]').forEach(function(s){sio.observe(s)});
 })();
-</script>
+</script></body></html>
