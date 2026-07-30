@@ -35,8 +35,31 @@ h1,h2,h3,.c-n,.hm-n,.sec-ix,.brand{font-family:var(--f-disp)}
 .np{padding:7px 14px;border-radius:2px;text-decoration:none;color:var(--ink2);font-size:13px;font-weight:600;white-space:nowrap;transition:.2s;border:1.5px solid transparent}
 .np:hover{color:var(--ink);border-color:var(--line)}
 .np.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+.methbtn{flex:none;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;font-family:var(--f-body);font-size:12.5px;font-weight:700;transition:.2s}
+.methbtn:hover{background:var(--ink);color:var(--plane)}
 .toggle{flex:none;width:38px;height:38px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
 .toggle:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px}
+.modal.open{display:grid}
+.modal-backdrop{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 55%,transparent);backdrop-filter:blur(3px);animation:fade .2s ease}
+.modal-panel{position:relative;width:min(660px,100%);max-height:86vh;overflow-y:auto;background:var(--surface);border:1.5px solid var(--ink);border-radius:5px;box-shadow:10px 10px 0 var(--accent);animation:pop .28s cubic-bezier(.2,.9,.25,1)}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}}
+.modal-head{position:sticky;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:20px 22px 14px;background:var(--surface);border-bottom:1.5px solid var(--ink)}
+.modal-kicker{font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.modal-head h3{font-family:var(--f-disp);font-size:22px;font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.05}
+.modal-x{flex:none;width:34px;height:34px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;font-size:15px;line-height:1;transition:.2s}
+.modal-x:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.modal-body{padding:18px 22px 24px}
+.modal-src{font-size:12.5px;color:var(--ink2);background:var(--track);border-radius:3px;padding:11px 13px;margin-bottom:18px;line-height:1.5}
+.mdef{padding:13px 0;border-bottom:1.5px dashed var(--line)}
+.mdef:last-child{border-bottom:none}
+.mk{display:inline-block;font-family:var(--f-mono);font-size:12px;font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent) 16%,transparent);padding:3px 8px;border-radius:2px;margin-bottom:7px}
+.mdef p{font-size:13.5px;color:var(--ink2);line-height:1.55}.mdef b{color:var(--ink);font-weight:700}
+.mdef code{font-family:var(--f-mono);font-size:12px;background:var(--track);padding:1px 5px;border-radius:2px;color:var(--ink)}
+.mform{font-family:var(--f-mono);font-size:12.5px;color:var(--ink);background:var(--track);border-left:2.5px solid var(--accent);padding:8px 12px;border-radius:0 2px 2px 0;margin-top:4px}
+@media(max-width:940px){.methbtn span{display:none}.methbtn{padding:0;width:38px;justify-content:center}}
 .i-moon{display:none}
 :root[data-theme="dark"] .i-sun{display:none}:root[data-theme="dark"] .i-moon{display:block}
 @media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .i-sun{display:none}:root:where(:not([data-theme="light"])) .i-moon{display:block}}
@@ -147,6 +170,7 @@ h1,h2,h3,.c-n,.hm-n,.sec-ix,.brand{font-family:var(--f-disp)}
 <header class="topbar" id="top">
   <a class="brand" href="#top"><span class="brand-mark">✦</span><span>Ipioca Beach Residence</span></a>
   <nav class="nav"><a href="#visao" class="np" data-sec="visao">Visão</a><a href="#midia" class="np" data-sec="midia">Mídia</a><a href="#perfil" class="np" data-sec="perfil">Perfil</a><a href="#vendas" class="np" data-sec="vendas">Vendas</a><a href="#produtos" class="np" data-sec="produtos">Produtos</a><a href="#insights" class="np" data-sec="insights">Insights</a></nav>
+  <button class="methbtn" id="methBtn" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg><span>Metodologia</span></button>
   <button class="toggle" id="themeToggle" aria-label="Alternar tema">
     <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M17.5 17.5l2 2M19.5 4.5l-2 2M6.5 17.5l-2 2"/></g></svg>
     <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="currentColor"/></svg>
@@ -428,6 +452,43 @@ h1,h2,h3,.c-n,.hm-n,.sec-ix,.brand{font-family:var(--f-disp)}
   <footer class="ft">Fonte: Kommo · <b>ipiocabeachresidence</b> · funil Closer · fechados entre 01–31/07/2026 · gerado em 28/07/2026<br><span>Dados individuais de clientes não são exibidos — apenas agregados.</span></footer>
 </main>
 
+<div class="modal" id="methModal" role="dialog" aria-modal="true" aria-labelledby="methTitle">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><span class="modal-kicker">Metodologia</span><h3 id="methTitle">Como cada métrica é calculada</h3></div>
+      <button class="modal-x" data-close aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-src">Fonte: <b>Kommo</b> (ipiocabeachresidence) · funil <b>Closer</b> · negócios com data de fechamento entre <b>01 e 31/07/2026</b> (fuso de Brasília).</p>
+
+      <div class="mdef"><span class="mk">O que conta como "venda"</span><p>Apenas o negócio na etapa <b>"Venda ganha" (código 142)</b> do funil <b>Closer</b>. O mesmo código 142 nos funis <b>SDR</b> e <b>Importação RD</b> significa "Reunião realizada" e <b>não</b> é contado como venda.</p></div>
+
+      <div class="mdef"><span class="mk">Vendas ganhas · 27</span><p>Contagem desses negócios no período.</p></div>
+
+      <div class="mdef"><span class="mk">Faturamento · R$ 1.191.955</span><p>Soma do <b>valor do negócio</b> (campo <code>price</code>) das 27 vendas.</p></div>
+
+      <div class="mdef"><span class="mk">Ticket médio · R$ 44.146</span><p class="mform">Faturamento ÷ nº de vendas = 1.191.955 ÷ 27</p></div>
+
+      <div class="mdef"><span class="mk">Ciclo mediano · 0 dia</span><p>Mediana de <b>(data de fechamento − data de criação)</b> das vendas, em dias. Mediana 0 = metade fecha no mesmo dia; a média é 1,3 dia.</p></div>
+
+      <div class="mdef"><span class="mk">Conversão no Closer · 35,5%</span><p class="mform">ganhas ÷ (ganhas + perdidas) = 27 ÷ (27 + 49)</p></div>
+
+      <div class="mdef"><span class="mk">Closers ativos · 4</span><p>Número de vendedores distintos com pelo menos 1 venda.</p></div>
+
+      <div class="mdef"><span class="mk">Maior venda · R$ 78,4k</span><p>Maior <code>price</code> entre as 27 vendas.</p></div>
+
+      <div class="mdef"><span class="mk">Canal · Público · Criativo</span><p>Derivados dos campos do <b>contato</b> (Origem, Campanha, Anúncio) e dos parâmetros <b>UTM</b> do lead. A separação Meta/Google é uma classificação por palavras-chave nos nomes. <b>"Não rastreado"</b> = negócio sem esses campos preenchidos (33% sem canal, 44% sem criativo).</p></div>
+
+      <div class="mdef"><span class="mk">Perfil do cliente (%)</span><p>Para cada campo: <span class="mform">nº de vendas com aquele valor ÷ nº de vendas com o campo preenchido</span> Por isso a fração ao lado (ex.: 19/22) — o denominador <b>não</b> é 27, é só quem respondeu aquele campo. Alguns campos são preenchidos pelo próprio closer (avaliação subjetiva).</p></div>
+
+      <div class="mdef"><span class="mk">Vendas por dia · Vendedores · SDR</span><p>Vendas agrupadas pela <b>data de fechamento</b>. "Vendedor" e "SDR" vêm dos campos personalizados <b>Closer</b> e <b>SDR</b> do negócio; o faturamento por vendedor é a soma dos <code>price</code>.</p></div>
+
+      <div class="mdef"><span class="mk">Produto · Faixas de preço</span><p>Campo personalizado <b>Produto</b> e o valor <code>price</code> de cada venda.</p></div>
+    </div>
+  </div>
+</div>
+
 <script>
 document.documentElement.classList.add('js');
 (function(){
@@ -443,6 +504,12 @@ document.documentElement.classList.add('js');
   function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e2=1-Math.pow(1-p,3);el.textContent=pre+fmt(Math.round(tg*e2));if(p<1)requestAnimationFrame(s)}
   requestAnimationFrame(s);})},{threshold:.6});
  document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el)});
+ var mb=document.getElementById('methBtn'),mm=document.getElementById('methModal');
+ function openM(){mm.classList.add('open')}
+ function closeM(){mm.classList.remove('open')}
+ mb&&mb.addEventListener('click',openM);
+ mm&&mm.querySelectorAll('[data-close]').forEach(function(x){x.addEventListener('click',closeM)});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
  var nps=[].slice.call(document.querySelectorAll('.np'));
  var sio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){nps.forEach(function(n){n.classList.toggle('active',n.getAttribute('data-sec')===e.target.id)})}})},{rootMargin:'-45% 0px -50% 0px'});
  document.querySelectorAll('section[id]').forEach(function(s){sio.observe(s)});
