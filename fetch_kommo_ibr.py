@@ -32,8 +32,8 @@ def _load_env():
 
 _load_env()
 
-SUBDOMAIN = os.environ["KOMMO_SUBDOMAIN"]
-TOKEN     = os.environ["KOMMO_TOKEN"]
+SUBDOMAIN = os.environ["KOMMO_SUBDOMAIN"].strip()
+TOKEN     = os.environ["KOMMO_TOKEN"].strip()
 
 # ── Pipelines IBR (IDs confirmados via /api/v4/leads/pipelines) ──────────────
 PIPELINE_SDR       = 13996659   # SDR (funil principal de tráfego pago)
@@ -140,6 +140,16 @@ def hdrs():
 
 def kommo_get(path, params=None):
     r = requests.get(f"https://{SUBDOMAIN}.kommo.com{path}", headers=hdrs(), params=params, timeout=90)
+    # 401/403 devolvendo {} faria a coleta parecer "conta vazia" e sair com
+    # código 0 — foi assim que a primeira execução agendada publicou zero lead.
+    if r.status_code in (401, 403):
+        raise SystemExit(
+            f"Kommo recusou a credencial ({r.status_code}) em {path}.\n"
+            f"Verifique KOMMO_TOKEN: expirado, truncado na cópia ou com espaço/quebra de linha."
+        )
+    if r.status_code == 429 or r.status_code >= 500:
+        raise SystemExit(f"Kommo respondeu {r.status_code} em {path} — coleta abortada.")
+    # 204 sem corpo é resposta legítima do Kommo para página vazia.
     return r.json() if r.ok and r.text else {}
 
 
