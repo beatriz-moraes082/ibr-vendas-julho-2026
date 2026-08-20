@@ -1,0 +1,74 @@
+name: Atualiza dados do dashboard
+
+# Coleta Kommo + Meta e republica o dash. O GitHub Pages redeploya sozinho
+# a cada push no main, então o commit dos dados já basta.
+
+on:
+  schedule:
+    # 10:00 e 17:00 UTC = 07h e 14h de Brasília (UTC-3).
+    # O agendamento do Actions pode atrasar alguns minutos em horário de pico.
+    - cron: '0 10,17 * * *'
+  workflow_dispatch:        # permite rodar na mão pela aba Actions
+
+permissions:
+  contents: write           # necessário para commitar data/ de volta no main
+
+concurrency:
+  group: atualiza-dados     # nunca deixa duas coletas rodando ao mesmo tempo
+  cancel-in-progress: false
+
+jobs:
+  coleta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install requests
+
+      # Subdomínio e ad account não são segredo: já saem publicados dentro dos
+      # próprios JSON do dash. Só os tokens vêm de secrets.
+      - name: Coleta Kommo
+        env:
+          KOMMO_SUBDOMAIN: ipiocabeachresidence
+          KOMMO_TOKEN: ${{ secrets.KOMMO_TOKEN }}
+        run: python3 fetch_kommo_ibr.py
+
+      - name: Coleta Meta
+        env:
+          META_ACCOUNT: act_1516939891660379
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: python3 fetch_meta_spend.py
+
+      # Trava de segurança: sem ninguém olhando, uma coleta que falhou pela
+      # metade publicaria um dash vazio sem avisar.
+      - name: Confere os dados antes de publicar
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          k = json.load(open('data/kommo_leads.json'))
+          m = json.load(open('data/meta_spend.json'))
+          n = len(k.get('sdr', []))
+          if n < 100:
+              sys.exit(f"ABORTA: kommo_leads.json com só {n} leads no SDR")
+          if not m.get('adset'):
+              sys.exit("ABORTA: meta_spend.json sem dados de adset")
+          print(f"ok: {n} leads no SDR, {len(m['adset'])} adsets")
+          PY
+
+      - name: Publica
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "Nada mudou nos dados — nenhum commit."
+            exit 0
+          fi
+          git commit -m "Atualiza dados — $(TZ=America/Sao_Paulo date +'%d/%m/%Y %H:%M')"
+          git push
