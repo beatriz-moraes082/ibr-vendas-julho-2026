@@ -9,3 +9,6 @@ data.json
 sales_full.json
 mkt_rows.json
 raw/
+
+# config local do Claude Code
+.claude/
