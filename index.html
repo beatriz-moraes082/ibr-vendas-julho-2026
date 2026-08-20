@@ -385,10 +385,8 @@ tfoot td{border-top:1px solid var(--line);font-weight:700;color:var(--ink);backg
       <div class="grid" style="margin-top:14px">
         <div class="card span12"><div class="ch"><div><h3>Atividades por consultor</h3><div class="sub" id="ativ-sub">Tarefas criadas, concluídas e leads sob responsabilidade</div></div></div>
           <div class="tblwrap" style="border:none;box-shadow:none"><table id="ativ-users"></table></div></div>
-        <div class="card span6"><div class="ch"><div><h3>Mix por tipo de tarefa</h3><div class="sub">Distribuição no período</div></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Mix por tipo de tarefa</h3><div class="sub">Distribuição no período</div></div></div>
           <div id="ativ-tipos"></div></div>
-        <div class="card span6"><div class="ch"><div><h3>Tempo até o 1º contato humano</h3><div class="sub">Só mensagens enviadas por pessoa — o bot é descontado</div></div></div>
-          <div id="ativ-tempo"></div></div>
       </div>
     </div>
   </section>
@@ -1411,18 +1409,6 @@ function renderAtividades(c) {
   $('#ativ-tipos').innerHTML = barlist(
     [...tipos.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ k, v, cls: 'lead', label: int(v), fat: pctS(v, tasks.length) })),
     { note: 'Os tipos "Dia 1", "Dia 3"… são as tarefas da cadência de follow-up configurada no Kommo.' });
-
-  /* distribuição do tempo de resposta */
-  const faixas = [['até 5 min', 0, 5], ['5–30 min', 5, 30], ['30 min–2 h', 30, 120],
-                  ['2–8 h', 120, 480], ['8–24 h', 480, 1440], ['mais de 24 h', 1440, Infinity]];
-  $('#ativ-tempo').innerHTML = tempos.length
-    ? barlist(faixas.map(([k, a, b]) => {
-        const sub = tempos.filter(t => t.min >= a && t.min < b);
-        const q = sub.filter(t => t.lead.qualified).length;
-        return { k, v: sub.length, cls: a < 30 ? 'lead' : 'mut', label: int(sub.length),
-                 fat: pctS(q, sub.length) + ' qualif.', tip: `${sub.length} leads · ${q} qualificaram` };
-      }), { note: `Mediana do período: <b>${dur(med)}</b> entre a entrada do lead e a primeira mensagem enviada por uma pessoa. Mensagens automáticas do bot são descontadas — senão a métrica mediria o robô.` })
-    : '<div class="empty">nenhum contato humano registrado no período</div>';
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
