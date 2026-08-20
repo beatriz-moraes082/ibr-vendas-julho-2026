@@ -1,10 +1,15 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vendas Julho/2026 · Ipioca Beach Residence</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Mensuração · Ipioca Beach Residence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{
  --plane:#f4f1e9; --surface:#ffffff; --ink:#131211; --ink2:#57544d; --mut:#9b968a; --line:#e7e2d6;
- --accent:#ff4a24; --accent-2:#0f7d86; --bar:#1b1a17; --track:#eae6db; --lead:#ff4a24;
+ --accent:#ff4a24; --accent-2:#0f7d86; --bar:#1b1a17; --track:#eae6db;
+ --good:#0f7d86; --warn:#c8811a; --bad:#c73a1d;
  --shadow:0 2px 0 rgba(19,18,17,.04),0 18px 40px -24px rgba(19,18,17,.30);
  --f-disp:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -12,504 +17,1646 @@
 }
 @media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){
  --plane:#0b0b0c; --surface:#161618; --ink:#f5f2ea; --ink2:#b6b1a5; --mut:#78746a; --line:#28282c;
- --accent:#ff5f3a; --accent-2:#39b9c4; --bar:#eceae0; --track:#242428; --lead:#ff5f3a;
+ --accent:#ff5f3a; --accent-2:#39b9c4; --bar:#eceae0; --track:#242428;
+ --good:#39b9c4; --warn:#e0a33f; --bad:#ff6a4d;
  --shadow:0 2px 0 rgba(0,0,0,.4),0 22px 46px -26px rgba(0,0,0,.7);
 }}
 :root[data-theme="dark"]{
  --plane:#0b0b0c; --surface:#161618; --ink:#f5f2ea; --ink2:#b6b1a5; --mut:#78746a; --line:#28282c;
- --accent:#ff5f3a; --accent-2:#39b9c4; --bar:#eceae0; --track:#242428; --lead:#ff5f3a;
+ --accent:#ff5f3a; --accent-2:#39b9c4; --bar:#eceae0; --track:#242428;
+ --good:#39b9c4; --warn:#e0a33f; --bad:#ff6a4d;
  --shadow:0 2px 0 rgba(0,0,0,.4),0 22px 46px -26px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
 body{background:var(--plane);color:var(--ink);font-family:var(--f-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-h1,h2,h3,.c-n,.hm-n,.sec-ix,.brand{font-family:var(--f-disp)}
-.hm-n,.c-n,.val,.tnum,.ppct,.tday{font-variant-numeric:tabular-nums}
-/* topbar */
-.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:16px;padding:11px clamp(15px,4vw,40px);
- background:color-mix(in srgb,var(--plane) 84%,transparent);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1.5px solid var(--ink)}
+h1,h2,h3,.c-n,.hm-n,.brand,.kpi-n{font-family:var(--f-disp)}
+.hm-n,.c-n,.val,.tnum,.kpi-n,.num{font-variant-numeric:tabular-nums}
+button,select,input{font-family:inherit}
+
+/* ── topbar ─────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:11px clamp(14px,3.5vw,36px);
+ background:color-mix(in srgb,var(--plane) 86%,transparent);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1.5px solid var(--ink)}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;letter-spacing:-.02em;white-space:nowrap}
 .brand-mark{color:var(--accent);font-size:16px}
-.nav{display:flex;gap:3px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.np{padding:7px 14px;border-radius:2px;text-decoration:none;color:var(--ink2);font-size:13px;font-weight:600;white-space:nowrap;transition:.2s;border:1.5px solid transparent}
-.np:hover{color:var(--ink);border-color:var(--line)}
-.np.active{color:#fff;background:var(--accent);border-color:var(--accent)}
-.methbtn{flex:none;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;font-family:var(--f-body);font-size:12.5px;font-weight:700;transition:.2s}
+.brand small{display:block;font-family:var(--f-mono);font-size:9.5px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;font-weight:400}
+.spacer{margin-left:auto}
+.methbtn{flex:none;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 13px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;font-size:12.5px;font-weight:700;transition:.2s}
 .methbtn:hover{background:var(--ink);color:var(--plane)}
-.toggle{flex:none;width:38px;height:38px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.toggle{flex:none;width:36px;height:36px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
 .toggle:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-/* modal */
-.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px}
-.modal.open{display:grid}
-.modal-backdrop{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 55%,transparent);backdrop-filter:blur(3px);animation:fade .2s ease}
-.modal-panel{position:relative;width:min(660px,100%);max-height:86vh;overflow-y:auto;background:var(--surface);border:1.5px solid var(--ink);border-radius:5px;box-shadow:10px 10px 0 var(--accent);animation:pop .28s cubic-bezier(.2,.9,.25,1)}
-@keyframes fade{from{opacity:0}}
-@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}}
-.modal-head{position:sticky;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:20px 22px 14px;background:var(--surface);border-bottom:1.5px solid var(--ink)}
-.modal-kicker{font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.modal-head h3{font-family:var(--f-disp);font-size:22px;font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.05}
-.modal-x{flex:none;width:34px;height:34px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;font-size:15px;line-height:1;transition:.2s}
-.modal-x:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-.modal-body{padding:18px 22px 24px}
-.modal-src{font-size:12.5px;color:var(--ink2);background:var(--track);border-radius:3px;padding:11px 13px;margin-bottom:18px;line-height:1.5}
-.mdef{padding:13px 0;border-bottom:1.5px dashed var(--line)}
-.mdef:last-child{border-bottom:none}
-.mk{display:inline-block;font-family:var(--f-mono);font-size:12px;font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent) 16%,transparent);padding:3px 8px;border-radius:2px;margin-bottom:7px}
-.mdef p{font-size:13.5px;color:var(--ink2);line-height:1.55}.mdef b{color:var(--ink);font-weight:700}
-.mdef code{font-family:var(--f-mono);font-size:12px;background:var(--track);padding:1px 5px;border-radius:2px;color:var(--ink)}
-.mform{font-family:var(--f-mono);font-size:12.5px;color:var(--ink);background:var(--track);border-left:2.5px solid var(--accent);padding:8px 12px;border-radius:0 2px 2px 0;margin-top:4px}
-@media(max-width:940px){.methbtn span{display:none}.methbtn{padding:0;width:38px;justify-content:center}}
 .i-moon{display:none}
 :root[data-theme="dark"] .i-sun{display:none}:root[data-theme="dark"] .i-moon{display:block}
 @media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .i-sun{display:none}:root:where(:not([data-theme="light"])) .i-moon{display:block}}
-/* hero */
-.hero{position:relative;overflow:hidden;padding:clamp(44px,8vw,90px) clamp(15px,4vw,40px) clamp(30px,5vw,54px);text-align:center}
-.hero-mesh{position:absolute;inset:0;z-index:0;pointer-events:none;
- background:radial-gradient(38% 55% at 82% 12%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%),
- radial-gradient(42% 60% at 12% 96%,color-mix(in srgb,var(--accent-2) 20%,transparent),transparent 72%);filter:blur(6px)}
-.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
-.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.hero h1{font-size:clamp(72px,19vw,220px);line-height:.82;font-weight:800;letter-spacing:-.045em;margin:12px 0 0;position:relative;display:inline-block}
-.hero h1 .yr{color:var(--accent)}
-.hero h1 .ast{position:absolute;top:-.1em;right:-.5em;font-size:.24em;color:var(--accent-2);animation:spin 14s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.lede{max-width:520px;margin:24px auto 0;font-size:clamp(15px,2.1vw,18px);color:var(--ink2);line-height:1.55}
-.lede em{font-style:normal;color:var(--ink);font-weight:700;box-shadow:inset 0 -.5em 0 color-mix(in srgb,var(--accent) 24%,transparent)}
-.hero-metrics{display:flex;align-items:flex-start;justify-content:center;gap:clamp(20px,5vw,56px);margin-top:38px;flex-wrap:wrap}
-.hm-n{font-family:var(--f-mono);font-size:clamp(22px,4.4vw,34px);font-weight:700;letter-spacing:-.02em}
-.hm-l{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin-top:6px;font-weight:600}
-/* ticker */
-.ticker{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--ink);overflow:hidden;white-space:nowrap}
-.ticker-track{display:inline-flex;align-items:center;gap:22px;padding:11px 0;animation:marq 34s linear infinite;will-change:transform}
-.ticker-track span{color:var(--plane);font-weight:700;font-size:14px;letter-spacing:-.01em}
-.ticker-track b{color:var(--accent);font-size:11px}
-@keyframes marq{to{transform:translateX(-50%)}}
-.ticker:hover .ticker-track{animation-play-state:paused}
-/* layout */
-.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(15px,4vw,40px) 64px}
-.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:36px 0 8px}
-.chip{background:var(--surface);border:1.5px solid var(--ink);border-radius:3px;padding:18px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
-.chip:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--accent)}
-.c-n{font-size:34px;font-weight:800;letter-spacing:-.03em;display:block;line-height:1}
-.c-n i{font-style:normal;font-size:15px;color:var(--mut);margin-left:2px;font-family:var(--f-body)}
-.c-l{font-size:11.5px;color:var(--ink2);margin-top:8px;display:block;font-weight:500}
-.sec{padding-top:64px}
-.sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px}
-.sec-ix{font-size:clamp(30px,5vw,44px);font-weight:800;color:var(--accent);line-height:.8;letter-spacing:-.04em;-webkit-text-stroke:0}
-.sec-head h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.035em;line-height:.98}
-.sec-head p{color:var(--ink2);font-size:14.5px;margin-top:5px;max-width:560px}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-.card{background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:20px 22px;box-shadow:var(--shadow);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
-.card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
-.span12{grid-column:span 12}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}
-.ch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1.5px dashed var(--line)}
-.ch h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
-.cap{font-family:var(--f-mono);font-size:10.5px;color:var(--mut);letter-spacing:.02em;text-transform:uppercase}
-/* bars */
-.barlist{display:flex;flex-direction:column;gap:11px}
-.row{display:grid;grid-template-columns:148px 1fr auto;align-items:center;gap:12px}
-.barlist.small .row{grid-template-columns:172px 1fr auto}
-.lab{font-size:12.5px;color:var(--ink2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
-.lab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
-.track{height:16px;background:var(--track);border-radius:2px;overflow:hidden}
-.bar{height:100%;width:var(--w);border-radius:2px;min-width:4px;background:var(--bar)}
-.bar.lead{background:var(--accent)}
-.dot.ch-meta,.bar.ch-meta{background:var(--accent)}
-.dot.ch-google,.bar.ch-google{background:var(--accent-2)}
-.dot.ch-none,.bar.ch-none{background:var(--mut)}
-.val{font-size:13px;font-weight:700;white-space:nowrap;color:var(--ink)}
-.val .fat{color:var(--mut);font-weight:500;font-size:11px;margin-left:2px;font-family:var(--f-mono)}
-.row:hover .bar{filter:saturate(1.3)}
-.note{font-size:11.5px;color:var(--mut);margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;font-weight:500}
+
+/* ── tabnav ─────────────────────────────────────────── */
+.tabnav{position:sticky;top:59px;z-index:55;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;
+ padding:9px clamp(14px,3.5vw,36px);background:color-mix(in srgb,var(--plane) 92%,transparent);
+ backdrop-filter:blur(10px);border-bottom:1.5px solid var(--ink)}
+.tabnav::-webkit-scrollbar{display:none}
+.tb{flex:none;padding:7px 14px;border-radius:2px;border:1.5px solid transparent;background:none;color:var(--ink2);
+ font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.18s;letter-spacing:-.01em}
+.tb:hover{color:var(--ink);border-color:var(--line)}
+.tb.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+.tb i{font-style:normal;font-family:var(--f-mono);font-size:10px;opacity:.7;margin-right:6px}
+
+/* ── layout ─────────────────────────────────────────── */
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(14px,3.5vw,36px) 72px}
+.pane{display:none}.pane.active{display:block;animation:fadeUp .24s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}}
+.sec{padding-top:44px}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.sec-ix{font-family:var(--f-disp);font-size:clamp(26px,4vw,38px);font-weight:800;color:var(--accent);line-height:.8;letter-spacing:-.04em}
+.sec-head h2{font-size:clamp(24px,3.6vw,36px);font-weight:800;letter-spacing:-.035em;line-height:1}
+.sec-head p{color:var(--ink2);font-size:14px;margin-top:5px;max-width:620px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.span12{grid-column:span 12}.span8{grid-column:span 8}.span7{grid-column:span 7}
+.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}.span3{grid-column:span 3}
+
+/* ── cards ──────────────────────────────────────────── */
+.card{background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:18px 20px;box-shadow:var(--shadow)}
+.card.hov{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.card.hov:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink)}
+.ch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap;padding-bottom:11px;border-bottom:1.5px dashed var(--line)}
+.ch h3{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.ch .sub{font-size:12px;color:var(--ink2);margin-top:3px;font-weight:500}
+.cap{font-family:var(--f-mono);font-size:10px;color:var(--mut);letter-spacing:.03em;text-transform:uppercase}
+.note{font-size:11.5px;color:var(--mut);margin-top:14px;border-top:1.5px dashed var(--line);padding-top:11px;font-weight:500}
 .note b{color:var(--ink2)}
-/* profile */
-.proflist{display:grid;grid-template-columns:1fr 1fr;gap:16px 36px}
-.prow{display:grid;grid-template-columns:1fr 120px 50px;align-items:center;gap:14px}
-.plab{font-size:13.5px;color:var(--ink2);font-weight:500}.plab b{color:var(--ink);font-weight:700}
-.ptrack{height:10px;background:var(--track);border-radius:2px;overflow:hidden}
-.pbar{height:100%;width:var(--w);border-radius:2px;background:var(--accent)}
-.ppct{font-family:var(--f-mono);font-size:17px;font-weight:700;text-align:right}
-.ppct span{font-size:11px;color:var(--mut)}
-/* timeline */
-.timeline{display:flex;align-items:flex-end;gap:6px;height:178px;padding-top:12px}
-.tcol{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
-.tbarwrap{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
-.tbar{width:72%;max-width:30px;height:var(--h);border-radius:2px 2px 0 0;background:var(--bar);transition:background .2s,transform .2s;transform-origin:bottom}
-.tcol:hover .tbar{background:var(--accent);transform:scaleY(1.03)}
-.tnum{font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:4px}
-.tday{font-family:var(--f-mono);font-size:9.5px;color:var(--mut);margin-top:7px}
-/* insights */
-.insight-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.ins{grid-column:span 2;background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:22px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+
+/* ── KPI ────────────────────────────────────────────── */
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+.kpi{background:var(--surface);border:1.5px solid var(--ink);border-radius:3px;padding:15px 16px;box-shadow:var(--shadow);transition:transform .22s,box-shadow .22s}
+.kpi:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--accent)}
+.kpi-k{font-family:var(--f-mono);font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:9px}
+.kpi-n{font-size:31px;font-weight:800;letter-spacing:-.035em;line-height:1;display:block}
+.kpi-n i{font-style:normal;font-size:14px;color:var(--mut);margin-left:2px;font-family:var(--f-body);letter-spacing:0}
+.kpi-s{font-size:11.5px;color:var(--ink2);margin-top:7px;display:block;font-weight:500}
+.kpi.accent{background:var(--accent);border-color:var(--accent)}
+.kpi.accent .kpi-k{color:#3b1206}.kpi.accent .kpi-n,.kpi.accent .kpi-s{color:#fff}
+.kpi.accent .kpi-n i{color:rgba(255,255,255,.72)}
+.kpi.accent:hover{box-shadow:5px 5px 0 var(--ink)}
+.kpi.ink{background:var(--ink);border-color:var(--ink)}
+.kpi.ink .kpi-k{color:var(--mut)}.kpi.ink .kpi-n,.kpi.ink .kpi-s{color:var(--plane)}
+.kpi.ink:hover{box-shadow:5px 5px 0 var(--accent)}
+.dlt{font-family:var(--f-mono);font-size:11px;font-weight:700}
+.dlt.up{color:var(--good)}.dlt.down{color:var(--bad)}.dlt.flat{color:var(--mut)}
+
+/* ── filtro de período ──────────────────────────────── */
+.filterbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0 4px;padding:12px 14px;
+ background:var(--surface);border:1.5px solid var(--ink);border-radius:3px;box-shadow:var(--shadow)}
+.filterbar .flab{font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.seg{display:flex;gap:0;flex-wrap:wrap;border:1.5px solid var(--ink);border-radius:2px;overflow:hidden}
+.seg button{border:none;background:var(--surface);color:var(--ink2);padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;
+ border-right:1.5px solid var(--ink);transition:.15s;white-space:nowrap}
+.seg button:last-child{border-right:none}
+.seg button:hover{background:var(--track)}
+.seg button.on{background:var(--ink);color:var(--plane)}
+.win{font-family:var(--f-mono);font-size:11.5px;color:var(--ink2);margin-left:auto;font-weight:700}
+.win b{color:var(--accent)}
+input[type=date]{border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:2px;padding:5px 8px;font-size:12px;font-family:var(--f-mono)}
+
+/* ── barras ─────────────────────────────────────────── */
+.barlist{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:170px 1fr auto;align-items:center;gap:12px}
+.lab{font-size:12.5px;color:var(--ink2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.lab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--mut)}
+.track{height:15px;background:var(--track);border-radius:2px;overflow:hidden}
+.bar{height:100%;width:var(--w);border-radius:2px;min-width:3px;background:var(--bar);transition:width .7s cubic-bezier(.2,.85,.25,1)}
+.bar.lead,.dot.lead{background:var(--accent)}
+.bar.alt,.dot.alt{background:var(--accent-2)}
+.bar.mut,.dot.mut{background:var(--mut)}
+.val{font-size:12.5px;font-weight:700;white-space:nowrap;color:var(--ink);font-family:var(--f-mono)}
+.val .fat{color:var(--mut);font-weight:400;font-size:11px;margin-left:3px}
+
+/* ── funil ──────────────────────────────────────────── */
+.pyr{display:flex;flex-direction:column;gap:7px}
+.pstep{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:11px 14px;border:1.5px solid var(--ink);border-radius:2px;
+ background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 13%,transparent) var(--w),transparent var(--w));transition:transform .2s}
+.pstep:hover{transform:translateX(3px)}
+.pstep-l{font-size:13px;font-weight:600}
+.pstep-l small{display:block;font-family:var(--f-mono);font-size:10px;color:var(--mut);font-weight:400;margin-top:2px}
+.pstep-n{font-family:var(--f-mono);font-size:17px;font-weight:700;text-align:right}
+.pstep-n span{display:block;font-size:10.5px;color:var(--mut);font-weight:400}
+.pstep.win{background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 28%,transparent) var(--w),transparent var(--w))}
+
+/* ── tabelas ────────────────────────────────────────── */
+.tblwrap{overflow-x:auto;border:1.5px solid var(--ink);border-radius:3px;background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;min-width:520px}
+thead th{position:sticky;top:0;background:var(--ink);color:var(--plane);font-family:var(--f-mono);font-size:9.5px;font-weight:700;
+ letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:9px 12px;white-space:nowrap;z-index:2}
+tbody tr{border-top:1.5px solid var(--line)}
+tbody tr:hover{background:var(--track)}
+td{padding:9px 12px;font-size:12.5px;color:var(--ink2)}
+td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+td b,td strong{color:var(--ink);font-weight:700}
+tfoot td{border-top:1.5px solid var(--ink);font-weight:700;color:var(--ink);background:var(--track)}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:2px;
+ background:var(--track);color:var(--ink2);white-space:nowrap}
+.tag.meta{background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--ink)}
+.tag.google{background:color-mix(in srgb,var(--accent-2) 22%,transparent);color:var(--ink)}
+.tag.good{background:color-mix(in srgb,var(--good) 20%,transparent);color:var(--ink)}
+.tag.bad{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--ink)}
+.tag.score-A{background:var(--accent);color:#fff}
+.tag.score-B{background:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--ink)}
+.tag.score-C{background:var(--track);color:var(--ink2)}
+.tag.score-D{background:color-mix(in srgb,var(--mut) 30%,transparent);color:var(--ink2)}
+.tag.score-E{background:color-mix(in srgb,var(--mut) 18%,transparent);color:var(--mut)}
+
+/* ── chips de insight ───────────────────────────────── */
+.ins{background:var(--surface);border:1.5px solid var(--ink);border-radius:4px;padding:18px 20px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
 .ins:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--accent-2)}
-.ins.big{grid-column:span 3}
-.ins-k{font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:12px}
-.ins p{font-size:14px;color:var(--ink2);line-height:1.55}.ins b{color:var(--ink);font-weight:700}
+.ins-k{font-family:var(--f-mono);font-size:10.5px;font-weight:700;color:var(--accent);letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:10px}
+.ins p{font-size:13.5px;color:var(--ink2);line-height:1.55}.ins b{color:var(--ink);font-weight:700}
 .ins.accent{background:var(--accent);border-color:var(--accent)}
+.ins.accent .ins-k{color:#3b1206}.ins.accent p,.ins.accent b{color:#fff}
 .ins.accent:hover{box-shadow:7px 7px 0 var(--ink)}
-.ins.accent .ins-k{color:#2a0d05}.ins.accent p,.ins.accent b{color:#fff}
-/* footer */
-.ft{margin-top:60px;padding-top:24px;border-top:1.5px solid var(--ink);text-align:center;font-size:11.5px;color:var(--mut);line-height:1.9;font-family:var(--f-mono)}
-.ft b{color:var(--ink2)}.ft span{opacity:.8}
-/* tooltip */
+
+/* ── avisos ─────────────────────────────────────────── */
+.warn{display:flex;gap:11px;align-items:flex-start;padding:13px 15px;border:1.5px solid var(--ink);border-left:5px solid var(--accent);
+ border-radius:3px;background:var(--surface);font-size:12.5px;color:var(--ink2);margin-top:14px;line-height:1.5}
+.warn b{color:var(--ink)}
+.warn .wi{font-size:15px;line-height:1.1}
+
+/* ── gráficos ───────────────────────────────────────── */
+.chartbox{position:relative;height:230px}
+.chartbox.tall{height:290px}
+.chartbox.short{height:170px}
+
+/* ── perfil / progress ──────────────────────────────── */
+.proflist{display:grid;grid-template-columns:1fr 1fr;gap:14px 30px}
+.prow{display:grid;grid-template-columns:1fr 110px 62px;align-items:center;gap:12px}
+.plab{font-size:13px;color:var(--ink2);font-weight:500}.plab b{color:var(--ink);font-weight:700}
+.ptrack{height:9px;background:var(--track);border-radius:2px;overflow:hidden}
+.pbar{height:100%;width:var(--w);border-radius:2px;background:var(--accent);transition:width .7s cubic-bezier(.2,.85,.25,1)}
+.ppct{font-family:var(--f-mono);font-size:15px;font-weight:700;text-align:right}
+.ppct span{font-size:10.5px;color:var(--mut)}
+
+/* ── avatar ─────────────────────────────────────────── */
+.av{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;
+ font-family:var(--f-mono);font-size:10px;font-weight:700;color:#fff;margin-right:8px;vertical-align:middle}
+.who{display:flex;align-items:center;white-space:nowrap}
+
+/* ── formulário / calculadora ───────────────────────── */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.fld label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:700;margin-bottom:6px}
+.fld select,.fld input{width:100%;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:2px;padding:9px 10px;font-size:13px;font-weight:600}
+.calcout{margin-top:18px;border:1.5px solid var(--ink);border-radius:3px;padding:20px;background:var(--track)}
+.calcout .big{font-family:var(--f-disp);font-size:54px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--accent)}
+
+/* ── modal ──────────────────────────────────────────── */
+.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px}
+.modal.open{display:grid}
+.modal-bd{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 58%,transparent);backdrop-filter:blur(3px)}
+.modal-p{position:relative;width:min(720px,100%);max-height:86vh;overflow-y:auto;background:var(--surface);border:1.5px solid var(--ink);border-radius:5px;box-shadow:10px 10px 0 var(--accent)}
+.modal-h{position:sticky;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:18px 20px 13px;background:var(--surface);border-bottom:1.5px solid var(--ink);z-index:2}
+.modal-k{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.modal-h h3{font-family:var(--f-disp);font-size:21px;font-weight:800;letter-spacing:-.02em;margin-top:3px;line-height:1.05}
+.modal-x{flex:none;width:32px;height:32px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;font-size:15px}
+.modal-x:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.modal-b{padding:16px 20px 22px}
+.mdef{padding:12px 0;border-bottom:1.5px dashed var(--line)}.mdef:last-child{border-bottom:none}
+.mk{display:inline-block;font-family:var(--f-mono);font-size:11.5px;font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent) 16%,transparent);padding:3px 8px;border-radius:2px;margin-bottom:6px}
+.mdef p{font-size:13px;color:var(--ink2);line-height:1.55}.mdef b{color:var(--ink)}
+.mform{font-family:var(--f-mono);font-size:12px;color:var(--ink);background:var(--track);border-left:2.5px solid var(--accent);padding:7px 11px;border-radius:0 2px 2px 0;margin-top:5px}
+
+/* ── loading / vazio ────────────────────────────────── */
+.loading{padding:90px 20px;text-align:center}
+.loading .sp{width:38px;height:38px;border:3px solid var(--track);border-top-color:var(--accent);border-radius:50%;margin:0 auto 16px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-family:var(--f-mono);font-size:12px;color:var(--mut);letter-spacing:.05em}
+.empty{padding:26px;text-align:center;color:var(--mut);font-size:12.5px;font-family:var(--f-mono)}
+
+/* ── footer ─────────────────────────────────────────── */
+.ft{margin-top:56px;padding-top:22px;border-top:1.5px solid var(--ink);text-align:center;font-size:11.5px;color:var(--mut);line-height:1.9;font-family:var(--f-mono)}
+.ft b{color:var(--ink2)}
+.ft a{color:var(--accent);text-decoration:none;font-weight:700}
+
 [data-tip]{position:relative;cursor:default}
 [data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);
- background:var(--ink);color:var(--plane);font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:3px;white-space:nowrap;z-index:60;pointer-events:none;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
-/* reveal */
-.js .reveal{opacity:0;transform:translateY(22px)}
-.js .reveal.in{opacity:1;transform:none;transition:opacity .6s ease,transform .7s cubic-bezier(.2,.85,.25,1)}
-.js .reveal .bar,.js .reveal .pbar{width:0}
-.js .reveal.in .bar,.js .reveal.in .pbar{width:var(--w);transition:width .9s cubic-bezier(.2,.85,.25,1) .12s}
-.js .reveal .tbar{height:0}
-.js .reveal.in .tbar{height:var(--h);transition:height .75s cubic-bezier(.2,.85,.25,1)}
-@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none}.js .reveal .bar,.js .reveal .pbar{width:var(--w)}.js .reveal .tbar{height:var(--h)}.hero h1 .ast,.ticker-track{animation:none}html{scroll-behavior:auto}}
-@media(max-width:940px){.nav{display:none}.chips{grid-template-columns:repeat(2,1fr)}.grid>*{grid-column:span 12!important}.proflist{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.ins,.ins.big{grid-column:span 1}.row{grid-template-columns:112px 1fr auto}.barlist.small .row{grid-template-columns:130px 1fr auto}}
+ background:var(--ink);color:var(--plane);font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:3px;white-space:nowrap;z-index:70;pointer-events:none;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
+
+@media(max-width:980px){
+ .grid>*{grid-column:span 12!important}
+ .proflist{grid-template-columns:1fr}
+ .row{grid-template-columns:120px 1fr auto}
+ .brand small{display:none}
+ .methbtn span{display:none}.methbtn{padding:0 10px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:0s!important;transition-duration:0s!important}html{scroll-behavior:auto}}
 </style></head><body>
 
-<header class="topbar" id="top">
-  <a class="brand" href="#top"><span class="brand-mark">✦</span><span>Ipioca Beach Residence</span></a>
-  <nav class="nav"><a href="#visao" class="np" data-sec="visao">Visão</a><a href="#midia" class="np" data-sec="midia">Mídia</a><a href="#perfil" class="np" data-sec="perfil">Perfil</a><a href="#vendas" class="np" data-sec="vendas">Vendas</a><a href="#produtos" class="np" data-sec="produtos">Produtos</a><a href="#insights" class="np" data-sec="insights">Insights</a></nav>
-  <button class="methbtn" id="methBtn" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg><span>Metodologia</span></button>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">✦</span><span>Ipioca Beach Residence<small>Mensuração · Kommo + Meta Ads</small></span></a>
+  <div class="spacer"></div>
+  <button class="methbtn" id="methBtn"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg><span>Metodologia</span></button>
   <button class="toggle" id="themeToggle" aria-label="Alternar tema">
-    <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M17.5 17.5l2 2M19.5 4.5l-2 2M6.5 17.5l-2 2"/></g></svg>
-    <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="currentColor"/></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" width="17" height="17"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M17.5 17.5l2 2M19.5 4.5l-2 2M6.5 17.5l-2 2"/></g></svg>
+    <svg class="i-moon" viewBox="0 0 24 24" width="17" height="17"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="currentColor"/></svg>
   </button>
 </header>
 
-<section class="hero" id="visao">
-  <div class="hero-mesh"></div>
-  <div class="hero-inner reveal">
-    <div class="eyebrow">Relatório de Vendas · Kommo CRM</div>
-    <h1>Julho<span class="yr">’26</span><span class="ast">✦</span></h1>
-    <p class="lede">Veja de onde vieram os negócios e <em>quem é o cliente que fecha</em>.</p>
-    <div class="hero-metrics">
-      <div class="hm"><div class="hm-n" data-count="1191955" data-prefix="R$ ">R$ 1.191.955</div><div class="hm-l">Faturamento</div></div>
-      <div class="hm"><div class="hm-n" data-count="27">27</div><div class="hm-l">Vendas ganhas</div></div>
-      <div class="hm"><div class="hm-n" data-count="44146" data-prefix="R$ ">R$ 44.146</div><div class="hm-l">Ticket médio</div></div>
-    </div>
-  </div>
-</section>
-<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>27 vendas ganhas</span><b>✦</b><span>R$ 1.191.955 faturados</span><b>✦</b><span>ticket médio R$ 44.146</span><b>✦</b><span>maior venda R$ 78,4k</span><b>✦</b><span>94% das reuniões por vídeo</span><b>✦</b><span>Meta + Google empatam</span><b>✦</b><span>Lead Score não prevê venda</span><b>✦</b><span>86% assistiram à apresentação</span><b>✦</b><span>27 vendas ganhas</span><b>✦</b><span>R$ 1.191.955 faturados</span><b>✦</b><span>ticket médio R$ 44.146</span><b>✦</b><span>maior venda R$ 78,4k</span><b>✦</b><span>94% das reuniões por vídeo</span><b>✦</b><span>Meta + Google empatam</span><b>✦</b><span>Lead Score não prevê venda</span><b>✦</b><span>86% assistiram à apresentação</span><b>✦</b></div></div>
+<nav class="tabnav" id="tabnav">
+  <button class="tb active" data-tab="diagnostico"><i>01</i>Diagnóstico</button>
+  <button class="tb" data-tab="evolucao"><i>02</i>Evolução</button>
+  <button class="tb" data-tab="perfil"><i>03</i>Perfil do qualificado</button>
+  <button class="tb" data-tab="funis"><i>04</i>Funis comerciais</button>
+  <button class="tb" data-tab="atividades"><i>05</i>Atividades</button>
+  <button class="tb" data-tab="vendas"><i>06</i>Vendas</button>
+  <button class="tb" data-tab="score"><i>07</i>Calculadora de score</button>
+</nav>
 
-<main class="wrap">
-  <section class="chips reveal">
-    <div class="chip"><span class="c-n">86<i>%</i></span><span class="c-l">Assistiram à apresentação</span></div>
-    <div class="chip"><span class="c-n">94<i>%</i></span><span class="c-l">Reuniões por vídeo-chamada</span></div>
-    <div class="chip"><span class="c-n">4</span><span class="c-l">Closers ativos</span></div>
-    <div class="chip"><span class="c-n">78,4<i>k</i></span><span class="c-l">Maior venda (R$)</span></div>
-  </section>
+<div id="boot" class="loading"><div class="sp"></div><p>carregando dados do Kommo e do Meta…</p></div>
 
-  <section id="midia" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">01</span><div><h2>Canal &amp; Mídia</h2><p>De onde vieram os negócios — canal, público e criativo.</p></div></div>
-    <div class="grid">
-      <article class="card span6 reveal"><div class="ch"><h3>Canal de aquisição</h3><span class="cap">vendas · faturamento</span></div><div class="barlist"><div class="row" data-tip="Meta Ads: 10 venda(s) · R$ 484.954"><div class="lab"><span class="dot ch-meta"></span>Meta Ads</div>
-          <div class="track"><div class="bar ch-meta" style="--w:100.0%"></div></div>
-          <div class="val">10 <span class="fat">R$ 485,0k</span></div></div>
-<div class="row" data-tip="Não rastreado: 9 venda(s) · R$ 402.271"><div class="lab"><span class="dot ch-none"></span>Não rastreado</div>
-          <div class="track"><div class="bar ch-none" style="--w:90.0%"></div></div>
-          <div class="val">9 <span class="fat">R$ 402,3k</span></div></div>
-<div class="row" data-tip="Google Ads: 8 venda(s) · R$ 304.730"><div class="lab"><span class="dot ch-google"></span>Google Ads</div>
-          <div class="track"><div class="bar ch-google" style="--w:80.0%"></div></div>
-          <div class="val">8 <span class="fat">R$ 304,7k</span></div></div></div><p class="note">33% das vendas sem canal rastreado no CRM.</p></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Público / audiência</h3><span class="cap">nº de vendas</span></div><div class="barlist"><div class="row" data-tip="Não rastreado: 9 venda(s)"><div class="lab">Não rastreado</div>
-          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
-          <div class="val">9 </div></div>
-<div class="row" data-tip="Remarketing: 5 venda(s)"><div class="lab">Remarketing</div>
-          <div class="track"><div class="bar" style="--w:55.6%"></div></div>
-          <div class="val">5 </div></div>
-<div class="row" data-tip="Interesses (alto padrão): 3 venda(s)"><div class="lab">Interesses (alto padrão)</div>
-          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
-          <div class="val">3 </div></div>
-<div class="row" data-tip="Lista morna / oportunidades: 3 venda(s)"><div class="lab">Lista morna / oportunidades</div>
-          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
-          <div class="val">3 </div></div>
-<div class="row" data-tip="Prospecção / outros: 3 venda(s)"><div class="lab">Prospecção / outros</div>
-          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
-          <div class="val">3 </div></div>
-<div class="row" data-tip="Busca / marca: 2 venda(s)"><div class="lab">Busca / marca</div>
-          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="Institucional / prospecção: 2 venda(s)"><div class="lab">Institucional / prospecção</div>
-          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
-          <div class="val">2 </div></div></div></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Criativo / anúncio</h3><span class="cap">nº de vendas</span></div><div class="barlist"><div class="row" data-tip="(não rastreado): 12 venda(s)"><div class="lab">(não rastreado)</div>
-          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
-          <div class="val">12 </div></div>
-<div class="row" data-tip="anuncio_2: 5 venda(s)"><div class="lab">anuncio_2</div>
-          <div class="track"><div class="bar" style="--w:41.7%"></div></div>
-          <div class="val">5 </div></div>
-<div class="row" data-tip="Google: 2 venda(s)"><div class="lab">Google</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="criativo_video_drone: 2 venda(s)"><div class="lab">criativo_video_drone</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="criativo_estatico_620: 2 venda(s)"><div class="lab">criativo_estatico_620</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="multipropriedade: 1 venda(s)"><div class="lab">multipropriedade</div>
-          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
-          <div class="val">1 </div></div>
-<div class="row" data-tip="ipioca_beach_residence: 1 venda(s)"><div class="lab">ipioca_beach_residence</div>
-          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
-          <div class="val">1 </div></div>
-<div class="row" data-tip="criativo_video_leo: 1 venda(s)"><div class="lab">criativo_video_leo</div>
-          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
-          <div class="val">1 </div></div>
-<div class="row" data-tip="anuncio_3: 1 venda(s)"><div class="lab">anuncio_3</div>
-          <div class="track"><div class="bar" style="--w:8.3%"></div></div>
-          <div class="val">1 </div></div></div><p class="note">44% sem criativo registrado — vídeo aparece entre os que fecham.</p></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Campanhas que geraram venda</h3><span class="cap">nº de vendas</span></div><div class="barlist small"><div class="row" data-tip="(não rastreado): 9 venda(s)"><div class="lab">(não rastreado)</div>
-          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
-          <div class="val">9 </div></div>
-<div class="row" data-tip="ibr_discovery_max_conv_br_01_rmkt: 3 venda(s)"><div class="lab">ibr_discovery_max_conv_br_01_rmkt</div>
-          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
-          <div class="val">3 </div></div>
-<div class="row" data-tip="morno_3_lista_oportunidades: 3 venda(s)"><div class="lab">morno_3_lista_oportunidades</div>
-          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
-          <div class="val">3 </div></div>
-<div class="row" data-tip="IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT: 2 venda(s)"><div class="lab">IBR | DISCOVERY | MAX CONV | BR | 01 | RMKT</div>
-          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="ibr_search_max_conv_regioes_01_brandterms: 2 venda(s)"><div class="lab">ibr_search_max_conv_regioes_01_brandterms</div>
-          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="ibr_discovery_max_conv_br_01_institucional: 2 venda(s)"><div class="lab">ibr_discovery_max_conv_br_01_institucional</div>
-          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="publico_interesses_alto_padrão: 2 venda(s)"><div class="lab">publico_interesses_alto_padrão</div>
-          <div class="track"><div class="bar" style="--w:22.2%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="NOVA - IBR [CONVERSÃO] - Out/2025: 1 venda(s)"><div class="lab">NOVA - IBR [CONVERSÃO] - Out/2025</div>
-          <div class="track"><div class="bar" style="--w:11.1%"></div></div>
-          <div class="val">1 </div></div></div></article>
+<main class="wrap" id="app" hidden>
+
+  <!-- ═══ 01 · DIAGNÓSTICO ═══════════════════════════ -->
+  <section class="pane active" id="tab-diagnostico">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">01</span><div>
+        <h2>Como aumentar a qualificação dos leads?</h2>
+        <p>Do investimento em mídia até a venda ganha — onde o funil ganha e onde perde, no período selecionado.</p>
+      </div></div>
+      <div class="filterbar" data-period="diag"></div>
+      <div id="diag-warn"></div>
+      <div class="kpis" id="diag-kpis" style="margin-top:16px"></div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card span12"><div class="ch"><div><h3>Evolução diária</h3><div class="sub" id="diag-daily-sub">Leads, qualificados e vendas por dia</div></div></div>
+          <div class="chartbox tall"><canvas id="ch-daily"></canvas></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Qualificação por canal</h3><div class="sub">Volume de leads e taxa de qualificação por origem</div></div></div>
+          <div id="diag-canal"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Performance do bot</h3><div class="sub">Quantos leads concluem o pré-atendimento</div></div></div>
+          <div id="diag-bot"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Eficiência dos SDRs</h3><div class="sub" id="diag-sdr-sub">Leads atribuídos → qualificados → reunião</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="diag-sdr"></table></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Eficiência dos Closers</h3><div class="sub" id="diag-closer-sub">Reuniões → proposta → venda</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="diag-closer"></table></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Comparativo mês a mês</h3><div class="sub">Independe do filtro de período acima</div></div><span class="cap">todos os meses com dado</span></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="diag-monthly"></table></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Top alavancas para aumentar qualificação</h3><div class="sub">Calculadas a partir do período selecionado</div></div></div>
+          <div class="grid" id="diag-alavancas" style="gap:14px"></div></div>
+      </div>
     </div>
   </section>
 
-  <section id="perfil" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">02</span><div><h2>Perfil do cliente que fecha</h2><p>% entre os negócios com o campo preenchido.</p></div></div>
-    <article class="card span12 reveal"><div class="proflist"><div class="prow" data-tip="20/22"><div class="plab">Possui hábito de viajar <b>Sim</b></div>
-      <div class="ptrack"><div class="pbar" style="--w:91%"></div></div>
-      <div class="ppct">91<span>%</span></div></div>
-<div class="prow" data-tip="21/23"><div class="plab">Viaja 1x ou mais por ano</div>
-      <div class="ptrack"><div class="pbar" style="--w:91%"></div></div>
-      <div class="ppct">91<span>%</span></div></div>
-<div class="prow" data-tip="19/22"><div class="plab">Assistiu à apresentação <b>Sim</b></div>
-      <div class="ptrack"><div class="pbar" style="--w:86%"></div></div>
-      <div class="ppct">86<span>%</span></div></div>
-<div class="prow" data-tip="16/17"><div class="plab">Reunião por vídeo-chamada</div>
-      <div class="ptrack"><div class="pbar" style="--w:94%"></div></div>
-      <div class="ppct">94<span>%</span></div></div>
-<div class="prow" data-tip="18/22"><div class="plab">Condição financeira compatível</div>
-      <div class="ptrack"><div class="pbar" style="--w:82%"></div></div>
-      <div class="ppct">82<span>%</span></div></div>
-<div class="prow" data-tip="14/22"><div class="plab">Hospedagem atual: Hotel/Resort</div>
-      <div class="ptrack"><div class="pbar" style="--w:64%"></div></div>
-      <div class="ppct">64<span>%</span></div></div>
-<div class="prow" data-tip="15/22"><div class="plab">Sem facilitador (1ª multipropriedade)</div>
-      <div class="ptrack"><div class="pbar" style="--w:68%"></div></div>
-      <div class="ppct">68<span>%</span></div></div>
-<div class="prow" data-tip="16/25"><div class="plab">Investe até R$ 7 mil/ano</div>
-      <div class="ptrack"><div class="pbar" style="--w:64%"></div></div>
-      <div class="ppct">64<span>%</span></div></div></div><p class="note">O viajante frequente, hoje em hotel/resort e <b>sem multipropriedade</b>, que assistiu à apresentação por vídeo.</p></article>
-  </section>
-
-  <section id="vendas" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">03</span><div><h2>Ritmo &amp; Time</h2><p>Quando as vendas aconteceram e quem fechou.</p></div></div>
-    <div class="grid">
-      <article class="card span7 reveal"><div class="ch"><h3>Vendas por dia</h3><span class="cap">julho / 2026</span></div><div class="timeline"><div class="tcol" data-tip="07/07: 1 venda(s) · R$ 29.140">
-      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-      <span class="tday">07/07</span></div>
-<div class="tcol" data-tip="11/07: 1 venda(s) · R$ 48.484">
-      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-      <span class="tday">11/07</span></div>
-<div class="tcol" data-tip="13/07: 6 venda(s) · R$ 280.322">
-      <div class="tbarwrap"><span class="tnum">6</span><div class="tbar" style="--h:100%"></div></div>
-      <span class="tday">13/07</span></div>
-<div class="tcol" data-tip="14/07: 1 venda(s) · R$ 29.140">
-      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-      <span class="tday">14/07</span></div>
-<div class="tcol" data-tip="16/07: 4 venda(s) · R$ 201.143">
-      <div class="tbarwrap"><span class="tnum">4</span><div class="tbar" style="--h:67%"></div></div>
-      <span class="tday">16/07</span></div>
-<div class="tcol" data-tip="17/07: 1 venda(s) · R$ 27.683">
-      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-      <span class="tday">17/07</span></div>
-<div class="tcol" data-tip="18/07: 1 venda(s) · R$ 48.484">
-      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-      <span class="tday">18/07</span></div>
-<div class="tcol" data-tip="20/07: 4 venda(s) · R$ 150.784">
-      <div class="tbarwrap"><span class="tnum">4</span><div class="tbar" style="--h:67%"></div></div>
-      <span class="tday">20/07</span></div>
-<div class="tcol" data-tip="22/07: 2 venda(s) · R$ 98.952">
-      <div class="tbarwrap"><span class="tnum">2</span><div class="tbar" style="--h:33%"></div></div>
-      <span class="tday">22/07</span></div>
-<div class="tcol" data-tip="25/07: 1 venda(s) · R$ 29.140">
-      <div class="tbarwrap"><span class="tnum">1</span><div class="tbar" style="--h:17%"></div></div>
-      <span class="tday">25/07</span></div>
-<div class="tcol" data-tip="27/07: 3 venda(s) · R$ 163.619">
-      <div class="tbarwrap"><span class="tnum">3</span><div class="tbar" style="--h:50%"></div></div>
-      <span class="tday">27/07</span></div>
-<div class="tcol" data-tip="28/07: 2 venda(s) · R$ 85.064">
-      <div class="tbarwrap"><span class="tnum">2</span><div class="tbar" style="--h:33%"></div></div>
-      <span class="tday">28/07</span></div></div></article>
-      <article class="card span5 reveal"><div class="ch"><h3>Vendedores (Closer)</h3><span class="cap">vendas · faturamento</span></div><div class="barlist"><div class="row" data-tip="Letícia Almeida: 7 venda(s) · R$ 337.078"><div class="lab">Letícia Almeida</div>
-          <div class="track"><div class="bar lead" style="--w:87.5%"></div></div>
-          <div class="val">7 <span class="fat">R$ 337,1k</span></div></div>
-<div class="row" data-tip="Antonio Maia: 8 venda(s) · R$ 323.009"><div class="lab">Antonio Maia</div>
-          <div class="track"><div class="bar" style="--w:100.0%"></div></div>
-          <div class="val">8 <span class="fat">R$ 323,0k</span></div></div>
-<div class="row" data-tip="Maciel Henrique: 7 venda(s) · R$ 320.696"><div class="lab">Maciel Henrique</div>
-          <div class="track"><div class="bar" style="--w:87.5%"></div></div>
-          <div class="val">7 <span class="fat">R$ 320,7k</span></div></div>
-<div class="row" data-tip="Maria Eduarda: 5 venda(s) · R$ 211.172"><div class="lab">Maria Eduarda</div>
-          <div class="track"><div class="bar" style="--w:62.5%"></div></div>
-          <div class="val">5 <span class="fat">R$ 211,2k</span></div></div></div></article>
-      <article class="card span12 reveal"><div class="ch"><h3>SDR que originou a venda</h3><span class="cap">nº de vendas</span></div><div class="barlist"><div class="row" data-tip="Dani Clevia: 8 venda(s)"><div class="lab">Dani Clevia</div>
-          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
-          <div class="val">8 </div></div>
-<div class="row" data-tip="Rayane: 5 venda(s)"><div class="lab">Rayane</div>
-          <div class="track"><div class="bar" style="--w:62.5%"></div></div>
-          <div class="val">5 </div></div>
-<div class="row" data-tip="Leticia Mendes: 4 venda(s)"><div class="lab">Leticia Mendes</div>
-          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
-          <div class="val">4 </div></div>
-<div class="row" data-tip="Maria Eduarda: 3 venda(s)"><div class="lab">Maria Eduarda</div>
-          <div class="track"><div class="bar" style="--w:37.5%"></div></div>
-          <div class="val">3 </div></div>
-<div class="row" data-tip="Duda: 2 venda(s)"><div class="lab">Duda</div>
-          <div class="track"><div class="bar" style="--w:25.0%"></div></div>
-          <div class="val">2 </div></div>
-<div class="row" data-tip="Luiz Gustavo: 1 venda(s)"><div class="lab">Luiz Gustavo</div>
-          <div class="track"><div class="bar" style="--w:12.5%"></div></div>
-          <div class="val">1 </div></div></div></article>
+  <!-- ═══ 02 · EVOLUÇÃO ══════════════════════════════ -->
+  <section class="pane" id="tab-evolucao">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">02</span><div>
+        <h2>Evolução semana a semana</h2>
+        <p>Aquisição, qualificação e conversão ao longo do tempo — para separar oscilação de tendência.</p>
+      </div></div>
+      <div class="filterbar" data-period="evol"></div>
+      <div class="kpis" id="evol-kpis" style="margin-top:16px"></div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card span6"><div class="ch"><div><h3>Aquisição</h3><div class="sub">Investimento Meta → leads → CPL</div></div></div>
+          <div class="chartbox"><canvas id="ch-aquis"></canvas></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Qualificação</h3><div class="sub">Leads qualificados e taxa por semana</div></div></div>
+          <div class="chartbox"><canvas id="ch-qualif"></canvas></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Conversão</h3><div class="sub">Reunião agendada → realizada → proposta → venda</div></div></div>
+          <div class="chartbox"><canvas id="ch-conv"></canvas></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Leads por canal</h3><div class="sub">Meta · Google · não rastreado</div></div></div>
+          <div class="chartbox"><canvas id="ch-canal"></canvas></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Investimento e CPL</h3><div class="sub">Meta Ads · por semana</div></div></div>
+          <div class="chartbox"><canvas id="ch-cpl"></canvas></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Tabela semanal</h3><div class="sub">Todos os indicadores do período, semana a semana</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="evol-table"></table></div></div>
+      </div>
     </div>
   </section>
 
-  <section id="produtos" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">04</span><div><h2>Produtos &amp; Preço</h2><p>Pacotes que mais fecham e tabelas recorrentes.</p></div></div>
-    <div class="grid">
-      <article class="card span6 reveal"><div class="ch"><h3>Produto</h3><span class="cap">vendas · faturamento</span></div><div class="barlist"><div class="row" data-tip="Esmeralda: 4 venda(s) · R$ 201.842"><div class="lab">Esmeralda</div>
-          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
-          <div class="val">4 <span class="fat">R$ 201,8k</span></div></div>
-<div class="row" data-tip="Jade: 3 venda(s) · R$ 85.963"><div class="lab">Jade</div>
-          <div class="track"><div class="bar" style="--w:75.0%"></div></div>
-          <div class="val">3 <span class="fat">R$ 86,0k</span></div></div>
-<div class="row" data-tip="Prata: 2 venda(s) · R$ 96.968"><div class="lab">Prata</div>
-          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
-          <div class="val">2 <span class="fat">R$ 97,0k</span></div></div>
-<div class="row" data-tip="Ouro: 2 venda(s) · R$ 152.938"><div class="lab">Ouro</div>
-          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
-          <div class="val">2 <span class="fat">R$ 152,9k</span></div></div></div></article>
-      <article class="card span6 reveal"><div class="ch"><h3>Faixas de preço</h3><span class="cap">recorrência dos pacotes</span></div><div class="barlist"><div class="row" data-tip="R$ 29.140: 6 venda(s)"><div class="lab">R$ 29.140</div>
-          <div class="track"><div class="bar lead" style="--w:100.0%"></div></div>
-          <div class="val">6× </div></div>
-<div class="row" data-tip="R$ 48.484: 6 venda(s)"><div class="lab">R$ 48.484</div>
-          <div class="track"><div class="bar" style="--w:100.0%"></div></div>
-          <div class="val">6× </div></div>
-<div class="row" data-tip="R$ 50.468: 4 venda(s)"><div class="lab">R$ 50.468</div>
-          <div class="track"><div class="bar" style="--w:66.7%"></div></div>
-          <div class="val">4× </div></div>
-<div class="row" data-tip="R$ 36.580: 3 venda(s)"><div class="lab">R$ 36.580</div>
-          <div class="track"><div class="bar" style="--w:50.0%"></div></div>
-          <div class="val">3× </div></div>
-<div class="row" data-tip="R$ 27.683: 2 venda(s)"><div class="lab">R$ 27.683</div>
-          <div class="track"><div class="bar" style="--w:33.3%"></div></div>
-          <div class="val">2× </div></div>
-<div class="row" data-tip="R$ 74.508: 1 venda(s)"><div class="lab">R$ 74.508</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 56.327: 1 venda(s)"><div class="lab">R$ 56.327</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 50.438: 1 venda(s)"><div class="lab">R$ 50.438</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 78.430: 1 venda(s)"><div class="lab">R$ 78.430</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 34.751: 1 venda(s)"><div class="lab">R$ 34.751</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">1× </div></div>
-<div class="row" data-tip="R$ 64.779: 1 venda(s)"><div class="lab">R$ 64.779</div>
-          <div class="track"><div class="bar" style="--w:16.7%"></div></div>
-          <div class="val">1× </div></div></div></article>
+  <!-- ═══ 03 · PERFIL DO QUALIFICADO ═════════════════ -->
+  <section class="pane" id="tab-perfil">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">03</span><div>
+        <h2>O que diferencia um lead que qualifica</h2>
+        <p>As quatro respostas do bot de pré-atendimento, o Lead Score do Kommo e o que eles preveem de verdade.</p>
+      </div></div>
+      <div class="filterbar" data-period="perfil"></div>
+      <div class="kpis" id="perfil-kpis" style="margin-top:16px"></div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card span12"><div class="ch"><div><h3>Funil por Lead Score</h3><div class="sub">O score do Kommo prevê reunião e venda?</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="perfil-score"></table></div>
+          <div id="perfil-score-insight"></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Respostas do pré-atendimento</h3><div class="sub" id="perfil-bot-sub">Distribuição das respostas e taxa de qualificação de cada uma</div></div></div>
+          <div class="grid" id="perfil-bot" style="gap:14px"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Públicos por qualidade</h3><div class="sub">Leads, taxa de qualificação e CPL qualificado</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="perfil-aud"></table></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Criativos por qualidade</h3><div class="sub">Leads, taxa de qualificação e CPL qualificado</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="perfil-cri"></table></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Sinais preditivos</h3><div class="sub">Diferença entre quem qualifica e quem não qualifica</div></div></div>
+          <div id="perfil-sinais"></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Buscar leads pelas respostas</h3><div class="sub">Combine os filtros — cada resposta do bot é um filtro</div></div><span class="cap" id="perfil-busca-n"></span></div>
+          <div class="fgrid" id="perfil-filtros"></div>
+          <div class="tblwrap" style="margin-top:14px;border:none;box-shadow:none"><table id="perfil-busca"></table></div></div>
+      </div>
     </div>
   </section>
 
-  <section id="insights" class="sec">
-    <div class="sec-head reveal"><span class="sec-ix">05</span><div><h2>Leituras-chave</h2><p>O que os dados dizem — e a próxima ação.</p></div></div>
-    <div class="insight-grid">
-      <article class="ins big reveal"><span class="ins-k">Perfil vencedor</span><p>Viajante frequente (91% viajam 1x+/ano), hoje em hotel/resort e <b>ainda sem multipropriedade</b>. É o comprador de primeira viagem no modelo.</p></article>
-      <article class="ins big reveal"><span class="ins-k">A apresentação é decisiva</span><p>86% assistiram à apresentação e 94% das reuniões foram por <b>vídeo-chamada</b> antes do fechamento — é o momento-chave da venda.</p></article>
-      <article class="ins reveal"><span class="ins-k">Meta + Google empatam</span><p>10 × 8 vendas, com peso de <b>remarketing</b> e <b>interesses de alto padrão</b>.</p></article>
-      <article class="ins reveal accent"><span class="ins-k">Quebra de mito</span><p><b>Lead Score não prevê fechamento</b> — vendas vieram de todos os scores, inclusive E e D.</p></article>
-      <article class="ins reveal"><span class="ins-k">Ação de dados</span><p>33% sem canal e 44% sem criativo no CRM. Corrigir o rastreio é a maior alavanca de precisão.</p></article>
+  <!-- ═══ 04 · FUNIS ═════════════════════════════════ -->
+  <section class="pane" id="tab-funis">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">04</span><div>
+        <h2>SDR · Closer · base RD</h2>
+        <p>Cada etapa do CRM com volume, conversão para a etapa seguinte e motivo de perda.</p>
+      </div></div>
+      <div class="filterbar" data-period="funis"></div>
+      <div class="kpis" id="funis-kpis" style="margin-top:16px"></div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card span6"><div class="ch"><div><h3>Funil SDR</h3><div class="sub" id="funis-sdr-sub">Lead novo → reunião realizada</div></div></div>
+          <div class="pyr" id="pyr-sdr"></div><div id="rates-sdr"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Funil Closer</h3><div class="sub" id="funis-closer-sub">Reunião realizada → venda ganha</div></div></div>
+          <div class="pyr" id="pyr-closer"></div><div id="rates-closer"></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Funil completo</h3><div class="sub">Da entrada do lead até a venda — conversão acumulada</div></div></div>
+          <div class="pyr" id="pyr-full"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Perdas no SDR</h3><div class="sub" id="loss-sdr-sub">—</div></div></div><div id="loss-sdr"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Perdas no Closer</h3><div class="sub" id="loss-closer-sub">—</div></div></div><div id="loss-closer"></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Base RD</h3><div class="sub">Funis de importação — trabalho sobre a base legada, fora da mídia paga</div></div></div>
+          <div class="grid" id="funis-rd" style="gap:14px"></div></div>
+      </div>
     </div>
   </section>
 
-  <footer class="ft">Fonte: Kommo · <b>ipiocabeachresidence</b> · funil Closer · fechados entre 01–31/07/2026 · gerado em 28/07/2026<br><span>Dados individuais de clientes não são exibidos — apenas agregados.</span></footer>
+  <!-- ═══ 05 · ATIVIDADES ════════════════════════════ -->
+  <section class="pane" id="tab-atividades">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">05</span><div>
+        <h2>Atividade do time</h2>
+        <p>Tarefas registradas no Kommo e tempo até o primeiro contato humano com o lead.</p>
+      </div></div>
+      <div class="filterbar" data-period="ativ"></div>
+      <div class="kpis" id="ativ-kpis" style="margin-top:16px"></div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card span12"><div class="ch"><div><h3>Atividades por consultor</h3><div class="sub" id="ativ-sub">Tarefas criadas, concluídas e leads sob responsabilidade</div></div></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="ativ-users"></table></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Mix por tipo de tarefa</h3><div class="sub">Distribuição no período</div></div></div>
+          <div id="ativ-tipos"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Tempo até o 1º contato humano</h3><div class="sub">Só mensagens enviadas por pessoa — o bot é descontado</div></div></div>
+          <div id="ativ-tempo"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 06 · VENDAS ════════════════════════════════ -->
+  <section class="pane" id="tab-vendas">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">06</span><div>
+        <h2>Vendas ganhas</h2>
+        <p>Só o status <b>142 do funil Closer</b> conta como venda — no SDR o mesmo status significa reunião realizada.</p>
+      </div></div>
+      <div class="filterbar" data-period="vendas"></div>
+      <div class="kpis" id="vendas-kpis" style="margin-top:16px"></div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card span6"><div class="ch"><div><h3>Vendas por canal</h3><div class="sub">Receita e conversão sobre os leads do período</div></div></div>
+          <div id="vendas-canal"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Vendas por público</h3><div class="sub">Só leads com rastreio de campanha</div></div></div>
+          <div id="vendas-aud"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Vendas por criativo</h3><div class="sub">Peça que trouxe o lead que fechou</div></div></div>
+          <div id="vendas-cri"></div></div>
+        <div class="card span6"><div class="ch"><div><h3>Receita por dia</h3><div class="sub">Data de fechamento no CRM</div></div></div>
+          <div class="chartbox"><canvas id="ch-vendas-dia"></canvas></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Detalhe por venda</h3><div class="sub">Lista completa do período</div></div><span class="cap" id="vendas-n"></span></div>
+          <div class="tblwrap" style="border:none;box-shadow:none"><table id="vendas-tbl"></table></div></div>
+        <div class="card span12"><div class="ch"><div><h3>Perfil de quem fecha</h3><div class="sub">Respostas registradas pelo Closer nas vendas ganhas</div></div></div>
+          <div class="proflist" id="vendas-perfil"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 · CALCULADORA ═══════════════════════════ -->
+  <section class="pane" id="tab-score">
+    <div class="sec" style="padding-top:34px">
+      <div class="sec-head"><span class="sec-ix">07</span><div>
+        <h2>Calculadora de perfil</h2>
+        <p>Responda como o lead respondeu no bot e veja a chance histórica dele qualificar, chegar em reunião e fechar.</p>
+      </div></div>
+      <div class="grid" style="margin-top:8px">
+        <div class="card span7"><div class="ch"><div><h3>Simular um lead</h3><div class="sub">Base histórica: todos os leads do funil SDR com resposta registrada</div></div></div>
+          <div class="fgrid" id="calc-form"></div>
+          <div class="calcout" id="calc-out"></div></div>
+        <div class="card span5"><div class="ch"><div><h3>Peso de cada resposta</h3><div class="sub">Quanto cada resposta desloca a taxa de qualificação em relação à média</div></div></div>
+          <div id="calc-pesos"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ft">
+    <div><b>Fonte:</b> Kommo <span id="ft-account">·</span> + Meta Ads · atualizado <b id="ft-updated">—</b></div>
+    <div><span>Dados agregados. Telefone e e-mail são mascarados na origem — o JSON publicado não contém PII completa.</span></div>
+    <div><a href="vendas-julho.html">↗ relatório de vendas de julho/2026</a></div>
+  </footer>
 </main>
 
-<div class="modal" id="methModal" role="dialog" aria-modal="true" aria-labelledby="methTitle">
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel">
-    <div class="modal-head">
-      <div><span class="modal-kicker">Metodologia</span><h3 id="methTitle">Como cada métrica é calculada</h3></div>
-      <button class="modal-x" data-close aria-label="Fechar">✕</button>
-    </div>
-    <div class="modal-body">
-      <p class="modal-src">Fonte: <b>Kommo</b> (ipiocabeachresidence) · funil <b>Closer</b> · negócios com data de fechamento entre <b>01 e 31/07/2026</b> (fuso de Brasília).</p>
-
-      <div class="mdef"><span class="mk">O que conta como "venda"</span><p>Apenas o negócio na etapa <b>"Venda ganha" (código 142)</b> do funil <b>Closer</b>. O mesmo código 142 nos funis <b>SDR</b> e <b>Importação RD</b> significa "Reunião realizada" e <b>não</b> é contado como venda.</p></div>
-
-      <div class="mdef"><span class="mk">Vendas ganhas · 27</span><p>Contagem desses negócios no período.</p></div>
-
-      <div class="mdef"><span class="mk">Faturamento · R$ 1.191.955</span><p>Soma do <b>valor do negócio</b> (campo <code>price</code>) das 27 vendas.</p></div>
-
-      <div class="mdef"><span class="mk">Ticket médio · R$ 44.146</span><p class="mform">Faturamento ÷ nº de vendas = 1.191.955 ÷ 27</p></div>
-
-      
-      
-      <div class="mdef"><span class="mk">Closers ativos · 4</span><p>Número de vendedores distintos com pelo menos 1 venda.</p></div>
-
-      <div class="mdef"><span class="mk">Maior venda · R$ 78,4k</span><p>Maior <code>price</code> entre as 27 vendas.</p></div>
-
-      <div class="mdef"><span class="mk">Canal · Público · Criativo</span><p>Derivados dos campos do <b>contato</b> (Origem, Campanha, Anúncio) e dos parâmetros <b>UTM</b> do lead. A separação Meta/Google é uma classificação por palavras-chave nos nomes. <b>"Não rastreado"</b> = negócio sem esses campos preenchidos (33% sem canal, 44% sem criativo).</p></div>
-
-      <div class="mdef"><span class="mk">Perfil do cliente (%)</span><p>Para cada campo: <span class="mform">nº de vendas com aquele valor ÷ nº de vendas com o campo preenchido</span> Por isso a fração ao lado (ex.: 19/22) — o denominador <b>não</b> é 27, é só quem respondeu aquele campo. Alguns campos são preenchidos pelo próprio closer (avaliação subjetiva).</p></div>
-
-      <div class="mdef"><span class="mk">Vendas por dia · Vendedores · SDR</span><p>Vendas agrupadas pela <b>data de fechamento</b>. "Vendedor" e "SDR" vêm dos campos personalizados <b>Closer</b> e <b>SDR</b> do negócio; o faturamento por vendedor é a soma dos <code>price</code>.</p></div>
-
-      <div class="mdef"><span class="mk">Produto · Faixas de preço</span><p>Campo personalizado <b>Produto</b> e o valor <code>price</code> de cada venda.</p></div>
-    </div>
+<div class="modal" id="methModal">
+  <div class="modal-bd" data-close></div>
+  <div class="modal-p">
+    <div class="modal-h"><div><div class="modal-k">Como cada número é calculado</div><h3>Metodologia</h3></div>
+      <button class="modal-x" data-close>✕</button></div>
+    <div class="modal-b" id="meth-body"></div>
   </div>
 </div>
 
 <script>
-document.documentElement.classList.add('js');
-(function(){
- var t=document.getElementById('themeToggle');
- t&&t.addEventListener('click',function(){var c=document.documentElement.getAttribute('data-theme');
-  var dark=c?c==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches;
-  document.documentElement.setAttribute('data-theme',dark?'light':'dark');});
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
- document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
- function fmt(n){return n.toLocaleString('pt-BR')}
- var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cio.unobserve(e.target);
-  var el=e.target,tg=+el.getAttribute('data-count'),pre=el.getAttribute('data-prefix')||'',t0=null,dur=1300;
-  function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e2=1-Math.pow(1-p,3);el.textContent=pre+fmt(Math.round(tg*e2));if(p<1)requestAnimationFrame(s)}
-  requestAnimationFrame(s);})},{threshold:.6});
- document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el)});
- var mb=document.getElementById('methBtn'),mm=document.getElementById('methModal');
- function openM(){mm.classList.add('open')}
- function closeM(){mm.classList.remove('open')}
- mb&&mb.addEventListener('click',openM);
- mm&&mm.querySelectorAll('[data-close]').forEach(function(x){x.addEventListener('click',closeM)});
- document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
- var nps=[].slice.call(document.querySelectorAll('.np'));
- var sio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){nps.forEach(function(n){n.classList.toggle('active',n.getAttribute('data-sec')===e.target.id)})}})},{rootMargin:'-45% 0px -50% 0px'});
- document.querySelectorAll('section[id]').forEach(function(s){sio.observe(s)});
+'use strict';
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+let K = null, M = null;
+
+/* ── IDs reais da conta (ipiocabeachresidence) ───────────────────────────── */
+const PIPE = { SDR: 13996659, CLOSER: 13994627, NUT: 13994751, RD_SDR: 13949375, RD_CLOSER: 14208303 };
+const S = {
+  // SDR — atenção: 142 aqui é "reunião realizada", não venda.
+  SDR: { ABORD: 108025395, PRE: 108025399, NOVO: 108025403, FUP: 108025515,
+         QUALIFIC: 108025519, LQ: 108025523, AGEND: 108025527 },
+  // Closer — 142 aqui é venda de verdade.
+  CLO: { REAL: 108008379, PROP: 108008383, FUP: 108008387, VERDE: 108008503,
+         DADOS: 110383871, TRAV: 108904227 },
+  RDC: { LEADS: 109699179, DISPARO: 109875359, QUENTE: 109699183, FRIO: 109699187, LIXO: 109699271 },
+  WON: 142, LOST: 143
+};
+const PROPOSTA_STAGES = [S.CLO.PROP, S.CLO.FUP, S.CLO.VERDE, S.CLO.DADOS];
+
+// Meta de leads combinada com o cliente para agosto/2026.
+const META_LEADS_MES = 1500;
+
+/* ── formatação ──────────────────────────────────────────────────────────── */
+const nf  = new Intl.NumberFormat('pt-BR');
+const int = v => nf.format(Math.round(v || 0));
+const brl = v => 'R$ ' + nf.format(Math.round(v || 0));
+const brl1 = v => 'R$ ' + (v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = (a, b) => (b > 0 ? (100 * a / b) : 0);
+const pctS = (a, b, d = 0) => (b > 0 ? (100 * a / b).toFixed(d).replace('.', ',') + '%' : '—');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const kbrl = v => v >= 1000 ? 'R$ ' + (v / 1000).toFixed(v >= 10000 ? 0 : 1).replace('.', ',') + 'k' : brl(v);
+
+const dt = ts => new Date(ts * 1000);
+const dayKey = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+const ddmm  = d => String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+const monKey = ts => dayKey(dt(ts)).slice(0, 7);
+const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const monLabel = m => MESES[+m.slice(5, 7) - 1] + '/' + m.slice(2, 4);
+
+/* ── estado ──────────────────────────────────────────────────────────────── */
+const STATE = { period: 'mes', from: null, to: null, tab: 'diagnostico' };
+
+const PERIODS = [
+  ['7d',  'Últimos 7 dias'],
+  ['14d', 'Últimos 14 dias'],
+  ['30d', 'Últimos 30 dias'],
+  ['mes', 'Este mês'],
+  ['mes_prev', 'Mês passado'],
+  ['max', 'Tudo'],
+  ['custom', 'Personalizado']
+];
+
+/** Janela [from, to] do período escolhido. `ref` é a data da última coleta. */
+function periodWindow() {
+  const ref = K && K.fetched_at ? new Date(K.fetched_at) : new Date();
+  const to  = new Date(ref); to.setHours(23, 59, 59, 999);
+  const from = new Date(ref); from.setHours(0, 0, 0, 0);
+  const k = STATE.period;
+  if (k === '7d')  from.setDate(from.getDate() - 6);
+  else if (k === '14d') from.setDate(from.getDate() - 13);
+  else if (k === '30d') from.setDate(from.getDate() - 29);
+  else if (k === 'mes') from.setDate(1);
+  else if (k === 'mes_prev') {
+    from.setDate(1); from.setMonth(from.getMonth() - 1);
+    const end = new Date(from); end.setMonth(end.getMonth() + 1); end.setDate(0); end.setHours(23, 59, 59, 999);
+    return { from, to: end, label: `${ddmm(from)} → ${ddmm(end)}`, partial: false };
+  } else if (k === 'max') {
+    const start = K && K.period ? new Date(K.period.start + 'T00:00:00') : new Date(2026, 0, 1);
+    return { from: start, to, label: `${ddmm(start)} → ${ddmm(to)}`, partial: false };
+  } else if (k === 'custom') {
+    const f = STATE.from ? new Date(STATE.from + 'T00:00:00') : from;
+    const t = STATE.to   ? new Date(STATE.to + 'T23:59:59')   : to;
+    return { from: f, to: t, label: `${ddmm(f)} → ${ddmm(t)}`, partial: false };
+  }
+  const today = new Date(); today.setHours(23, 59, 59, 999);
+  return { from, to, label: `${ddmm(from)} → ${ddmm(to)}`, partial: to >= today - 864e5 };
+}
+
+const inWin = (ts, w) => !!ts && ts * 1000 >= w.from.getTime() && ts * 1000 <= w.to.getTime();
+const daysOf = w => Math.max(1, Math.round((w.to - w.from) / 864e5) + 1);
+
+/** Lista de dias 'YYYY-MM-DD' cobertos pela janela. */
+function windowDays(w) {
+  const out = [], d = new Date(w.from); d.setHours(12, 0, 0, 0);
+  while (d <= w.to) { out.push(dayKey(d)); d.setDate(d.getDate() + 1); }
+  return out;
+}
+
+/** Gasto do Meta na janela, opcionalmente só de uma chave (público/criativo). */
+function spendIn(map, w, key) {
+  if (!map) return 0;
+  const days = new Set(windowDays(w));
+  let sum = 0;
+  for (const [k, byDay] of Object.entries(map)) {
+    if (key != null && k !== key) continue;
+    for (const [ds, v] of Object.entries(byDay)) if (days.has(ds)) sum += v;
+  }
+  return sum;
+}
+
+/* ── seletores de lead ───────────────────────────────────────────────────── */
+const CAMPANHA = new Set(['Meta Ads', 'Google Ads']);
+const sdrIn    = w => K.sdr.filter(l => inWin(l.created_at, w));
+const closerIn = w => K.closer.filter(l => inWin(l.created_at, w));
+const vendasIn = w => K.closer.filter(l => l.venda && inWin(l.closed_at, w));
+const metaIn   = w => sdrIn(w).filter(l => l.canal === 'Meta Ads');
+
+/** Bloco central de números do período — tudo que o dashboard mostra sai daqui. */
+function computeCore(w) {
+  const sdr = sdrIn(w), vend = vendasIn(w), clo = closerIn(w);
+  const camp = sdr.filter(l => CAMPANHA.has(l.canal));
+  const invest = spendIn(M && M.adset, w);
+  const qualif = sdr.filter(l => l.qualified).length;
+  const agend  = sdr.filter(l => l.reuniao_agendada).length;
+  const realiz = sdr.filter(l => l.reuniao_realizada).length;
+  const prop   = clo.filter(l => l.proposta || PROPOSTA_STAGES.includes(l.status)).length;
+  const receita = vend.reduce((s, l) => s + (l.price || 0), 0);
+  const leadsMeta = sdr.filter(l => l.canal === 'Meta Ads').length;
+  const qualifMeta = sdr.filter(l => l.canal === 'Meta Ads' && l.qualified).length;
+  // CAC e ROAS só fazem sentido comparando o investimento do Meta com o que o
+  // Meta trouxe. Dividir pelo total de vendas (que inclui Google e leads sem
+  // rastreio) inflaria o ROAS e afundaria o CAC artificialmente.
+  const vendMeta = vend.filter(l => l.canal === 'Meta Ads');
+  const receitaMeta = vendMeta.reduce((s, l) => s + (l.price || 0), 0);
+  return {
+    w, sdr, clo, vend, camp, vendMeta,
+    leads: sdr.length, leadsCamp: camp.length, leadsMeta,
+    invest, qualif, qualifMeta, agend, realiz, prop,
+    vendas: vend.length, receita, vendasMeta: vendMeta.length, receitaMeta,
+    cpl:  leadsMeta  ? invest / leadsMeta  : 0,
+    cplq: qualifMeta ? invest / qualifMeta : 0,
+    cac:  vendMeta.length ? invest / vendMeta.length : 0,
+    ticket: vend.length ? receita / vend.length : 0,
+    roas: invest ? receitaMeta / invest : 0,
+    txQualif: pct(qualif, sdr.length),
+    txAgend:  pct(agend, qualif),
+    txCompar: pct(realiz, agend),
+    txProp:   pct(prop, realiz),
+    txVenda:  pct(vend.length, prop),
+    txGlobal: pct(vend.length, sdr.length)
+  };
+}
+
+/* ── UI: barras, KPIs, tabelas ───────────────────────────────────────────── */
+function kpi(k, n, sub, cls = '', unit = '') {
+  return `<div class="kpi ${cls}"><span class="kpi-k">${esc(k)}</span>
+    <span class="kpi-n">${n}${unit ? `<i>${unit}</i>` : ''}</span>
+    ${sub ? `<span class="kpi-s">${sub}</span>` : ''}</div>`;
+}
+
+function barlist(rows, opt = {}) {
+  if (!rows.length) return '<div class="empty">sem dados no período</div>';
+  const max = Math.max(...rows.map(r => r.v), 1);
+  return '<div class="barlist">' + rows.map(r => `
+    <div class="row"${r.tip ? ` data-tip="${esc(r.tip)}"` : ''}>
+      <div class="lab">${r.dot ? `<span class="dot ${r.dot}"></span>` : ''}${esc(r.k)}</div>
+      <div class="track"><div class="bar ${r.cls || ''}" style="--w:${(100 * r.v / max).toFixed(1)}%"></div></div>
+      <div class="val">${r.label != null ? r.label : int(r.v)}${r.fat ? `<span class="fat">${r.fat}</span>` : ''}</div>
+    </div>`).join('') + '</div>' + (opt.note ? `<div class="note">${opt.note}</div>` : '');
+}
+
+function table(el, cols, rows, foot) {
+  const head = '<thead><tr>' + cols.map(c => `<th${c.num ? ' class="num"' : ''}>${esc(c.t)}</th>`).join('') + '</tr></thead>';
+  const body = rows.length
+    ? '<tbody>' + rows.map(r => '<tr>' + r.map((c, i) => `<td${cols[i] && cols[i].num ? ' class="num"' : ''}>${c}</td>`).join('') + '</tr>').join('') + '</tbody>'
+    : `<tbody><tr><td colspan="${cols.length}"><div class="empty">sem dados no período</div></td></tr></tbody>`;
+  const tf = foot ? '<tfoot><tr>' + foot.map((c, i) => `<td${cols[i] && cols[i].num ? ' class="num"' : ''}>${c}</td>`).join('') + '</tr></tfoot>' : '';
+  el.innerHTML = head + body + tf;
+}
+
+const CANAL_CLS = { 'Meta Ads': 'lead', 'Google Ads': 'alt' };
+const canalDot  = c => CANAL_CLS[c] || 'mut';
+
+const AV_COLORS = ['#ff4a24', '#0f7d86', '#7a5cff', '#c8811a', '#2f8f4e', '#c73a1d', '#4a6cff', '#9b3fa8'];
+const avColor = n => AV_COLORS[[...String(n)].reduce((a, c) => a + c.charCodeAt(0), 0) % AV_COLORS.length];
+const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(p => p[0]).join('').toUpperCase();
+const who = n => `<span class="who"><span class="av" style="background:${avColor(n)}">${esc(initials(n))}</span>${esc(n)}</span>`;
+
+/* ── gráficos ────────────────────────────────────────────────────────────── */
+const CHARTS = {};
+function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function mkChart(id, cfg) {
+  if (CHARTS[id]) CHARTS[id].destroy();
+  const el = document.getElementById(id);
+  if (!el) return;
+  const ink = css('--ink2'), grid = css('--line');
+  cfg.options = Object.assign({
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { color: ink, font: { family: 'Hanken Grotesk', size: 11.5, weight: '600' }, boxWidth: 10, boxHeight: 10, usePointStyle: true } },
+      tooltip: { backgroundColor: css('--ink'), titleColor: css('--plane'), bodyColor: css('--plane'),
+                 titleFont: { family: 'Space Mono', size: 11 }, bodyFont: { family: 'Hanken Grotesk', size: 12 }, padding: 9, cornerRadius: 3 }
+    },
+    scales: cfg.type === 'radar' ? undefined : {
+      x: { ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9.5 } }, grid: { color: grid, drawTicks: false } },
+      y: { ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9.5 } }, grid: { color: grid }, beginAtZero: true }
+    }
+  }, cfg.options || {});
+  CHARTS[id] = new Chart(el, cfg);
+}
+
+/* ── filtro de período (mesmo estado em todas as abas) ───────────────────── */
+function renderFilters() {
+  const w = periodWindow();
+  $$('.filterbar').forEach(bar => {
+    bar.innerHTML = `<span class="flab">Período</span>
+      <div class="seg">${PERIODS.map(([k, l]) => `<button data-p="${k}" class="${STATE.period === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+      ${STATE.period === 'custom' ? `<input type="date" data-cf value="${STATE.from || ''}"><span class="flab">até</span><input type="date" data-ct value="${STATE.to || ''}">` : ''}
+      <span class="win">${w.label}${w.partial ? ' <b>· parcial</b>' : ''}</span>`;
+    $$('.seg button', bar).forEach(b => b.onclick = () => {
+      STATE.period = b.dataset.p;
+      if (STATE.period === 'custom' && !STATE.from) {
+        const d = new Date(w.from), t = new Date(w.to);
+        STATE.from = dayKey(d); STATE.to = dayKey(t);
+      }
+      renderAll();
+    });
+    const cf = $('[data-cf]', bar), ct = $('[data-ct]', bar);
+    if (cf) cf.onchange = e => { STATE.from = e.target.value; renderAll(); };
+    if (ct) ct.onchange = e => { STATE.to = e.target.value; renderAll(); };
+  });
+}
+
+/* ── abas ────────────────────────────────────────────────────────────────── */
+function switchTab(name) {
+  STATE.tab = name;
+  $$('.tb').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  $$('.pane').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  renderAll();
+}
+
+/* ── boot ────────────────────────────────────────────────────────────────── */
+function renderAll() {
+  renderFilters();
+  const w = periodWindow(), core = computeCore(w);
+  try {
+    if (STATE.tab === 'diagnostico') renderDiagnostico(core);
+    else if (STATE.tab === 'evolucao') renderEvolucao(core);
+    else if (STATE.tab === 'perfil') renderPerfil(core);
+    else if (STATE.tab === 'funis') renderFunis(core);
+    else if (STATE.tab === 'atividades') renderAtividades(core);
+    else if (STATE.tab === 'vendas') renderVendas(core);
+    else if (STATE.tab === 'score') renderScore(core);
+  } catch (e) {
+    console.error('[render]', STATE.tab, e);
+  }
+}
+
+async function boot() {
+  const bust = '?t=' + Date.now();
+  try {
+    const [k, m] = await Promise.all([
+      fetch('data/kommo_leads.json' + bust).then(r => r.json()),
+      fetch('data/meta_spend.json' + bust).then(r => r.ok ? r.json() : null).catch(() => null)
+    ]);
+    K = k; M = m;
+  } catch (e) {
+    $('#boot').innerHTML = `<p style="color:var(--bad)">não consegui carregar <b>data/kommo_leads.json</b>.<br>rode <code>python3 fetch_kommo_ibr.py</code> e sirva a pasta por http.</p>`;
+    console.error(e); return;
+  }
+  // Normaliza campos que o fetcher omite quando vazios (economia de bytes).
+  for (const key of ['sdr', 'closer', 'nutricao']) {
+    K[key] = (K[key] || []).map(l => Object.assign({
+      score: '', canal: 'Não rastreado', audience: '—', creative: '—', campaign: '', price: 0, tags: []
+    }, l));
+  }
+  $('#boot').hidden = true; $('#app').hidden = false;
+  $('#ft-account').textContent = '(' + (K.account || 'ipiocabeachresidence') + ')';
+  $('#ft-updated').textContent = new Date(K.fetched_at).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+  $$('.tb').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
+  buildMethodology();
+  renderAll();
+}
+
+/* ── tema / modal ────────────────────────────────────────────────────────── */
+(function themeInit() {
+  const saved = localStorage.getItem('ibr-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  $('#themeToggle').onclick = () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const isDark = cur ? cur === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+    const next = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('ibr-theme', next);
+    renderAll();   // gráficos leem as cores do tema no momento do desenho
+  };
 })();
-</script></body></html>
+
+(function modalInit() {
+  const mod = $('#methModal');
+  $('#methBtn').onclick = () => mod.classList.add('open');
+  $$('[data-close]', mod).forEach(b => b.onclick = () => mod.classList.remove('open'));
+  addEventListener('keydown', e => { if (e.key === 'Escape') mod.classList.remove('open'); });
+})();
+
+function buildMethodology() {
+  const defs = [
+    ['Lead', 'Cada negócio criado no funil <b>SDR</b> dentro da janela. Duplicidades pelo mesmo telefone são removidas na coleta — a mesma pessoa reentrando pelo anúncio conta uma vez.'],
+    ['Canal', 'Vem do campo <b>Origem</b> do contato, normalizado: Meta+Ads/Facebook/Instagram → Meta Ads; google → Google Ads; vazio, "unknown" ou lixo → Não rastreado.'],
+    ['Lead qualificado', 'Lead que chegou às etapas <b>Lead qualificado</b>, <b>Reunião agendada</b> ou <b>Reunião realizada</b>, ou que tem tag de reunião. Quem agendou passou pela qualificação, mesmo que o card tenha voltado de etapa.'],
+    ['Reunião realizada', 'Status <b>142 do funil SDR</b> (que ali se chama "Reunião realizada") ou tag <code>reunião-realizada</code>.'],
+    ['Proposta', 'Card do Closer em <b>Proposta enviada</b>, <b>Follow-up</b>, <b>Sinal verde</b> ou <b>Dados de venda solicitados</b>.'],
+    ['Venda', 'Somente status <b>142 no funil Closer</b>, com data de fechamento dentro da janela. O mesmo 142 no SDR e na Importação RD significa reunião realizada e <b>não</b> entra aqui.', 'venda = status 142 ∧ pipeline = Closer ∧ closed_at ∈ janela'],
+    ['Receita', 'Soma do campo <b>preço</b> dos negócios ganhos no período.'],
+    ['Investimento', 'Gasto do Meta Ads da conta IBR, somado dia a dia dentro da janela. Google Ads ainda não está integrado — os leads de Google aparecem no volume, mas não entram no CPL, CAC nem ROAS.'],
+    ['CPL', 'Investimento ÷ leads do <b>Meta</b> no período (não divide pelo total de leads, que inclui Google e não rastreados).', 'CPL = investimento Meta ÷ leads Meta'],
+    ['CPL qualificado', 'Investimento ÷ leads do Meta que qualificaram.', 'CPLq = investimento Meta ÷ qualificados Meta'],
+    ['CAC Meta', 'Investimento ÷ vendas cujo lead tem <b>Meta Ads</b> como origem. É um <b>teto</b>: parte das vendas do Meta entrou sem rastreio e está contada como "não rastreado", então o CAC real é menor que o exibido.', 'CAC = investimento Meta ÷ vendas com canal = Meta Ads'],
+    ['ROAS Meta', 'Receita das vendas atribuídas ao Meta ÷ investimento do Meta. É um <b>piso</b>, pela mesma razão: a receita sem rastreio não entra no numerador.', 'ROAS = receita das vendas Meta ÷ investimento Meta'],
+    ['Público e criativo', 'Os campos <b>Campanha</b> e <b>Anúncio</b> do contato chegam como slug de UTM e são traduzidos para o mesmo rótulo usado no gasto do Meta — é isso que permite cruzar lead com investimento por público e por peça.'],
+    ['Base RD', 'Os funis <b>Importação RD</b> e <b>Base Closer RD</b> são trabalho sobre a base legada importada, não demanda de mídia. Ficam fora de leads, CPL e taxa de qualificação.']
+  ];
+  $('#meth-body').innerHTML =
+    `<div class="warn" style="margin:0 0 16px"><span class="wi">✦</span><div>Todos os números respeitam o filtro de período do topo de cada aba, exceto o comparativo mês a mês.</div></div>` +
+    defs.map(([k, p, f]) => `<div class="mdef"><span class="mk">${k}</span><p>${p}</p>${f ? `<div class="mform">${esc(f)}</div>` : ''}</div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   01 · DIAGNÓSTICO
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/** Janela imediatamente anterior, do mesmo tamanho — base das variações. */
+function prevWindow(w) {
+  const len = w.to - w.from;
+  return { from: new Date(w.from.getTime() - len - 864e5), to: new Date(w.from.getTime() - 1) };
+}
+
+function delta(cur, prev, invert = false) {
+  if (!prev) return '';
+  const d = pct(cur - prev, Math.abs(prev));
+  if (!isFinite(d) || Math.abs(d) < 0.5) return '<span class="dlt flat">estável</span>';
+  const good = invert ? d < 0 : d > 0;
+  return `<span class="dlt ${good ? 'up' : 'down'}">${d > 0 ? '▲' : '▼'} ${Math.abs(d).toFixed(0)}%</span>`;
+}
+
+function renderDiagnostico(c) {
+  const pw = prevWindow(c.w);
+  const p  = computeCore(Object.assign({}, pw, { label: '', partial: false }));
+
+  $('#diag-kpis').innerHTML = [
+    kpi('Leads', int(c.leads), `${delta(c.leads, p.leads)} vs período anterior`, 'ink'),
+    kpi('Investimento Meta', kbrl(c.invest), delta(c.invest, p.invest)),
+    kpi('CPL Meta', c.cpl ? brl(c.cpl) : '—', `${int(c.leadsMeta)} leads Meta ${delta(c.cpl, p.cpl, true)}`),
+    kpi('Qualificados', int(c.qualif), `${c.txQualif.toFixed(0)}% dos leads ${delta(c.txQualif, p.txQualif)}`, 'accent'),
+    kpi('CPL qualificado', c.cplq ? brl(c.cplq) : '—', delta(c.cplq, p.cplq, true)),
+    kpi('Reuniões agendadas', int(c.agend), `${pctS(c.agend, c.qualif)} dos qualificados`),
+    kpi('Reuniões realizadas', int(c.realiz), `${pctS(c.realiz, c.agend)} de comparecimento`),
+    kpi('Propostas', int(c.prop), `${pctS(c.prop, c.realiz)} das reuniões`),
+    kpi('Vendas', int(c.vendas), `${delta(c.vendas, p.vendas)} vs anterior`, 'accent'),
+    kpi('Receita', kbrl(c.receita), `ticket ${c.ticket ? brl(c.ticket) : '—'}`, 'ink'),
+    kpi('CAC Meta (teto)', c.cac ? brl(c.cac) : '—', `${int(c.vendasMeta)} venda(s) atribuída(s) ao Meta`),
+    kpi('ROAS Meta (piso)', c.roas ? c.roas.toFixed(1).replace('.', ',') + 'x' : '—', `${kbrl(c.receitaMeta)} de receita rastreada`)
+  ].join('');
+
+  /* avisos de qualidade de dado — sem isso o resto do dashboard engana */
+  const semCanal = c.sdr.filter(l => l.canal === 'Não rastreado').length;
+  const gads = c.sdr.filter(l => l.canal === 'Google Ads').length;
+  const avisos = [];
+  if (semCanal / Math.max(c.leads, 1) > 0.15)
+    avisos.push(`<b>${pctS(semCanal, c.leads)} dos leads do período estão sem canal</b> no CRM (${int(semCanal)} de ${int(c.leads)}). Tudo que é recorte por canal, público ou criativo enxerga só a parte rastreada — os totais do funil, não.`);
+  if (gads)
+    avisos.push(`<b>Google Ads não está integrado.</b> Os ${int(gads)} leads de Google aparecem no volume e no funil, mas o investimento dele não entra em CPL, CAC nem ROAS — esses três olham só o Meta.`);
+  const apagao = c.w.from <= new Date(2026, 6, 10) && c.w.to >= new Date(2026, 5, 17);
+  if (apagao)
+    avisos.push(`<b>Apagão de rastreio entre 17/06 e 10/07/2026:</b> nesse intervalo os leads entraram sem UTM. Comparar junho e julho com agosto em canal/público/criativo mede o rastreio, não a mídia.`);
+  $('#diag-warn').innerHTML = avisos.map(a => `<div class="warn"><span class="wi">✦</span><div>${a}</div></div>`).join('');
+
+  /* evolução diária — vira semanal quando a janela é longa demais pra caber */
+  const days = windowDays(c.w), byWeek = days.length > 70;
+  const buckets = new Map();
+  const bkey = ds => {
+    if (!byWeek) return ds;
+    const d = new Date(ds + 'T12:00:00'); d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+    return dayKey(d);
+  };
+  days.forEach(ds => buckets.set(bkey(ds), { leads: 0, qualif: 0, vendas: 0 }));
+  c.sdr.forEach(l => { const b = buckets.get(bkey(dayKey(dt(l.created_at)))); if (b) { b.leads++; if (l.qualified) b.qualif++; } });
+  c.vend.forEach(l => { const b = buckets.get(bkey(dayKey(dt(l.closed_at)))); if (b) b.vendas++; });
+  const bk = [...buckets.keys()];
+  $('#diag-daily-sub').textContent = byWeek
+    ? 'Leads, qualificados e vendas por semana (janela longa demais para o diário)'
+    : 'Leads, qualificados e vendas por dia';
+  mkChart('ch-daily', {
+    type: 'bar',
+    data: {
+      labels: bk.map(k => ddmm(new Date(k + 'T12:00:00'))),
+      datasets: [
+        { label: 'Leads', data: bk.map(k => buckets.get(k).leads), backgroundColor: css('--track'), borderColor: css('--ink2'), borderWidth: 1, order: 3 },
+        { label: 'Qualificados', data: bk.map(k => buckets.get(k).qualif), backgroundColor: css('--accent'), borderWidth: 0, order: 2 },
+        { label: 'Vendas', type: 'line', data: bk.map(k => buckets.get(k).vendas), borderColor: css('--accent-2'), backgroundColor: css('--accent-2'), borderWidth: 2.5, tension: .3, pointRadius: 3, yAxisID: 'y1', order: 1 }
+      ]
+    },
+    options: {
+      scales: {
+        x: { stacked: false, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 }, maxRotation: 0, autoSkipPadding: 14 }, grid: { display: false } },
+        y: { ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9.5 } }, grid: { color: css('--line') }, beginAtZero: true },
+        y1: { position: 'right', beginAtZero: true, grid: { display: false }, ticks: { color: css('--accent-2'), font: { family: 'Space Mono', size: 9.5 }, precision: 0 } }
+      }
+    }
+  });
+
+  /* qualificação por canal */
+  const porCanal = new Map();
+  c.sdr.forEach(l => {
+    const e = porCanal.get(l.canal) || { n: 0, q: 0, r: 0 };
+    e.n++; if (l.qualified) e.q++; if (l.reuniao_realizada) e.r++;
+    porCanal.set(l.canal, e);
+  });
+  const canalRows = [...porCanal.entries()].sort((a, b) => b[1].n - a[1].n).map(([k, v]) => ({
+    k, v: v.n, dot: canalDot(k), cls: canalDot(k),
+    label: int(v.n), fat: pctS(v.q, v.n) + ' qualif.',
+    tip: `${k}: ${v.n} leads · ${v.q} qualificados · ${v.r} reuniões`
+  }));
+  const melhorCanal = [...porCanal.entries()].filter(([, v]) => v.n >= 20).sort((a, b) => pct(b[1].q, b[1].n) - pct(a[1].q, a[1].n))[0];
+  $('#diag-canal').innerHTML = barlist(canalRows, {
+    note: melhorCanal ? `Melhor taxa de qualificação entre canais com volume: <b>${esc(melhorCanal[0])}</b> com ${pctS(melhorCanal[1].q, melhorCanal[1].n)}.` : ''
+  });
+
+  /* performance do bot de pré-atendimento */
+  const tag = (l, t) => (l.tags || []).includes(t);
+  const bot = {
+    ok:   c.sdr.filter(l => tag(l, 'bot-concluído')),
+    ruim: c.sdr.filter(l => tag(l, 'bot-incompleto')),
+  };
+  bot.resto = c.sdr.filter(l => !tag(l, 'bot-concluído') && !tag(l, 'bot-incompleto'));
+  const botRows = [
+    { k: 'Bot concluído', v: bot.ok.length, cls: 'lead', label: int(bot.ok.length), fat: pctS(bot.ok.filter(l => l.qualified).length, bot.ok.length) + ' qualif.' },
+    { k: 'Bot incompleto', v: bot.ruim.length, cls: 'mut', label: int(bot.ruim.length), fat: pctS(bot.ruim.filter(l => l.qualified).length, bot.ruim.length) + ' qualif.' },
+    { k: 'Sem tag de bot', v: bot.resto.length, cls: 'alt', label: int(bot.resto.length), fat: pctS(bot.resto.filter(l => l.qualified).length, bot.resto.length) + ' qualif.' }
+  ].filter(r => r.v);
+  const txOk = pct(bot.ok.filter(l => l.qualified).length, bot.ok.length);
+  const txRuim = pct(bot.ruim.filter(l => l.qualified).length, bot.ruim.length);
+  $('#diag-bot').innerHTML = barlist(botRows, {
+    note: bot.ok.length && bot.ruim.length
+      ? `Quem conclui o bot qualifica <b>${(txOk / Math.max(txRuim, .01)).toFixed(1).replace('.', ',')}×</b> mais (${txOk.toFixed(0)}% × ${txRuim.toFixed(0)}%). Levar os <b>${int(bot.ruim.length)}</b> incompletos à conclusão renderia cerca de <b>${int(bot.ruim.length * (txOk - txRuim) / 100)}</b> qualificados a mais no período.`
+      : ''
+  });
+
+  /* eficiência individual — SDR pelo responsável do card, Closer pelo campo Closer */
+  const uname = id => (K.users_map[String(id)] || {}).name || 'sem atribuição';
+  const porSDR = new Map();
+  c.sdr.forEach(l => {
+    const n = uname(l.responsible_user_id);
+    const e = porSDR.get(n) || { n: 0, q: 0, a: 0, r: 0 };
+    e.n++; if (l.qualified) e.q++; if (l.reuniao_agendada) e.a++; if (l.reuniao_realizada) e.r++;
+    porSDR.set(n, e);
+  });
+  table($('#diag-sdr'),
+    [{ t: 'SDR' }, { t: 'Leads', num: 1 }, { t: 'Qualif.', num: 1 }, { t: 'Taxa', num: 1 }, { t: 'Agend.', num: 1 }, { t: 'Realiz.', num: 1 }],
+    [...porSDR.entries()].sort((a, b) => b[1].n - a[1].n).map(([n, v]) =>
+      [who(n), int(v.n), int(v.q), `<b>${pctS(v.q, v.n)}</b>`, int(v.a), int(v.r)]),
+    porSDR.size ? ['Total', int(c.leads), int(c.qualif), pctS(c.qualif, c.leads), int(c.agend), int(c.realiz)] : null);
+  $('#diag-sdr-sub').textContent = `${porSDR.size} consultores com lead atribuído no período`;
+
+  const porCloser = new Map();
+  c.clo.forEach(l => {
+    const n = l.closer || uname(l.responsible_user_id);
+    const e = porCloser.get(n) || { n: 0, p: 0, v: 0, r: 0 };
+    e.n++;
+    if (l.proposta || PROPOSTA_STAGES.includes(l.status)) e.p++;
+    if (l.venda) { e.v++; e.r += l.price || 0; }
+    porCloser.set(n, e);
+  });
+  table($('#diag-closer'),
+    [{ t: 'Closer' }, { t: 'Cards', num: 1 }, { t: 'Propostas', num: 1 }, { t: 'Vendas', num: 1 }, { t: 'Conv.', num: 1 }, { t: 'Receita', num: 1 }],
+    [...porCloser.entries()].sort((a, b) => b[1].r - a[1].r).map(([n, v]) =>
+      [who(n), int(v.n), int(v.p), `<b>${int(v.v)}</b>`, pctS(v.v, v.n), kbrl(v.r)]));
+  $('#diag-closer-sub').textContent = `${porCloser.size} closers com card no período`;
+
+  renderMonthly();
+  renderAlavancas(c);
+}
+
+/** Comparativo mês a mês — deliberadamente fora do filtro de período. */
+function renderMonthly() {
+  const meses = new Map();
+  const touch = m => { if (!meses.has(m)) meses.set(m, { leads: 0, meta: 0, q: 0, a: 0, r: 0, p: 0, v: 0, rec: 0, inv: 0 }); return meses.get(m); };
+  K.sdr.forEach(l => {
+    const e = touch(monKey(l.created_at));
+    e.leads++; if (l.canal === 'Meta Ads') e.meta++;
+    if (l.qualified) e.q++; if (l.reuniao_agendada) e.a++; if (l.reuniao_realizada) e.r++;
+  });
+  K.closer.forEach(l => {
+    if (l.proposta || PROPOSTA_STAGES.includes(l.status)) touch(monKey(l.created_at)).p++;
+    if (l.venda && l.closed_at) { const e = touch(monKey(l.closed_at)); e.v++; e.rec += l.price || 0; }
+  });
+  if (M && M.adset) for (const byDay of Object.values(M.adset))
+    for (const [ds, v] of Object.entries(byDay)) touch(ds.slice(0, 7)).inv += v;
+
+  const rows = [...meses.entries()].filter(([m, e]) => e.leads + e.v + e.inv > 0).sort();
+  table($('#diag-monthly'),
+    [{ t: 'Mês' }, { t: 'Leads', num: 1 }, { t: 'Invest. Meta', num: 1 }, { t: 'CPL Meta', num: 1 },
+     { t: 'Qualif.', num: 1 }, { t: 'Taxa', num: 1 }, { t: 'Reuniões', num: 1 }, { t: 'Propostas', num: 1 },
+     { t: 'Vendas', num: 1 }, { t: 'Receita', num: 1 }, { t: 'ROAS', num: 1 }],
+    rows.map(([m, e]) => [
+      `<b>${monLabel(m)}</b>`, int(e.leads), e.inv ? kbrl(e.inv) : '—',
+      e.meta && e.inv ? brl(e.inv / e.meta) : '—',
+      int(e.q), pctS(e.q, e.leads), int(e.r), int(e.p), `<b>${int(e.v)}</b>`,
+      e.rec ? kbrl(e.rec) : '—', e.inv && e.rec ? (e.rec / e.inv).toFixed(1).replace('.', ',') + 'x' : '—'
+    ]));
+}
+
+function renderAlavancas(c) {
+  const cards = [];
+  const tag = (l, t) => (l.tags || []).includes(t);
+
+  /* 1 · bot incompleto */
+  const ok = c.sdr.filter(l => tag(l, 'bot-concluído')), ruim = c.sdr.filter(l => tag(l, 'bot-incompleto'));
+  if (ok.length >= 10 && ruim.length >= 10) {
+    const txO = pct(ok.filter(l => l.qualified).length, ok.length), txR = pct(ruim.filter(l => l.qualified).length, ruim.length);
+    cards.push(['Concluir o pré-atendimento',
+      `<b>${int(ruim.length)}</b> leads pararam no meio do bot e qualificam a ${txR.toFixed(0)}%, contra ${txO.toFixed(0)}% de quem termina. Fechar essa diferença vale <b>+${int(ruim.length * (txO - txR) / 100)} qualificados</b> no mesmo volume de mídia.`, 1]);
+  }
+
+  /* 2 · melhor e pior público por CPL qualificado */
+  if (M && M.adset) {
+    const auds = new Map();
+    metaIn(c.w).forEach(l => {
+      const e = auds.get(l.audience) || { n: 0, q: 0 }; e.n++; if (l.qualified) e.q++; auds.set(l.audience, e);
+    });
+    const linhas = [...auds.entries()].filter(([k, v]) => k !== '—' && v.q >= 3)
+      .map(([k, v]) => ({ k, ...v, spend: spendIn(M.adset, c.w, k) }))
+      .filter(r => r.spend > 0).map(r => ({ ...r, cplq: r.spend / r.q })).sort((a, b) => a.cplq - b.cplq);
+    if (linhas.length >= 2) {
+      const b = linhas[0], w = linhas[linhas.length - 1];
+      cards.push(['Realocar verba entre públicos',
+        `<b>${esc(b.k)}</b> entrega qualificado a <b>${brl(b.cplq)}</b>; <b>${esc(w.k)}</b> custa ${brl(w.cplq)} — ${(w.cplq / b.cplq).toFixed(1).replace('.', ',')}× mais. Migrar parte do orçamento do segundo para o primeiro baixa o CPL qualificado sem tocar em criativo.`, 0]);
+    }
+  }
+
+  /* 3 · maior gargalo entre etapas */
+  const etapas = [
+    ['lead → qualificado', c.txQualif], ['qualificado → agendada', c.txAgend],
+    ['agendada → realizada', c.txCompar], ['realizada → proposta', c.txProp], ['proposta → venda', c.txVenda]
+  ].filter(([, v]) => v > 0);
+  if (etapas.length) {
+    const pior = etapas.slice().sort((a, b) => a[1] - b[1])[0];
+    cards.push(['Maior gargalo do funil',
+      `A passagem <b>${pior[0]}</b> converte a <b>${pior[1].toFixed(0)}%</b> — a mais baixa do funil no período. Cada ponto percentual ganho aqui vale mais que volume novo de lead no topo.`, 0]);
+  }
+
+  /* 4 · rastreio */
+  const sem = c.sdr.filter(l => l.canal === 'Não rastreado').length;
+  if (sem / Math.max(c.leads, 1) > 0.1) {
+    cards.push(['Fechar o rastreio',
+      `<b>${pctS(sem, c.leads)}</b> dos leads entram sem origem. Enquanto isso não fecha, CPL por público e criativo descrevem só ${pctS(c.leads - sem, c.leads)} da operação — e o CAC real fica escondido.`, 0]);
+  }
+
+  $('#diag-alavancas').innerHTML = cards.length
+    ? cards.map(([k, p, acc], i) => `<div class="ins span${cards.length > 2 ? 6 : 6} ${acc ? 'accent' : ''}"><span class="ins-k">${String(i + 1).padStart(2, '0')} · ${esc(k)}</span><p>${p}</p></div>`).join('')
+    : '<div class="empty">sem volume suficiente no período para calcular alavancas</div>';
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   02 · EVOLUÇÃO
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/** Divide a janela em semanas (segunda a domingo) e agrega tudo por semana. */
+function weeklySeries(w) {
+  const weeks = [];
+  const start = new Date(w.from); start.setHours(12, 0, 0, 0);
+  start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+  for (let d = new Date(start); d <= w.to; d.setDate(d.getDate() + 7)) {
+    const from = new Date(d); from.setHours(0, 0, 0, 0);
+    const to = new Date(d); to.setDate(to.getDate() + 6); to.setHours(23, 59, 59, 999);
+    // A primeira e a última semana são cortadas pela janela — sem isso a soma
+    // das semanas passaria do total do período.
+    const f = from < w.from ? new Date(w.from) : from;
+    const t = to > w.to ? new Date(w.to) : to;
+    weeks.push({ from: f, to: t, label: ddmm(f),
+                 leads: 0, meta: 0, q: 0, a: 0, r: 0, p: 0, v: 0, rec: 0, inv: 0 });
+  }
+  const bucket = ts => weeks.find(k => ts * 1000 >= k.from.getTime() && ts * 1000 <= k.to.getTime());
+  K.sdr.forEach(l => {
+    const b = bucket(l.created_at); if (!b) return;
+    b.leads++; if (l.canal === 'Meta Ads') b.meta++;
+    if (l.qualified) b.q++; if (l.reuniao_agendada) b.a++; if (l.reuniao_realizada) b.r++;
+  });
+  K.closer.forEach(l => {
+    const bc = bucket(l.created_at);
+    if (bc && (l.proposta || PROPOSTA_STAGES.includes(l.status))) bc.p++;
+    if (l.venda && l.closed_at) { const bv = bucket(l.closed_at); if (bv) { bv.v++; bv.rec += l.price || 0; } }
+  });
+  if (M && M.adset) for (const byDay of Object.values(M.adset)) for (const [ds, v] of Object.entries(byDay)) {
+    const ts = new Date(ds + 'T12:00:00').getTime() / 1000; const b = bucket(ts); if (b) b.inv += v;
+  }
+  return weeks;
+}
+
+function renderEvolucao(c) {
+  const wk = weeklySeries(c.w);
+  const L = wk.map(k => k.label);
+  const semanaTop = wk.slice().sort((a, b) => b.leads - a.leads)[0];
+  const melhorTx  = wk.filter(k => k.leads >= 20).sort((a, b) => pct(b.q, b.leads) - pct(a.q, a.leads))[0];
+
+  $('#evol-kpis').innerHTML = [
+    kpi('Semanas no período', int(wk.length), c.w.label, 'ink'),
+    kpi('Média de leads/semana', int(wk.reduce((s, k) => s + k.leads, 0) / Math.max(wk.length, 1)), semanaTop ? `pico de ${int(semanaTop.leads)} na semana de ${semanaTop.label}` : ''),
+    kpi('Melhor taxa de qualificação', melhorTx ? pctS(melhorTx.q, melhorTx.leads) : '—', melhorTx ? `semana de ${melhorTx.label}` : '', 'accent'),
+    kpi('Investimento no período', kbrl(c.invest), `CPL médio ${c.cpl ? brl(c.cpl) : '—'}`),
+    kpi('Vendas no período', int(c.vendas), `${kbrl(c.receita)} de receita`)
+  ].join('');
+
+  mkChart('ch-aquis', {
+    type: 'bar',
+    data: {
+      labels: L, datasets: [
+        { label: 'Investimento', data: wk.map(k => Math.round(k.inv)), backgroundColor: css('--track'), borderColor: css('--ink2'), borderWidth: 1 },
+        { label: 'Leads Meta', type: 'line', data: wk.map(k => k.meta), borderColor: css('--accent'), backgroundColor: css('--accent'), borderWidth: 2.5, tension: .3, pointRadius: 3, yAxisID: 'y1' }
+      ]
+    },
+    options: { scales: { x: { grid: { display: false }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 } } },
+      y: { grid: { color: css('--line') }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 }, callback: v => 'R$' + (v / 1000) + 'k' } },
+      y1: { position: 'right', grid: { display: false }, beginAtZero: true, ticks: { color: css('--accent'), font: { family: 'Space Mono', size: 9 } } } } }
+  });
+
+  mkChart('ch-qualif', {
+    type: 'bar',
+    data: {
+      labels: L, datasets: [
+        { label: 'Qualificados', data: wk.map(k => k.q), backgroundColor: css('--accent'), borderWidth: 0 },
+        { label: 'Taxa de qualificação', type: 'line', data: wk.map(k => +pct(k.q, k.leads).toFixed(1)), borderColor: css('--accent-2'), backgroundColor: css('--accent-2'), borderWidth: 2.5, tension: .3, pointRadius: 3, yAxisID: 'y1' }
+      ]
+    },
+    options: { scales: { x: { grid: { display: false }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 } } },
+      y: { grid: { color: css('--line') }, beginAtZero: true, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 } } },
+      y1: { position: 'right', beginAtZero: true, max: 100, grid: { display: false }, ticks: { color: css('--accent-2'), font: { family: 'Space Mono', size: 9 }, callback: v => v + '%' } } } }
+  });
+
+  mkChart('ch-conv', {
+    type: 'line',
+    data: {
+      labels: L, datasets: [
+        { label: 'Agendadas', data: wk.map(k => k.a), borderColor: css('--mut'), backgroundColor: 'transparent', borderWidth: 2, tension: .3, pointRadius: 3 },
+        { label: 'Realizadas', data: wk.map(k => k.r), borderColor: css('--ink2'), backgroundColor: 'transparent', borderWidth: 2, tension: .3, pointRadius: 3 },
+        { label: 'Propostas', data: wk.map(k => k.p), borderColor: css('--accent-2'), backgroundColor: 'transparent', borderWidth: 2.5, tension: .3, pointRadius: 3 },
+        { label: 'Vendas', data: wk.map(k => k.v), borderColor: css('--accent'), backgroundColor: 'transparent', borderWidth: 3, tension: .3, pointRadius: 4 }
+      ]
+    }
+  });
+
+  const canais = ['Meta Ads', 'Google Ads', 'Não rastreado'];
+  const porCanalSem = canais.map(cn => wk.map(k => K.sdr.filter(l => l.canal === cn && l.created_at * 1000 >= k.from.getTime() && l.created_at * 1000 <= k.to.getTime()).length));
+  mkChart('ch-canal', {
+    type: 'bar',
+    data: {
+      labels: L, datasets: canais.map((cn, i) => ({
+        label: cn, data: porCanalSem[i], borderWidth: 0,
+        backgroundColor: [css('--accent'), css('--accent-2'), css('--mut')][i]
+      }))
+    },
+    options: { scales: { x: { stacked: true, grid: { display: false }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 } } },
+      y: { stacked: true, grid: { color: css('--line') }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 } } } } }
+  });
+
+  mkChart('ch-cpl', {
+    type: 'line',
+    data: {
+      labels: L, datasets: [
+        { label: 'CPL', data: wk.map(k => k.meta ? +(k.inv / k.meta).toFixed(2) : null), borderColor: css('--accent'), backgroundColor: 'transparent', borderWidth: 2.5, tension: .3, pointRadius: 3, spanGaps: true },
+        { label: 'CPL qualificado', data: wk.map(k => { const q = K.sdr.filter(l => l.canal === 'Meta Ads' && l.qualified && l.created_at * 1000 >= k.from.getTime() && l.created_at * 1000 <= k.to.getTime()).length; return q ? +(k.inv / q).toFixed(2) : null; }), borderColor: css('--accent-2'), backgroundColor: 'transparent', borderWidth: 2.5, tension: .3, pointRadius: 3, spanGaps: true }
+      ]
+    },
+    options: { scales: { x: { grid: { display: false }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 } } },
+      y: { grid: { color: css('--line') }, beginAtZero: true, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 }, callback: v => 'R$' + v } } } }
+  });
+
+  table($('#evol-table'),
+    [{ t: 'Semana' }, { t: 'Leads', num: 1 }, { t: 'Meta', num: 1 }, { t: 'Invest.', num: 1 }, { t: 'CPL', num: 1 },
+     { t: 'Qualif.', num: 1 }, { t: 'Taxa', num: 1 }, { t: 'Agend.', num: 1 }, { t: 'Realiz.', num: 1 },
+     { t: 'Prop.', num: 1 }, { t: 'Vendas', num: 1 }, { t: 'Receita', num: 1 }],
+    wk.map(k => [
+      `<b>${k.label}</b>`, int(k.leads), int(k.meta), k.inv ? kbrl(k.inv) : '—',
+      k.meta && k.inv ? brl(k.inv / k.meta) : '—', int(k.q), pctS(k.q, k.leads),
+      int(k.a), int(k.r), int(k.p), `<b>${int(k.v)}</b>`, k.rec ? kbrl(k.rec) : '—'
+    ]),
+    ['Total', int(c.leads), int(c.leadsMeta), kbrl(c.invest), c.cpl ? brl(c.cpl) : '—',
+     int(c.qualif), pctS(c.qualif, c.leads), int(c.agend), int(c.realiz), int(c.prop), int(c.vendas), kbrl(c.receita)]);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   03 · PERFIL DO QUALIFICADO
+   ═════════════════════════════════════════════════════════════════════════ */
+
+const BOT_FIELDS = [
+  { key: 'hospedagem',   label: 'Tipo de hospedagem' },
+  { key: 'freq_viagem',  label: 'Frequência de viagens' },
+  { key: 'investimento', label: 'Investimento em férias' },
+  { key: 'melhorar',     label: 'Se pudesse melhorar' }
+];
+const SCORES = ['A', 'B', 'C', 'D', 'E'];
+
+/** Distribuição de um campo com a taxa de qualificação de cada resposta. */
+function answerStats(leads, key) {
+  const m = new Map();
+  leads.forEach(l => {
+    const v = l[key]; if (!v) return;
+    const e = m.get(v) || { n: 0, q: 0, r: 0 };
+    e.n++; if (l.qualified) e.q++; if (l.reuniao_realizada) e.r++;
+    m.set(v, e);
+  });
+  return [...m.entries()].map(([v, e]) => ({ v, ...e, tx: pct(e.q, e.n) })).sort((a, b) => b.n - a.n);
+}
+
+function renderPerfil(c) {
+  const base = c.sdr;
+  const comBot = base.filter(l => BOT_FIELDS.some(f => l[f.key]));
+  const comScore = base.filter(l => l.score);
+  const ab = comScore.filter(l => l.score === 'A' || l.score === 'B');
+  const de = comScore.filter(l => l.score === 'D' || l.score === 'E');
+
+  $('#perfil-kpis').innerHTML = [
+    kpi('Leads com resposta do bot', int(comBot.length), `${pctS(comBot.length, base.length)} do total do período`, 'ink'),
+    kpi('Leads com Lead Score', int(comScore.length), pctS(comScore.length, base.length) + ' do total'),
+    kpi('Score A ou B', int(ab.length), `qualificam a ${pctS(ab.filter(l => l.qualified).length, ab.length)}`, 'accent'),
+    kpi('Score D ou E', int(de.length), `qualificam a ${pctS(de.filter(l => l.qualified).length, de.length)}`),
+    kpi('Taxa média do período', c.txQualif.toFixed(0).replace('.', ',') + '%', 'referência de comparação', '', '')
+  ].join('');
+
+  /* funil por score — o score prevê alguma coisa? */
+  const vend = c.vend;
+  const linhas = SCORES.map(s => {
+    const ls = base.filter(l => l.score === s);
+    const vs = vend.filter(l => l.score === s);
+    return { s, n: ls.length, q: ls.filter(l => l.qualified).length, r: ls.filter(l => l.reuniao_realizada).length,
+             v: vs.length, rec: vs.reduce((a, l) => a + (l.price || 0), 0) };
+  });
+  const semScore = { n: base.filter(l => !l.score).length, v: vend.filter(l => !l.score).length };
+  table($('#perfil-score'),
+    [{ t: 'Score' }, { t: 'Leads', num: 1 }, { t: 'Qualif.', num: 1 }, { t: 'Taxa qualif.', num: 1 },
+     { t: 'Reuniões', num: 1 }, { t: 'Vendas', num: 1 }, { t: 'Receita', num: 1 }],
+    linhas.filter(r => r.n || r.v).map(r =>
+      [`<span class="tag score-${r.s}">${r.s}</span>`, int(r.n), int(r.q), `<b>${pctS(r.q, r.n)}</b>`, int(r.r), int(r.v), r.rec ? kbrl(r.rec) : '—'])
+      .concat(semScore.n || semScore.v ? [['<span class="tag">sem score</span>', int(semScore.n), '—', '—', '—', int(semScore.v), '—']] : []));
+
+  const vendComScore = vend.filter(l => l.score);
+  const vendAB = vendComScore.filter(l => l.score === 'A' || l.score === 'B').length;
+  $('#perfil-score-insight').innerHTML =
+    `<div class="warn"><span class="wi">✦</span><div>O Lead Score é preenchido <b>durante</b> a qualificação, então ler a coluna "taxa de qualificação" por score é parcialmente circular — quem recebeu score já estava sendo trabalhado. A coluna que importa é a de <b>vendas</b>.` +
+    (vendComScore.length >= 5
+      ? ` Das <b>${int(vendComScore.length)}</b> vendas com score no período, <b>${int(vendAB)}</b> vieram de A/B e <b>${int(vendComScore.length - vendAB)}</b> de C/D/E: o score não prevê quem fecha.`
+      : '') + '</div></div>';
+
+  /* respostas do bot */
+  const txBase = pct(base.filter(l => l.qualified).length, base.length);
+  $('#perfil-bot-sub').textContent = `Base do período: ${int(comBot.length)} leads com pelo menos uma resposta · taxa média de qualificação ${txBase.toFixed(0)}%`;
+  $('#perfil-bot').innerHTML = BOT_FIELDS.map(f => {
+    const rows = answerStats(base, f.key);
+    if (!rows.length) return '';
+    return `<div class="span6"><div class="cap" style="margin-bottom:10px">${esc(f.label)}</div>` +
+      barlist(rows.map(r => ({
+        k: r.v, v: r.n, cls: r.tx >= txBase ? 'lead' : 'mut',
+        label: int(r.n), fat: r.tx.toFixed(0) + '% qualif.',
+        tip: `${r.v}: ${r.n} leads · ${r.q} qualificados · ${r.r} reuniões`
+      }))) + '</div>';
+  }).join('');
+
+  /* públicos e criativos por qualidade (só Meta, que é o que tem gasto) */
+  const meta = c.sdr.filter(l => l.canal === 'Meta Ads');
+  const byKey = (key, spendMap) => {
+    const m = new Map();
+    meta.forEach(l => {
+      const k = l[key]; if (!k || k === '—') return;
+      const e = m.get(k) || { n: 0, q: 0, r: 0, v: 0 }; e.n++;
+      if (l.qualified) e.q++; if (l.reuniao_realizada) e.r++;
+      m.set(k, e);
+    });
+    c.vend.forEach(l => { const k = l[key]; if (k && m.has(k)) m.get(k).v++; });
+    return [...m.entries()].map(([k, e]) => ({ k, ...e, spend: spendIn(spendMap, c.w, k) }))
+      .sort((a, b) => b.n - a.n);
+  };
+  const cols = [{ t: '' }, { t: 'Leads', num: 1 }, { t: 'Qualif.', num: 1 }, { t: 'Taxa', num: 1 },
+                { t: 'Invest.', num: 1 }, { t: 'CPL', num: 1 }, { t: 'CPL qualif.', num: 1 }];
+  const fill = rows => rows.map(r => [
+    `<b>${esc(r.k)}</b>`, int(r.n), int(r.q), pctS(r.q, r.n),
+    r.spend ? kbrl(r.spend) : '—', r.spend ? brl(r.spend / r.n) : '—',
+    r.spend && r.q ? `<b>${brl(r.spend / r.q)}</b>` : '—'
+  ]);
+  table($('#perfil-aud'), cols, fill(byKey('audience', M && M.adset)));
+  table($('#perfil-cri'), cols, fill(byKey('creative', M && M.creative)));
+
+  /* Sinais preditivos — cada resposta é comparada com a média de quem
+     respondeu AQUELA pergunta, não com a média geral. Quem responde o bot já
+     qualifica muito mais que quem abandona; comparar com a base inteira
+     mediria "respondeu o bot", que é outro efeito, medido no card do bot. */
+  const sinais = [];
+  BOT_FIELDS.forEach(f => {
+    const respondeu = base.filter(l => l[f.key]);
+    const txCampo = pct(respondeu.filter(l => l.qualified).length, respondeu.length);
+    answerStats(base, f.key).filter(r => r.n >= 25).forEach(r =>
+      sinais.push({ campo: f.label, v: r.v, n: r.n, tx: r.tx, lift: r.tx - txCampo, txCampo }));
+  });
+  sinais.sort((a, b) => b.lift - a.lift);
+  const top = sinais.slice(0, 4), bottom = sinais.slice(-4).reverse();
+  const sinalRow = s => `<div class="row" data-tip="${esc(s.campo)} · ${int(s.n)} leads · média da pergunta ${s.txCampo.toFixed(0)}%">
+      <div class="lab">${esc(s.v)}</div>
+      <div class="track"><div class="bar ${s.lift >= 0 ? 'lead' : 'mut'}" style="--w:${Math.min(100, Math.abs(s.lift) * 3.2).toFixed(0)}%"></div></div>
+      <div class="val">${s.lift >= 0 ? '+' : ''}${s.lift.toFixed(0)}p.p.<span class="fat">${s.tx.toFixed(0)}%</span></div></div>`;
+  $('#perfil-sinais').innerHTML = sinais.length
+    ? `<div class="grid" style="gap:20px">
+        <div class="span6"><div class="cap" style="margin-bottom:10px">Puxam a qualificação para cima</div><div class="barlist">${top.map(sinalRow).join('')}</div></div>
+        <div class="span6"><div class="cap" style="margin-bottom:10px">Puxam para baixo</div><div class="barlist">${bottom.map(sinalRow).join('')}</div></div>
+      </div><div class="note">Cada resposta é comparada com a média de quem <b>respondeu aquela mesma pergunta</b> — não com a média geral do período (${txBase.toFixed(0)}%), que embute o efeito de ter concluído o bot. Só respostas com 25 leads ou mais.</div>`
+    : '<div class="empty">sem respostas suficientes no período</div>';
+
+  renderBusca(c);
+}
+
+/** Busca de leads combinando as respostas do bot. Mantém a seleção entre re-renders. */
+const BUSCA = {};
+function renderBusca(c) {
+  const base = c.sdr;
+  const campos = BOT_FIELDS.concat([{ key: 'score', label: 'Lead score' }, { key: 'canal', label: 'Canal' }]);
+  $('#perfil-filtros').innerHTML = campos.map(f => {
+    const vals = [...new Set(base.map(l => l[f.key]).filter(Boolean))].sort();
+    return `<div class="fld"><label>${esc(f.label)}</label><select data-f="${f.key}">
+      <option value="">todos</option>
+      ${vals.map(v => `<option value="${esc(v)}"${BUSCA[f.key] === v ? ' selected' : ''}>${esc(v)}</option>`).join('')}
+    </select></div>`;
+  }).join('');
+  $$('#perfil-filtros select').forEach(s => s.onchange = () => { BUSCA[s.dataset.f] = s.value; renderBusca(c); });
+
+  const hit = base.filter(l => campos.every(f => !BUSCA[f.key] || l[f.key] === BUSCA[f.key]));
+  const q = hit.filter(l => l.qualified).length, r = hit.filter(l => l.reuniao_realizada).length;
+  $('#perfil-busca-n').innerHTML = `${int(hit.length)} leads · ${pctS(q, hit.length)} qualificam · ${int(r)} reuniões`;
+  table($('#perfil-busca'),
+    [{ t: 'Lead' }, { t: 'Canal' }, { t: 'Score' }, { t: 'Etapa atual' }, { t: 'Entrou em', num: 1 }, { t: 'Situação' }],
+    hit.slice(0, 60).map(l => [
+      esc(l.name || '—'),
+      `<span class="tag ${l.canal === 'Meta Ads' ? 'meta' : l.canal === 'Google Ads' ? 'google' : ''}">${esc(l.canal)}</span>`,
+      l.score ? `<span class="tag score-${l.score}">${l.score}</span>` : '—',
+      esc(K.status_map[String(l.status)] || l.status),
+      dt(l.created_at).toLocaleDateString('pt-BR'),
+      l.reuniao_realizada ? '<span class="tag good">reunião realizada</span>'
+        : l.qualified ? '<span class="tag">qualificado</span>'
+        : l.perda ? '<span class="tag bad">perdido</span>' : '—'
+    ]));
+  if (hit.length > 60) $('#perfil-busca').insertAdjacentHTML('beforeend',
+    `<tfoot><tr><td colspan="6">mostrando 60 de ${int(hit.length)} leads</td></tr></tfoot>`);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   04 · FUNIS COMERCIAIS
+   ═════════════════════════════════════════════════════════════════════════ */
+
+function pyramid(el, steps) {
+  const top = steps[0] ? steps[0].n : 0;
+  el.innerHTML = steps.map((s, i) => {
+    const prev = i ? steps[i - 1].n : s.n;
+    return `<div class="pstep ${s.win ? 'win' : ''}" style="--w:${top ? (100 * s.n / top).toFixed(1) : 0}%">
+      <div class="pstep-l">${esc(s.k)}${s.hint ? `<small>${esc(s.hint)}</small>` : ''}</div>
+      <div class="pstep-n">${int(s.n)}<span>${i ? pctS(s.n, prev) + ' da etapa anterior' : '100%'}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function ratesBox(el, rows) {
+  el.innerHTML = `<div class="note">${rows.map(([k, v]) => `<b>${esc(k)}</b> ${v}`).join(' · ')}</div>`;
+}
+
+function lossList(el, sub, leads) {
+  const perdidos = leads.filter(l => l.perda);
+  const m = new Map();
+  perdidos.forEach(l => {
+    const k = K.loss_reasons[String(l.loss_reason_id || 0)] || 'sem motivo registrado';
+    m.set(k, (m.get(k) || 0) + 1);
+  });
+  const rows = [...m.entries()].sort((a, b) => b[1] - a[1])
+    .map(([k, v]) => ({ k, v, cls: k === 'sem motivo registrado' ? 'mut' : 'lead', label: int(v), fat: pctS(v, perdidos.length) }));
+  $(sub).textContent = `${int(perdidos.length)} negócios perdidos no período`;
+  el.innerHTML = barlist(rows);
+}
+
+function renderFunis(c) {
+  const tag = (l, t) => (l.tags || []).includes(t);
+  const botOk = c.sdr.filter(l => tag(l, 'bot-concluído')).length;
+
+  $('#funis-kpis').innerHTML = [
+    kpi('Entradas no SDR', int(c.leads), c.w.label, 'ink'),
+    kpi('Reuniões realizadas', int(c.realiz), `${pctS(c.realiz, c.leads)} das entradas`),
+    kpi('Propostas', int(c.prop), `${pctS(c.prop, c.realiz)} das reuniões`),
+    kpi('Vendas', int(c.vendas), `${pctS(c.vendas, c.leads)} das entradas`, 'accent'),
+    kpi('Receita', kbrl(c.receita), `ticket ${c.ticket ? brl(c.ticket) : '—'}`)
+  ].join('');
+
+  // O bot fica fora da pirâmide de propósito: concluir o pré-atendimento não é
+  // pré-requisito para qualificar, e um degrau não-monotônico ("139% da etapa
+  // anterior") faria o funil mentir. O efeito do bot está na aba Diagnóstico.
+  pyramid($('#pyr-sdr'), [
+    { k: 'Entradas no funil', n: c.leads, hint: 'negócios criados no SDR' },
+    { k: 'Lead qualificado', n: c.qualif, hint: 'etapa de qualificação ou além' },
+    { k: 'Reunião agendada', n: c.agend },
+    { k: 'Reunião realizada', n: c.realiz, win: 1, hint: 'status 142 do SDR — não é venda' }
+  ]);
+  ratesBox($('#rates-sdr'), [
+    ['qualificação', c.txQualif.toFixed(0) + '%'],
+    ['agendamento', c.txAgend.toFixed(0) + '%'],
+    ['comparecimento', c.txCompar.toFixed(0) + '%'],
+    ['bot concluído', `${int(botOk)} leads`]
+  ]);
+
+  const st = n => c.clo.filter(l => l.status === n).length;
+  pyramid($('#pyr-closer'), [
+    { k: 'Cards no Closer', n: c.clo.length, hint: 'reuniões que viraram negociação' },
+    { k: 'Proposta enviada', n: c.prop, hint: 'proposta, follow-up, sinal verde ou dados solicitados' },
+    { k: 'Sinal verde + dados de venda', n: st(S.CLO.VERDE) + st(S.CLO.DADOS) },
+    { k: 'Venda ganha', n: c.vendas, win: 1, hint: 'status 142 do Closer' }
+  ]);
+  ratesBox($('#rates-closer'), [
+    ['proposta → venda', c.txVenda.toFixed(0) + '%'],
+    ['card → venda', pctS(c.vendas, c.clo.length)],
+    ['receita', kbrl(c.receita)]
+  ]);
+
+  pyramid($('#pyr-full'), [
+    { k: 'Lead', n: c.leads }, { k: 'Qualificado', n: c.qualif },
+    { k: 'Reunião agendada', n: c.agend }, { k: 'Reunião realizada', n: c.realiz },
+    { k: 'Proposta', n: c.prop }, { k: 'Venda', n: c.vendas, win: 1 }
+  ]);
+
+  lossList($('#loss-sdr'), '#loss-sdr-sub', c.sdr);
+  lossList($('#loss-closer'), '#loss-closer-sub', c.clo.filter(l => l.closed_in_period !== false));
+
+  /* Funis da base RD — chegam agregados por etapa e dia (rd_summary), porque
+     são ~21 mil negócios importados e a única pergunta é de contagem.
+     As etapas são lidas por nome via status_map, que acompanha as renomeações
+     que esses dois funis já sofreram no Kommo. */
+  const dias = new Set(windowDays(c.w));
+  const rdBox = (titulo, porStatus, nota) => {
+    const rows = Object.entries(porStatus || {}).map(([st, porDia]) => ({
+      k: K.status_map[String(st)] || ('etapa ' + st),
+      v: Object.entries(porDia).reduce((s, [d, n]) => s + (dias.has(d) ? n : 0), 0)
+    })).filter(r => r.v).sort((a, b) => b.v - a.v);
+    const total = rows.reduce((s, r) => s + r.v, 0);
+    return `<div class="span6"><div class="cap" style="margin-bottom:10px">${esc(titulo)} · ${int(total)} negócios no período</div>` +
+      barlist(rows.map(r => ({ ...r, cls: 'alt', label: int(r.v), fat: pctS(r.v, total) })), { note: nota }) + '</div>';
+  };
+  const rd = K.rd_summary || {};
+  const temRD = Object.values(rd).some(p => Object.values(p || {}).some(d => Object.keys(d).some(k => dias.has(k))));
+  $('#funis-rd').innerHTML = temRD
+    ? rdBox('Importação RD (SDR)', rd['Importação RD (SDR)'], 'Base legada importada — não entra em leads, CPL nem taxa de qualificação.') +
+      rdBox('Base Closer RD', rd['Base Closer RD'], 'Trabalho de disparo sobre a base — o 142 aqui também é venda, mas fora da mídia.')
+    : '<div class="empty">nenhum negócio da base RD criado no período</div>';
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   05 · ATIVIDADES
+   ═════════════════════════════════════════════════════════════════════════ */
+
+const mediana = arr => {
+  if (!arr.length) return 0;
+  const s = arr.slice().sort((a, b) => a - b), m = s.length >> 1;
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+};
+const dur = min => min < 60 ? `${Math.round(min)} min`
+  : min < 1440 ? `${(min / 60).toFixed(1).replace('.', ',')} h`
+  : `${(min / 1440).toFixed(1).replace('.', ',')} dias`;
+
+function renderAtividades(c) {
+  const uname = id => (K.users_map[String(id)] || {}).name || 'sem atribuição';
+  const tasks = (K.tasks || []).filter(t => inWin(t.created_at, c.w));
+  const done  = tasks.filter(t => t.is_completed);
+
+  /* tempo até o 1º contato humano, por lead do período */
+  const ft = K.first_touch || {};
+  const tempos = [];
+  c.sdr.forEach(l => {
+    const t = ft[String(l.id)];
+    if (t && t[0] > l.created_at) tempos.push({ min: (t[0] - l.created_at) / 60, uid: t[1], lead: l });
+  });
+  const med = mediana(tempos.map(t => t.min));
+
+  $('#ativ-kpis').innerHTML = [
+    kpi('Tarefas criadas', int(tasks.length), c.w.label, 'ink'),
+    kpi('Concluídas', int(done.length), `${pctS(done.length, tasks.length)} de conclusão`, 'accent'),
+    kpi('Tarefas por dia', (tasks.length / daysOf(c.w)).toFixed(1).replace('.', ','), `${daysOf(c.w)} dias no período`),
+    kpi('Leads com contato humano', int(tempos.length), `${pctS(tempos.length, c.leads)} dos leads do período`),
+    kpi('Mediana até o 1º contato', tempos.length ? dur(med) : '—', 'mensagem enviada por pessoa, não pelo bot')
+  ].join('');
+
+  /* por consultor */
+  const porUser = new Map();
+  const touch = n => { if (!porUser.has(n)) porUser.set(n, { t: 0, d: 0, leads: 0, tempos: [] }); return porUser.get(n); };
+  // Tudo aqui é atribuído pelo usuário responsável do Kommo — inclusive os
+  // cards do Closer. O campo "Closer" do lead usa outra grafia para as mesmas
+  // pessoas e criaria linhas duplicadas nesta tabela.
+  tasks.forEach(t => { const e = touch(uname(t.responsible)); e.t++; if (t.is_completed) e.d++; });
+  c.sdr.forEach(l => touch(uname(l.responsible_user_id)).leads++);
+  c.clo.forEach(l => touch(uname(l.responsible_user_id)).leads++);
+  tempos.forEach(t => touch(uname(t.uid)).tempos.push(t.min));
+
+  table($('#ativ-users'),
+    [{ t: 'Consultor' }, { t: 'Tarefas', num: 1 }, { t: 'Concluídas', num: 1 }, { t: '% conclusão', num: 1 },
+     { t: 'Negócios sob responsa.', num: 1 }, { t: 'Mediana 1º contato', num: 1 }],
+    [...porUser.entries()].filter(([, v]) => v.t || v.leads).sort((a, b) => b[1].t - a[1].t).map(([n, v]) =>
+      [who(n), int(v.t), int(v.d), `<b>${pctS(v.d, v.t)}</b>`, int(v.leads), v.tempos.length ? dur(mediana(v.tempos)) : '—']),
+    [`Total`, int(tasks.length), int(done.length), pctS(done.length, tasks.length), int(c.leads + c.clo.length), tempos.length ? dur(med) : '—']);
+  $('#ativ-sub').textContent = `${porUser.size} pessoas com atividade ou negócio no período`;
+
+  /* mix por tipo */
+  const tipos = new Map();
+  tasks.forEach(t => {
+    const k = (K.task_types || {})[String(t.task_type_id)] || 'outro';
+    tipos.set(k, (tipos.get(k) || 0) + 1);
+  });
+  $('#ativ-tipos').innerHTML = barlist(
+    [...tipos.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ k, v, cls: 'lead', label: int(v), fat: pctS(v, tasks.length) })),
+    { note: 'Os tipos "Dia 1", "Dia 3"… são as tarefas da cadência de follow-up configurada no Kommo.' });
+
+  /* distribuição do tempo de resposta */
+  const faixas = [['até 5 min', 0, 5], ['5–30 min', 5, 30], ['30 min–2 h', 30, 120],
+                  ['2–8 h', 120, 480], ['8–24 h', 480, 1440], ['mais de 24 h', 1440, Infinity]];
+  $('#ativ-tempo').innerHTML = tempos.length
+    ? barlist(faixas.map(([k, a, b]) => {
+        const sub = tempos.filter(t => t.min >= a && t.min < b);
+        const q = sub.filter(t => t.lead.qualified).length;
+        return { k, v: sub.length, cls: a < 30 ? 'lead' : 'mut', label: int(sub.length),
+                 fat: pctS(q, sub.length) + ' qualif.', tip: `${sub.length} leads · ${q} qualificaram` };
+      }), { note: `Mediana do período: <b>${dur(med)}</b> entre a entrada do lead e a primeira mensagem enviada por uma pessoa. Mensagens automáticas do bot são descontadas — senão a métrica mediria o robô.` })
+    : '<div class="empty">nenhum contato humano registrado no período</div>';
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   06 · VENDAS
+   ═════════════════════════════════════════════════════════════════════════ */
+
+function renderVendas(c) {
+  const v = c.vend;
+  const maior = v.reduce((a, l) => Math.max(a, l.price || 0), 0);
+  const ciclos = v.filter(l => l.closed_at && l.created_at).map(l => (l.closed_at - l.created_at) / 86400);
+  const rastreadas = v.filter(l => l.canal !== 'Não rastreado').length;
+
+  $('#vendas-kpis').innerHTML = [
+    kpi('Vendas ganhas', int(v.length), c.w.label, 'accent'),
+    kpi('Receita', kbrl(c.receita), `${int(v.length)} negócio(s)`, 'ink'),
+    kpi('Ticket médio', c.ticket ? brl(c.ticket) : '—', maior ? `maior venda ${kbrl(maior)}` : ''),
+    kpi('Ciclo mediano', ciclos.length ? mediana(ciclos).toFixed(1).replace('.', ',') : '—', 'dias entre criação do card e fechamento', '', ciclos.length ? ' dias' : ''),
+    kpi('Vendas com canal', int(rastreadas), `${pctS(rastreadas, v.length)} rastreadas`)
+  ].join('');
+
+  /* por canal — com conversão sobre os leads do mesmo período */
+  const canais = new Map();
+  v.forEach(l => { const e = canais.get(l.canal) || { n: 0, r: 0 }; e.n++; e.r += l.price || 0; canais.set(l.canal, e); });
+  $('#vendas-canal').innerHTML = barlist(
+    [...canais.entries()].sort((a, b) => b[1].r - a[1].r).map(([k, e]) => {
+      const leads = c.sdr.filter(l => l.canal === k).length;
+      return { k, v: e.r, dot: canalDot(k), cls: canalDot(k), label: kbrl(e.r),
+               fat: `${e.n} venda(s)`, tip: `${k}: ${e.n} venda(s) · ${kbrl(e.r)}${leads ? ` · ${pctS(e.n, leads)} dos ${leads} leads do canal` : ''}` };
+    }),
+    { note: 'A conversão por canal aparece no tooltip. Vendas de leads antigos entram no período pela data de fechamento, então a razão venda/lead do mesmo mês é aproximada.' });
+
+  const rank = (key, titulo) => {
+    const m = new Map();
+    v.forEach(l => { const k = l[key]; if (!k || k === '—') return; const e = m.get(k) || { n: 0, r: 0 }; e.n++; e.r += l.price || 0; m.set(k, e); });
+    return barlist([...m.entries()].sort((a, b) => b[1].r - a[1].r)
+      .map(([k, e]) => ({ k, v: e.r, cls: 'lead', label: kbrl(e.r), fat: `${e.n} venda(s)` })),
+      { note: `${int(v.filter(l => !l[key] || l[key] === '—').length)} venda(s) do período sem ${titulo} registrado no CRM.` });
+  };
+  $('#vendas-aud').innerHTML = rank('audience', 'público');
+  $('#vendas-cri').innerHTML = rank('creative', 'criativo');
+
+  /* receita por dia */
+  const days = windowDays(c.w), mapa = new Map(days.map(d => [d, 0]));
+  v.forEach(l => { const k = dayKey(dt(l.closed_at)); if (mapa.has(k)) mapa.set(k, mapa.get(k) + (l.price || 0)); });
+  mkChart('ch-vendas-dia', {
+    type: 'bar',
+    data: { labels: days.map(d => ddmm(new Date(d + 'T12:00:00'))),
+      datasets: [{ label: 'Receita', data: days.map(d => Math.round(mapa.get(d))), backgroundColor: css('--accent'), borderWidth: 0 }] },
+    options: { plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 }, maxRotation: 0, autoSkipPadding: 12 } },
+        y: { grid: { color: css('--line') }, ticks: { color: css('--mut'), font: { family: 'Space Mono', size: 9 }, callback: x => 'R$' + (x / 1000) + 'k' } } } }
+  });
+
+  /* detalhe */
+  $('#vendas-n').textContent = `${int(v.length)} venda(s) · ${kbrl(c.receita)}`;
+  table($('#vendas-tbl'),
+    [{ t: 'Fechada em' }, { t: 'Lead' }, { t: 'Canal' }, { t: 'Público' }, { t: 'Criativo' },
+     { t: 'Closer' }, { t: 'Produto' }, { t: 'Valor', num: 1 }],
+    v.slice().sort((a, b) => b.closed_at - a.closed_at).map(l => [
+      dt(l.closed_at).toLocaleDateString('pt-BR'),
+      esc(l.name || '—'),
+      `<span class="tag ${l.canal === 'Meta Ads' ? 'meta' : l.canal === 'Google Ads' ? 'google' : ''}">${esc(l.canal)}</span>`,
+      esc(l.audience === '—' ? '—' : l.audience), esc(l.creative || '—'),
+      esc(l.closer || '—'), esc(l.produto || '—'), `<b>${brl(l.price)}</b>`
+    ]),
+    v.length ? ['', '', '', '', '', '', 'Total', `<b>${brl(c.receita)}</b>`] : null);
+
+  /* perfil de quem fecha */
+  const perfil = [
+    ['Assistiu à apresentação', l => /^sim/i.test(l.assistiu || '')],
+    ['Reunião por vídeo-chamada', l => /v[ií]deo/i.test(l.formato_reuniao || '')],
+    ['Condição financeira compatível', l => /compat/i.test(l.cond_financeira || '')],
+    ['Tem hábito de viajar', l => /^sim/i.test(l.habito_viajar || '')],
+    ['Já conhece Maceió', l => /^sim/i.test(l.conhece_maceio || '')],
+    ['Sem facilitador de viagem (1ª multipropriedade)', l => /nenhum/i.test(l.facilitador || '')],
+    ['Interesse real declarado', l => /^sim/i.test(l.interesse_real || '')],
+    ['Probabilidade de fechamento alta', l => /alta/i.test(l.prob_fechar || '')]
+  ];
+  const campoDe = { 'Assistiu à apresentação': 'assistiu', 'Reunião por vídeo-chamada': 'formato_reuniao',
+    'Condição financeira compatível': 'cond_financeira', 'Tem hábito de viajar': 'habito_viajar',
+    'Já conhece Maceió': 'conhece_maceio', 'Sem facilitador de viagem (1ª multipropriedade)': 'facilitador',
+    'Interesse real declarado': 'interesse_real', 'Probabilidade de fechamento alta': 'prob_fechar' };
+  $('#vendas-perfil').innerHTML = v.length
+    ? perfil.map(([k, f]) => {
+        const base = v.filter(l => l[campoDe[k]]);
+        const hit = base.filter(f).length;
+        if (!base.length) return '';
+        return `<div class="prow" data-tip="${hit}/${base.length} vendas com o campo preenchido">
+          <div class="plab">${esc(k)}</div>
+          <div class="ptrack"><div class="pbar" style="--w:${pct(hit, base.length).toFixed(0)}%"></div></div>
+          <div class="ppct">${pct(hit, base.length).toFixed(0)}<span>%</span></div></div>`;
+      }).join('') || '<div class="empty">o Closer ainda não preencheu esses campos nas vendas do período</div>'
+    : '<div class="empty">sem vendas no período</div>';
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   07 · CALCULADORA DE PERFIL
+   ═════════════════════════════════════════════════════════════════════════ */
+
+const CALC = {};
+
+/** Índice de quem fechou, para medir a taxa de venda a partir do lead do SDR. */
+function vendasDkeys() {
+  const s = new Set();
+  K.closer.forEach(l => { if (l.venda && l.dkey) s.add(l.dkey); });
+  return s;
+}
+
+function renderScore() {
+  // A calculadora usa a base inteira, não o período: a pergunta aqui é
+  // "esse perfil costuma qualificar?", e recortar por mês só tira amostra.
+  const base = K.sdr.filter(l => BOT_FIELDS.some(f => l[f.key]));
+  const ganhou = vendasDkeys();
+  const stats = leads => ({
+    n: leads.length,
+    q: leads.filter(l => l.qualified).length,
+    r: leads.filter(l => l.reuniao_realizada).length,
+    v: leads.filter(l => l.dkey && ganhou.has(l.dkey)).length
+  });
+  const geral = stats(base);
+
+  $('#calc-form').innerHTML = BOT_FIELDS.map(f => {
+    const vals = [...new Set(base.map(l => l[f.key]).filter(Boolean))];
+    return `<div class="fld"><label>${esc(f.label)}</label><select data-c="${f.key}">
+      <option value="">— indiferente —</option>
+      ${vals.map(v => `<option value="${esc(v)}"${CALC[f.key] === v ? ' selected' : ''}>${esc(v)}</option>`).join('')}
+    </select></div>`;
+  }).join('');
+  $$('#calc-form select').forEach(s => s.onchange = () => { CALC[s.dataset.c] = s.value; renderScore(); });
+
+  const hit = base.filter(l => BOT_FIELDS.every(f => !CALC[f.key] || l[f.key] === CALC[f.key]));
+  const r = stats(hit);
+  const escolhidas = BOT_FIELDS.filter(f => CALC[f.key]).length;
+  const scoreModa = (() => {
+    const m = new Map();
+    hit.forEach(l => { if (l.score) m.set(l.score, (m.get(l.score) || 0) + 1); });
+    return [...m.entries()].sort((a, b) => b[1] - a[1])[0];
+  })();
+  const conf = r.n >= 60 ? 'alta' : r.n >= 25 ? 'média' : r.n >= 10 ? 'baixa' : 'insuficiente';
+
+  $('#calc-out').innerHTML = !escolhidas
+    ? `<div class="cap">Selecione ao menos uma resposta</div>
+       <div style="margin-top:8px;font-size:13.5px;color:var(--ink2)">Base completa: <b>${int(geral.n)}</b> leads · ${pctS(geral.q, geral.n)} qualificam · ${pctS(geral.r, geral.n)} chegam à reunião · ${pctS(geral.v, geral.n)} fecham.</div>`
+    : `<div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap">
+        <div><div class="cap">Chance de qualificar</div><div class="big">${pctS(r.q, r.n)}</div></div>
+        <div style="flex:1;min-width:200px;font-size:13px;color:var(--ink2);line-height:1.7">
+          <b>${int(r.n)}</b> leads com esse perfil na base.<br>
+          Reunião realizada: <b>${pctS(r.r, r.n)}</b> · venda: <b>${pctS(r.v, r.n)}</b><br>
+          Score mais comum: ${scoreModa ? `<span class="tag score-${scoreModa[0]}">${scoreModa[0]}</span>` : '—'}
+          · confiança <b>${conf}</b> da amostra
+        </div></div>
+       <div class="note" style="margin-top:14px">Contra a média da base (<b>${pctS(geral.q, geral.n)}</b> de qualificação), esse perfil está
+        <b>${(pct(r.q, r.n) - pct(geral.q, geral.n)) >= 0 ? '+' : ''}${(pct(r.q, r.n) - pct(geral.q, geral.n)).toFixed(0)} pontos percentuais</b>
+        ${(pct(r.q, r.n) - pct(geral.q, geral.n)) >= 0 ? 'acima' : 'abaixo'}.
+        ${r.n < 25 ? ' Amostra pequena — leia como indício, não como regra.' : ''}</div>`;
+
+  /* Peso de cada resposta — comparado com a média de quem respondeu a mesma
+     pergunta (ver a mesma ressalva na aba de perfil). */
+  const pesos = [];
+  BOT_FIELDS.forEach(f => {
+    const respondeu = base.filter(l => l[f.key]);
+    const txCampo = pct(respondeu.filter(l => l.qualified).length, respondeu.length);
+    const m = new Map();
+    respondeu.forEach(l => { const val = l[f.key]; const e = m.get(val) || { n: 0, q: 0 }; e.n++; if (l.qualified) e.q++; m.set(val, e); });
+    [...m.entries()].filter(([, e]) => e.n >= 25).forEach(([val, e]) =>
+      pesos.push({ campo: f.label, val, n: e.n, lift: pct(e.q, e.n) - txCampo, tx: pct(e.q, e.n), txCampo }));
+  });
+  pesos.sort((a, b) => b.lift - a.lift);
+  $('#calc-pesos').innerHTML = pesos.length ? '<div class="barlist">' + pesos.map(p => `
+      <div class="row" data-tip="${esc(p.campo)} · ${int(p.n)} leads · ${p.tx.toFixed(0)}% qualificam (média da pergunta ${p.txCampo.toFixed(0)}%)">
+        <div class="lab">${esc(p.val)}</div>
+        <div class="track"><div class="bar ${p.lift >= 0 ? 'lead' : 'mut'}" style="--w:${Math.min(100, Math.abs(p.lift) * 3.2).toFixed(0)}%"></div></div>
+        <div class="val">${p.lift >= 0 ? '+' : ''}${p.lift.toFixed(0)}<span class="fat">p.p.</span></div>
+      </div>`).join('') + `</div><div class="note">Diferença, em pontos percentuais, entre a taxa de qualificação de quem deu aquela resposta e a média de quem respondeu <b>a mesma pergunta</b>. Só respostas com 25 leads ou mais.</div>`
+    : '<div class="empty">sem respostas suficientes na base</div>';
+}
+
+boot();
+</script>
+</body></html>

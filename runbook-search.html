@@ -1,0 +1,466 @@
+<title>Runbook da Search IBR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+:root{
+ --plane:#f4f1e9; --surface:#ffffff; --ink:#131211; --ink2:#57544d; --mut:#9b968a; --line:#e7e2d6;
+ --accent:#ff4a24; --accent-2:#0f7d86; --track:#eae6db; --ok:#0f7d86; --warn:#b8531f;
+ --shadow:0 2px 0 rgba(19,18,17,.04),0 18px 40px -24px rgba(19,18,17,.30);
+ --f-disp:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+ --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+ --f-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --plane:#0b0b0c; --surface:#161618; --ink:#f5f2ea; --ink2:#b6b1a5; --mut:#78746a; --line:#28282c;
+ --accent:#ff5f3a; --accent-2:#39b9c4; --track:#242428; --ok:#39b9c4; --warn:#e8863f;
+ --shadow:0 2px 0 rgba(0,0,0,.4),0 22px 46px -26px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+ --plane:#0b0b0c; --surface:#161618; --ink:#f5f2ea; --ink2:#b6b1a5; --mut:#78746a; --line:#28282c;
+ --accent:#ff5f3a; --accent-2:#39b9c4; --track:#242428; --ok:#39b9c4; --warn:#e8863f;
+ --shadow:0 2px 0 rgba(0,0,0,.4),0 22px 46px -26px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--plane);color:var(--ink);font-family:var(--f-body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.blk-tag{font-family:var(--f-disp);letter-spacing:-.03em;text-wrap:balance}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--track);padding:1px 5px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px clamp(15px,4vw,40px);
+ background:color-mix(in srgb,var(--plane) 86%,transparent);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1.5px solid var(--ink)}
+.brand{display:flex;align-items:center;gap:8px;color:var(--ink);font-family:var(--f-disp);font-weight:700;font-size:14.5px;white-space:nowrap}
+.brand i{color:var(--accent);font-style:normal}
+.nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.np{padding:6px 10px;border-radius:2px;text-decoration:none;color:var(--ink2);font-size:12.5px;font-weight:600;white-space:nowrap;border:1.5px solid transparent;transition:.2s}
+.np:hover,.np:focus-visible{color:var(--ink);border-color:var(--line);outline:none}
+.toggle{flex:none;width:34px;height:34px;border-radius:2px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.toggle:hover,.toggle:focus-visible{background:var(--accent);border-color:var(--accent);color:#fff;outline:none}
+.i-moon{display:none}
+:root[data-theme="dark"] .i-sun{display:none}:root[data-theme="dark"] .i-moon{display:block}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .i-sun{display:none}:root:not([data-theme="light"]) .i-moon{display:block}}
+
+.hero{padding:clamp(38px,7vw,68px) clamp(15px,4vw,40px) clamp(18px,3vw,26px);max-width:1000px;margin:0 auto}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero h1{font-size:clamp(32px,6vw,56px);line-height:.99;font-weight:800;margin:14px 0 0}
+.lede{max-width:700px;margin:20px 0 0;font-size:clamp(15px,2vw,17.5px);color:var(--ink2)}
+.lede b{color:var(--ink);font-weight:700}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 clamp(15px,4vw,40px) 70px}
+
+.blk{margin-top:52px;border:1.5px solid var(--ink);border-radius:4px;background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+.blk-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 20px;border-bottom:1.5px solid var(--ink);background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.blk-head.teal{background:color-mix(in srgb,var(--accent-2) 8%,transparent)}
+.blk-tag{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;padding:5px 10px;border-radius:2px}
+.blk-head.teal .blk-tag{background:var(--accent-2)}
+.blk-head h2{font-size:clamp(19px,2.8vw,25px);font-weight:800;flex:1;min-width:200px}
+.when{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);border:1.5px solid var(--line);padding:5px 9px;border-radius:2px;white-space:nowrap}
+.blk-body{padding:20px 22px}
+.blk-why{font-size:14px;color:var(--ink2);padding-bottom:16px;margin-bottom:4px;border-bottom:1.5px dashed var(--line)}
+.blk-why b{color:var(--ink);font-weight:700}
+
+ol.steps{counter-reset:s;list-style:none}
+ol.steps li{position:relative;padding:16px 0 16px 44px;border-bottom:1.5px dashed var(--line)}
+ol.steps li:last-child{border-bottom:none;padding-bottom:0}
+ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:15px;width:27px;height:27px;border:1.5px solid var(--ink);border-radius:2px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:700;background:var(--surface)}
+ol.steps b{display:block;font-size:14.5px;margin-bottom:4px}
+ol.steps p{font-size:13.5px;color:var(--ink2)}
+ol.steps p+p{margin-top:7px}
+ol.steps p b{display:inline;font-size:inherit;color:var(--ink)}
+.path{font-family:var(--f-mono);font-size:11.5px;color:var(--ink2);background:var(--track);border-radius:2px;padding:7px 10px;margin-top:8px;display:block;overflow-x:auto;white-space:nowrap}
+
+.kwbox{margin-top:10px;background:var(--track);border:1.5px dashed var(--line);border-radius:3px;padding:13px 15px;font-family:var(--f-mono);font-size:12.5px;line-height:1.85;color:var(--ink);overflow-x:auto;white-space:pre}
+pre.code{margin-top:10px;background:var(--track);border:1.5px dashed var(--line);border-radius:3px;padding:13px 15px;font-family:var(--f-mono);font-size:11.5px;line-height:1.7;color:var(--ink);overflow-x:auto}
+
+.warn{background:color-mix(in srgb,var(--accent) 10%,transparent);border:1.5px solid var(--accent);border-radius:3px;padding:14px 17px;margin-top:14px}
+.warn .k{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px}
+.warn p{font-size:13.5px;color:var(--ink)}
+.warn p+p{margin-top:7px}
+.warn.teal{background:color-mix(in srgb,var(--accent-2) 10%,transparent);border-color:var(--accent-2)}
+.warn.teal .k{color:var(--accent-2)}
+
+.tw{overflow-x:auto;margin-top:14px}
+table{border-collapse:collapse;width:100%;min-width:440px;font-size:13.5px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1.5px dashed var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);border-bottom:1.5px solid var(--ink);font-weight:700}
+tbody td{font-variant-numeric:tabular-nums;color:var(--ink2)}
+tbody td:first-child{color:var(--ink);font-weight:600}
+tbody tr:last-child td{border-bottom:none}
+tr.tot td{border-top:1.5px solid var(--ink);color:var(--ink);font-weight:700}
+td.firm{color:var(--ok);font-weight:700}
+td.weak{color:var(--accent);font-weight:700}
+.note{font-size:12px;color:var(--mut);margin-top:12px;padding-top:11px;border-top:1.5px dashed var(--line)}
+
+.camp{border:1.5px solid var(--ink);border-radius:3px;margin-top:14px;overflow:hidden}
+.camp-h{padding:11px 15px;background:var(--track);border-bottom:1.5px solid var(--ink);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.camp-h b{font-family:var(--f-mono);font-size:12.5px;letter-spacing:-.01em}
+.camp-h span{font-size:12px;color:var(--ink2);margin-left:auto;font-family:var(--f-mono)}
+.camp-b{padding:13px 15px}
+.camp-b dl{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:13px}
+.camp-b dt{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);padding-top:3px}
+.camp-b dd{color:var(--ink2)}
+.camp-b dd b{color:var(--ink)}
+@media(max-width:600px){.camp-b dl{grid-template-columns:1fr;gap:2px}.camp-b dt{margin-top:8px}}
+
+.end{border-top:1.5px solid var(--ink);margin-top:56px;padding:22px clamp(15px,4vw,40px);max-width:1000px;margin-inline:auto}
+.end p{font-size:12px;color:var(--mut);font-family:var(--f-mono);line-height:1.7}
+</style>
+
+<header class="topbar">
+  <span class="brand">◆ IBR <i>·</i> Runbook Search</span>
+  <nav class="nav">
+    <a class="np" href="#a">A · Hoje</a>
+    <a class="np" href="#b1">B1 · Hoje</a>
+    <a class="np" href="#b">B2 · 02/09</a>
+    <a class="np" href="#c">C · Paralelo</a>
+    <a class="np" href="#m">Medição</a>
+    <a class="np" href="#com">Comunicar</a>
+  </nav>
+  <button class="toggle" id="tg" aria-label="Alternar tema claro e escuro">
+    <span class="i-sun" aria-hidden="true">☀</span><span class="i-moon" aria-hidden="true">☾</span>
+  </button>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Execução · conta 492-330-8890 · a partir de 19/08/2026</span>
+  <h1>O que espera catorze dias<br>e o que não espera.</h1>
+  <p class="lede">Nem toda mudança custa aprendizado. <b>Criar campanha nova reinicia o lance; trocar tipo de correspondência e adicionar negativa, não.</b> Por isso Bloco A e B1 entram hoje — são as duas correções que param o desperdício sem custar nada em ruído — e só o B2, que cria campanhas do zero, espera. O Bloco C corre em paralelo porque não toca no Google Ads.</p>
+</section>
+
+<main class="wrap">
+
+<section class="blk" id="a">
+  <div class="blk-head">
+    <span class="blk-tag">Bloco A</span>
+    <h2>Estancar o desperdício</h2>
+    <span class="when">Hoje · 15 min</span>
+  </div>
+  <div class="blk-body">
+    <p class="blk-why"><b>Por que primeiro:</b> palavra-chave negativa é a única mudança desta lista que <b>não reinicia o aprendizado do lance</b>. Entra hoje, começa a economizar hoje, e não atrapalha nada do que vem depois.</p>
+    <ol class="steps">
+      <li>
+        <b>Abrir as negativas da campanha certa</b>
+        <p>Só existe uma campanha de Pesquisa na conta. As outras cinco são Discovery e PMax e não usam palavra-chave.</p>
+        <span class="path">Campanhas → IBR | SEARCH | MAX CONV | REGIOES | 01 | BRANDTERMS | 2023-08-28 → Públicos-alvo, palavras-chave e conteúdo → Palavras-chave → aba "Negativas"</span>
+      </li>
+      <li>
+        <b>Adicionar a: Campanha</b>
+        <p>Não conta, não grupo de anúncios. No nível da conta, a negativa passaria a valer para qualquer campanha de Pesquisa futura — incluindo as duas que vamos criar no Bloco B, onde parte desses termos pode fazer sentido de novo.</p>
+      </li>
+      <li>
+        <b>Colar a lista — com colchetes</b>
+        <p>Correspondência <b>exata</b>. Este é o passo onde dá para quebrar a campanha.</p>
+        <div class="kwbox">[imobiliaria]
+[imobiliária]
+[imobiliarias]
+[imobiliárias]
+[serviços imobiliarios]
+[servicos imobiliarios]
+[serviços imobiliários]
+[site de imobiliaria]
+[site de imobiliária]
+[sites de imobiliaria]
+[sites de imobiliária]
+[imobiliaria virtual]
+[imobiliária virtual]
+[corretor imoveis]
+[corretor de imoveis]
+[corretor de imóveis]</div>
+      </li>
+      <li>
+        <b>Conferir antes de salvar</b>
+        <p>Cada linha tem que aparecer na prévia como <b>Exata</b>. Se alguma aparecer como Ampla ou Frase, o colchete não foi colado junto — corrija antes de confirmar.</p>
+      </li>
+    </ol>
+    <div class="warn">
+      <span class="k">Os colchetes decidem se isto ajuda ou destrói</span>
+      <p>Negativa em <b>frase</b> ou <b>ampla</b> bloqueia toda busca que contenha a palavra. <code>"imobiliaria"</code> derrubaria <code>cota imobiliaria</code>, <code>fração imobiliária</code> e <code>compra de cotas imobiliarias</code> — R$ 1.633/mês das palavras-chave que a campanha existe para comprar. Só a <b>exata</b> bloqueia o termo isolado e preserva a cauda.</p>
+      <p>E as variantes com e sem acento estão repetidas de propósito: <b>palavra-chave negativa não pega variante aproximada.</b> <code>[imobiliaria]</code> não bloqueia <code>imobiliária</code>, nem o plural, nem o erro de digitação. No lado positivo o Google expande sozinho; no negativo, não.</p>
+    </div>
+    <div class="warn teal">
+      <span class="k">O que esperar em 7 dias</span>
+      <p>Economia de <b>~R$ 971/mês</b> e queda de <b>~4% no volume total de leads do Google</b> (23 das 594 conversões do período vinham desses termos). A queda é o objetivo, não o efeito colateral. O custo por reunião é que precisa melhorar.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b1">
+  <div class="blk-head">
+    <span class="blk-tag">Bloco B1</span>
+    <h2>Tirar tudo de correspondência ampla</h2>
+    <span class="when">Hoje · 20 min</span>
+  </div>
+  <div class="blk-body">
+    <p class="blk-why"><b>Correção de sequenciamento:</b> a primeira versão deste runbook mandava esperar 14 dias para isto. Estava errado — empacotava duas mudanças com riscos diferentes. <b>O que reinicia o aprendizado do lance é criar campanhas novas</b>, não trocar tipo de correspondência dentro da campanha existente. Trocar match type causa relearning no nível da palavra-chave; o modelo de lance da campanha continua de pé. Entra hoje, junto com as negativas.</p>
+
+    <div class="warn">
+      <span class="k">Negativa é torniquete, match type é a cura</span>
+      <p>As negativas do Bloco A bloqueiam <b>os termos que já apareceram</b> — 16 variantes medidas. Amanhã aparece <code>melhores imobiliarias maceio</code> e o ciclo recomeça. Com <code>"cota imobiliaria"</code> em frase, a busca <code>imobiliária</code> deixa de ser elegível <b>de saída</b>, e a lista de negativas para de crescer.</p>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <b>Adicionar as 11 novas palavras-chave</b>
+        <p>As outras 11 com gasto ficaram abaixo de R$ 15 no mês — não vale migrar. Ficam pausadas junto com as antigas.</p>
+        <div class="kwbox">"cota imobiliaria"
+"comprar apartamento em maceió"
+"compra de cotas imobiliarias"
+"hotel multipropriedade"
+"fração imobiliária"
+"apartamento a venda em maceio"
+"multipropriedade resort"
+[ipioca beach residence]
+[ipioca beach residence venda]
+[ipioca residence]
+[mme maceio]</div>
+      </li>
+      <li>
+        <b>Pausar as 22 antigas em ampla — no mesmo dia</b>
+        <p>Não deixe as duas versões rodando em paralelo "para transição suave". Enquanto a ampla estiver ativa, ela continua comprando clique a R$ 6,19 contra R$ 1,47 da exata. <b>Pausar, não excluir</b> — o histórico serve de referência por 30 dias.</p>
+      </li>
+      <li>
+        <b>Não tocar no CPA desejado</b>
+        <p>Deixe em <b>R$ 36</b>. Alterar a meta de lance é uma das poucas coisas que <b>de fato</b> reiniciam o aprendizado do Smart Bidding — e faria exatamente o que este sequenciamento existe para evitar.</p>
+      </li>
+    </ol>
+
+    <div class="warn teal">
+      <span class="k">Aqui a regra dos acentos se inverte</span>
+      <p>Nas negativas você teve que enumerar cada acento e plural na mão. <b>Do lado positivo é o oposto:</b> frase e exata pegam variante aproximada. <code>"cota imobiliaria"</code> já cobre <i>cota imobiliária</i>, <i>cotas imobiliarias</i> e os erros de digitação. Duplicar aqui só polui a conta.</p>
+    </div>
+
+    <div class="warn">
+      <span class="k">O que esperar</span>
+      <p>Queda de volume <b>bem maior</b> que os ~4% das negativas — a ampla respondia por 79% do custo dos termos visíveis. É o objetivo. O custo por conversão do Google sobe; o custo por reunião é o número que precisa cair.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b">
+  <div class="blk-head">
+    <span class="blk-tag">Bloco B2</span>
+    <h2>Separar as campanhas</h2>
+    <span class="when">02/09 · ~1h</span>
+  </div>
+  <div class="blk-body">
+    <p class="blk-why"><b>Este continua em 02/09</b>, e por um motivo diferente do anterior: campanhas novas <b>nascem sem histórico de conversão</b> e entram em aprendizado de verdade. Vale esperar as negativas e a troca de match type assentarem antes de adicionar um reset em cima.</p>
+
+    <div class="warn">
+      <span class="k">A regra que preserva histórico</span>
+      <p><b>Renomeie a campanha atual em vez de criar uma nova para substituí-la.</b> Renomear não reinicia nada. Ela concentra R$ 5.643 de histórico de conversão — é o ativo de aprendizado da conta. As campanhas novas são as duas pequenas, que nascem sem histórico porque não têm como herdar mesmo.</p>
+    </div>
+
+    <div class="camp">
+      <div class="camp-h"><b>IBR | SEARCH | FRAÇÃO E MULTIPROPRIEDADE | 2023-08-28</b><span>renomear a atual</span></div>
+      <div class="camp-b">
+        <dl>
+          <dt>Ação</dt><dd>Renomear a campanha existente. <b>Não criar nova.</b></dd>
+          <dt>Orçamento</dt><dd>R$ 110/dia</dd>
+          <dt>Lance</dt><dd>CPA desejado <b>R$ 36</b> — o CPA atual. Não apertar durante o aprendizado.</dd>
+          <dt>Grupo 1</dt><dd>Cota e fração</dd>
+          <dt>Grupo 2</dt><dd>Multipropriedade</dd>
+        </dl>
+        <div class="kwbox">Grupo "Cota e fração"
+  "cota imobiliaria"
+  "compra de cotas imobiliarias"
+  "fração imobiliária"
+  "cota de imóvel"
+
+Grupo "Multipropriedade"
+  "multipropriedade"
+  "hotel multipropriedade"
+  "multipropriedade resort"
+  "multipropriedade praia"</div>
+        <p class="note">Aspas = correspondência de frase. Remova desta campanha as palavras-chave de marca e as de apartamento em Maceió — elas vão para as duas campanhas abaixo. As antigas em ampla ficam pausadas, não excluídas, por 30 dias.</p>
+      </div>
+    </div>
+
+    <div class="camp">
+      <div class="camp-h"><b>IBR | SEARCH | MARCA | 2026-08</b><span>criar nova</span></div>
+      <div class="camp-b">
+        <dl>
+          <dt>Orçamento</dt><dd>R$ 20/dia</dd>
+          <dt>Lance</dt><dd><b>Maximizar cliques com limite de CPC de R$ 2,50.</b> Não use CPA desejado: 14,5 conversões/mês é pouco para lance inteligente aprender, e o CPC de marca já é R$ 1,12–1,64.</dd>
+          <dt>Grupo</dt><dd>Marca</dd>
+        </dl>
+        <div class="kwbox">[ipioca beach residence]
+[ipioca beach residence venda]
+[ipioca residence]
+[ipioca beach]
+[mme maceio]
+"ipioca beach residence"</div>
+      </div>
+    </div>
+
+    <div class="camp">
+      <div class="camp-h"><b>IBR | SEARCH | IMÓVEL MACEIÓ | 2026-08</b><span>criar nova</span></div>
+      <div class="camp-b">
+        <dl>
+          <dt>Orçamento</dt><dd>R$ 60/dia</dd>
+          <dt>Lance</dt><dd>CPA desejado R$ 36</dd>
+          <dt>Grupo</dt><dd>Imóvel Maceió</dd>
+        </dl>
+        <div class="kwbox">"comprar apartamento em maceió"
+"apartamento a venda em maceio"</div>
+        <div class="warn teal">
+          <span class="k">Por que esta campanha existe</span>
+          <p><code>comprar apartamento em maceió</code> é a palavra-chave de maior volume da conta — 422 cliques, 28 conversões, R$ 902 — e a de intenção mais duvidosa: quem busca isso quer um apartamento convencional, não uma fração de resort. Ela pode ser a maior fonte dos 72,9% que não respondem, ou pode ser o melhor termo da conta. <b>Não dá para saber hoje, porque o Kommo registra o nome da campanha, mas não a palavra-chave.</b></p>
+          <p>Isolá-la numa campanha própria é o único jeito de medi-la com os dados que já existem. Em 30 dias o cruzamento com o CRM responde — e aí ela escala ou sai.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="note">Soma dos orçamentos: R$ 190/dia — exatamente o orçamento de hoje. A reestruturação é neutra em verba de propósito: se o custo por reunião melhorar, a discussão de aumentar vem depois, com número.</p>
+
+    <div class="warn">
+      <span class="k">Reavaliar, não pausar agora</span>
+      <p><code>cota imobiliaria</code> é a maior despesa da campanha (R$ 988) e está marcada pelo Google como <b>"Raramente mostrado — baixo Índice de Qualidade"</b>, com CPC de R$ 6,86. A tentação é pausar já. Não pause: boa parte do que ela comprava eram os termos "imobiliária" que o Bloco A acabou de bloquear, e em frase ela deixa de ser elegível para eles de saída. <b>Reavalie 14 dias depois do Bloco B.</b> Se o CPC continuar acima de R$ 5 e o Índice de Qualidade não subir, aí sim — e o problema provavelmente é a landing page não falar de fração/cota.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="c">
+  <div class="blk-head teal">
+    <span class="blk-tag">Bloco C</span>
+    <h2>Fechar o ciclo com o gclid</h2>
+    <span class="when">Começa hoje · corre em paralelo</span>
+  </div>
+  <div class="blk-body">
+    <p class="blk-why"><b>Por que em paralelo:</b> não toca no Google Ads, não interfere em aprendizado nenhum, e depende de outra pessoa (quem mantém a landing page e a integração com o Kommo). Começar hoje é o que permite o resultado chegar em outubro em vez de dezembro.</p>
+    <ol class="steps">
+      <li>
+        <b>Confirmar que a tag automática está ligada</b>
+        <p>Sem ela o Google não anexa o <code>gclid</code> na URL e o resto não funciona. Deve estar ativa — o parâmetro aparece nas URLs da conta — mas confirme.</p>
+        <span class="path">Adm. → Configurações da conta → Tag automática → "Marcar o URL com informações que eu possa usar"</span>
+      </li>
+      <li>
+        <b>Capturar o gclid na landing page</b>
+        <p>Guarda em cookie de 90 dias e injeta como campo oculto em todo formulário da página. Cobre o caso de a pessoa chegar pelo anúncio e converter numa visita posterior.</p>
+        <pre class="code">&lt;script&gt;
+(function () {
+  var g = new URLSearchParams(location.search).get('gclid');
+  if (g) document.cookie = 'gclid=' + g + ';max-age=7776000;path=/;samesite=lax';
+  var m = document.cookie.match(/(?:^|;\s*)gclid=([^;]+)/);
+  if (!m) return;
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('form').forEach(function (f) {
+      if (f.querySelector('[name="gclid"]')) return;
+      var i = document.createElement('input');
+      i.type = 'hidden'; i.name = 'gclid'; i.value = decodeURIComponent(m[1]);
+      f.appendChild(i);
+    });
+  });
+})();
+&lt;/script&gt;</pre>
+      </li>
+      <li>
+        <b>Mapear o campo na integração que cria o lead</b>
+        <p>Os leads do IBR entram no Kommo via integração (<code>created_by = 0</code>), não por formulário nativo do Kommo. Quem preenche <b>Origem / Campanha / Anúncio</b> no contato desde 13/07 é a mesma integração que precisa passar a preencher o <code>gclid</code> no lead.</p>
+        <p><b>Campo de destino no Kommo:</b> lead, <code>id 919006</code>, nome <code>gclid</code>, tipo <code>tracking_data</code>. Já existe e está vazio — não precisa criar nada.</p>
+      </li>
+      <li>
+        <b>Esperar acumular 30 a 50 reuniões com gclid</b>
+        <p>É o mínimo que o lance inteligente do Google precisa para reagir a uma conversão importada. No ritmo atual — 84 reuniões/mês vindas do Google — são <b>2 a 3 semanas</b> depois que a captura entrar no ar.</p>
+      </li>
+      <li>
+        <b>Criar a conversão offline e importar</b>
+        <p>Ação de conversão do tipo importação, alimentada com <code>gclid</code> + data/hora da reunião.</p>
+        <span class="path">Metas → Conversões → Nova ação de conversão → Importar → Outras fontes de dados → Monitorar conversões de cliques</span>
+        <p>A conta já tem um webhook do Kommo para o <b>Zapier</b> (<code>add_contact</code>). O mesmo caminho serve: Zap na mudança de status para "Reunião realizada" → linha no Google Sheets → upload agendado para o Google Ads. Evita construir integração nova.</p>
+      </li>
+      <li>
+        <b>Trocar a meta de lance</b>
+        <p>Das conversões de formulário para a conversão de reunião, nas campanhas de prospecção. <b>É aqui que "otimizar por dado de negócio" deixa de ser planilha e vira lance.</b></p>
+      </li>
+    </ol>
+    <div class="warn teal">
+      <span class="k">Reunião, não venda</span>
+      <p>São ~33 vendas no período inteiro contra 75 palavras-chave e 1.714 termos de pesquisa. Não há volume para o algoritmo aprender com venda, e não haverá tão cedo. <b>Reunião realizada é o evento mais próximo do dinheiro com volume suficiente para ensinar o leilão.</b> Venda entra como validação trimestral, nunca como sinal de lance.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="m">
+  <div class="blk-head">
+    <span class="blk-tag">Medição</span>
+    <h2>A linha de base</h2>
+    <span class="when">Congelada em 18/08</span>
+  </div>
+  <div class="blk-body">
+    <p class="blk-why">Contra isto se compara tudo. <b>Nenhuma das colunas abaixo é a coluna "Conversões" do Google</b> — é exatamente ela que diz que a Search é a segunda melhor campanha da conta.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Recorte</th><th>Custo</th><th>Leads</th><th>Sem filtro</th><th>Reuniões</th><th>R$/reunião</th></tr></thead>
+        <tbody>
+          <tr><td>SEARCH BRANDTERMS</td><td>5.643</td><td>133</td><td class="weak">72,9%</td><td>16</td><td class="weak">353</td></tr>
+          <tr><td>Melhor da conta (Institucional)</td><td>4.622</td><td>75</td><td class="firm">45,3%</td><td>21</td><td class="firm">220</td></tr>
+          <tr class="tot"><td>Google total</td><td>25.504</td><td>494</td><td>57,0%</td><td>84</td><td>304</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Janela 20/07–18/08/2026 (Google Ads) e 20/07–19/08/2026 (Kommo, funil SDR). "Sem filtro" = lead sem Lead Score preenchido, ou seja, que não respondeu ao bot.</p>
+    <div class="warn">
+      <span class="k">O R$ 304 é um teto, não uma medida</span>
+      <p><b>O denominador está incompleto.</b> As 84 reuniões contam só leads com <code>Origem = google</code> <b>e</b> nome de campanha preenchido. Ficam de fora 13 leads com Origem=Google e campanha vazia (+3 reuniões, o que já leva a R$ 293) e uma fatia dos 102 leads com origem <code>unknown</code> do período. A faixa real está entre <b>R$ 275 e R$ 305</b>.</p>
+      <p><b>Para comparar campanhas entre si, isso não atrapalha</b> — o viés de atribuição atinge todas igualmente, e é sobre a comparação que a realocação se apoia. Como número absoluto para citar fora da equipe, não use: use a distância entre R$ 220 e R$ 415.</p>
+      <p><b>Correção de uma ressalva anterior:</b> versões antigas deste runbook diziam que safras recentes ainda não haviam maturado e que o número subiria sozinho. Medido por coorte semanal, <b>não existe curva de maturação relevante</b> — a coorte de 2 dias mostra 15,2% de reunião contra 14,6% da de 16 dias. As reuniões acontecem em dias, coerente com o ciclo de venda de mediana 0 dia já observado em julho.</p>
+    </div>
+    <div class="warn teal">
+      <span class="k">Leitura semanal, quatro números por campanha</span>
+      <p>Leads · % com score · reuniões realizadas · custo por reunião. Nada de mix de score A/B/C/D/E: com 33 vendas no período, essa régua não separa quem fecha, e discutir o mix é discutir ruído.</p>
+      <p><b>Primeiro ponto de decisão: 02/09</b> — lê o efeito conjunto de A + B1 (negativas e fim da correspondência ampla) e libera o B2. <b>Segundo: 30/09</b> — lê a separação de campanhas e responde se <code>comprar apartamento em maceió</code> fica ou sai.</p>
+      <p>A e B1 entram juntos e não serão distinguíveis um do outro. É aceitável: os dois atacam a mesma coisa — termo de busca irrelevante — e aparecem na mesma métrica. Separá-los para saber qual economizou mais seria informação sem decisão associada.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="com">
+  <div class="blk-head">
+    <span class="blk-tag">Antes</span>
+    <h2>O que alinhar com o grupo</h2>
+    <span class="when">Antes do Bloco A</span>
+  </div>
+  <div class="blk-body">
+    <p class="blk-why">A conversa do grupo MKT vinha sendo sobre queda de qualidade e volume de leads. Estas mudanças <b>derrubam o volume de propósito</b> — se isso não estiver dito antes, vira crise na semana seguinte.</p>
+    <ol class="steps">
+      <li>
+        <b>O volume de leads do Google vai cair ~4%</b>
+        <p>E deve cair mais depois do Bloco B, quando a correspondência ampla sair. É o resultado pretendido: os leads que somem são os que não respondiam à primeira mensagem.</p>
+      </li>
+      <li>
+        <b>O custo por conversão do Google vai piorar</b>
+        <p>Provavelmente sobe de R$ 36 para algo entre R$ 45 e R$ 60 na Search. <b>Isso não é regressão.</b> Estamos deixando de comprar a conversão barata que não vira conversa — a mesma que hoje faz a campanha parecer a segunda melhor da conta.</p>
+      </li>
+      <li>
+        <b>O número que precisa melhorar é o custo por reunião</b>
+        <p>R$ 353 na Search hoje, contra R$ 220 na melhor campanha da conta. Se em 30 dias ele não tiver andado nessa direção, a hipótese estava errada e a verba muda de lugar.</p>
+      </li>
+      <li>
+        <b>Setembro ainda não responde sobre venda</b>
+        <p>Ciclo de maturação de safra e ~33 vendas no período todo. A pergunta "isso aumentou vendas?" só tem resposta defensável no fim de outubro, e mesmo assim por reunião, não por palavra-chave.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer class="end">
+  <p>Baseado na análise de palavras-chave de 19/08/2026 · Google Ads conta 492-330-8890 · Kommo ipiocabeachresidence, funil SDR (13996659).<br>
+  Orçamentos, CPAs e listas de palavras-chave derivados do período 20/07–18/08/2026 — revalidar antes de aplicar se houver mais de 30 dias de defasagem.</p>
+</footer>
+
+<script>
+(function(){
+  var t=document.getElementById('tg');
+  t.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    if(!cur){cur=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}
+    document.documentElement.setAttribute('data-theme',cur==='dark'?'light':'dark');
+  });
+})();
+</script>
