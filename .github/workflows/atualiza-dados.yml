@@ -22,6 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    env:
+      # Enquanto o developer token não existir, o passo do Google é pulado em
+      # vez de derrubar o job — senão a coleta de Kommo/Meta, que já funciona,
+      # pararia de publicar junto.
+      GOOGLE_PRONTO: ${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN != '' }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -45,12 +51,23 @@ jobs:
           META_TOKEN: ${{ secrets.META_TOKEN }}
         run: python3 fetch_meta_spend.py
 
+      - name: Coleta Google
+        if: env.GOOGLE_PRONTO == 'true'
+        env:
+          GOOGLE_ADS_CUSTOMER_ID: '4923308890'
+          GOOGLE_ADS_LOGIN_CUSTOMER_ID: ${{ vars.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+          GOOGLE_ADS_DEVELOPER_TOKEN: ${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+          GOOGLE_ADS_CLIENT_ID: ${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+          GOOGLE_ADS_CLIENT_SECRET: ${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+          GOOGLE_ADS_REFRESH_TOKEN: ${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+        run: python3 fetch_google_spend.py
+
       # Trava de segurança: sem ninguém olhando, uma coleta que falhou pela
       # metade publicaria um dash vazio sem avisar.
       - name: Confere os dados antes de publicar
         run: |
           python3 - <<'PY'
-          import json, sys
+          import json, os, sys
           k = json.load(open('data/kommo_leads.json'))
           m = json.load(open('data/meta_spend.json'))
           n = len(k.get('sdr', []))
@@ -58,7 +75,14 @@ jobs:
               sys.exit(f"ABORTA: kommo_leads.json com só {n} leads no SDR")
           if not m.get('adset'):
               sys.exit("ABORTA: meta_spend.json sem dados de adset")
-          print(f"ok: {n} leads no SDR, {len(m['adset'])} adsets")
+          msg = f"ok: {n} leads no SDR, {len(m['adset'])} adsets"
+          # Só cobra o Google quando o passo dele chegou a rodar.
+          if os.path.exists('data/google_spend.json'):
+              g = json.load(open('data/google_spend.json'))
+              if not g.get('campaign'):
+                  sys.exit("ABORTA: google_spend.json sem campanhas")
+              msg += f", {len(g['campaign'])} campanhas Google"
+          print(msg)
           PY
 
       - name: Publica
