@@ -76,13 +76,41 @@ class Handler(http.server.BaseHTTPRequestHandler):
         pass  # silencia o log do http.server
 
 
+def do_json_baixado():
+    """Lê o client_secret_*.json que o Console oferece ao criar o client.
+
+    Evita a colagem manual, que é onde o client_id costuma truncar.
+    """
+    candidatos = sorted(
+        list(Path.home().glob("Downloads/client_secret*.json"))
+        + list(Path(__file__).resolve().parent.glob("client_secret*.json")),
+        key=lambda p: p.stat().st_mtime, reverse=True)
+    for p in candidatos:
+        try:
+            dados = json.loads(p.read_text())
+            bloco = dados.get("installed") or dados.get("web") or {}
+            if bloco.get("client_id") and bloco.get("client_secret"):
+                return p, bloco["client_id"].strip(), bloco["client_secret"].strip()
+        except Exception:
+            continue
+    return None, None, None
+
+
 def main():
     atual = env_atual()
 
     print("\n  Configuração OAuth do Google Ads")
     print("  ─────────────────────────────────")
-    print("  Credenciais do OAuth client (Desktop app) criado em")
+    print("  Credenciais do OAuth client (App para computador) criado em")
     print("  https://console.cloud.google.com/apis/credentials\n")
+
+    caminho, client_id, client_secret = do_json_baixado()
+    if caminho:
+        print(f"  Achei o JSON do client em {caminho.name}")
+        if input("  usar esse? [S/n] ").strip().lower() != "n":
+            print("  Usando client_id e client_secret do arquivo.\n")
+            return continuar(client_id, client_secret)
+        client_id = client_secret = None
 
     client_id = atual.get("GOOGLE_ADS_CLIENT_ID") or ""
     if client_id:
@@ -110,6 +138,11 @@ def main():
             raise SystemExit("  Cancelado.")
 
     client_secret = getpass.getpass("  client_secret (não aparece): ").strip()
+    return continuar(client_id, client_secret)
+
+
+def continuar(client_id, client_secret):
+    """Roda o fluxo OAuth e grava o resultado. Comum aos dois caminhos de entrada."""
     if not client_id or not client_secret:
         raise SystemExit("  client_id e client_secret são obrigatórios.")
 

@@ -4,6 +4,9 @@
 .env*
 secrets*
 *.key
+# JSON de credencial que o Google Cloud Console entrega ao criar o OAuth client
+client_secret*.json
+*credentials*.json
 # dados brutos com PII de clientes
 data.json
 sales_full.json
