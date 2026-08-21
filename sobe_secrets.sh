@@ -10,7 +10,7 @@
 
 set -uo pipefail
 
-REPO="beatriz-moraes082/ibr-vendas-julho-2026"
+REPO="beatriz-moraes082/mensuracao-ibr"
 ENV_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.env"
 
 CHAVES_PADRAO=(

@@ -230,10 +230,10 @@ def continuar(client_id, client_secret):
 
     print(f"\n  ✅ refresh_token gerado ({len(refresh)} caracteres) e gravado no .env")
     print("\n  Falta levar para o GitHub — rode cada um e cole o valor quando pedir:")
-    print("\n    gh secret set GOOGLE_ADS_CLIENT_ID --repo beatriz-moraes082/ibr-vendas-julho-2026")
-    print("    gh secret set GOOGLE_ADS_CLIENT_SECRET --repo beatriz-moraes082/ibr-vendas-julho-2026")
-    print("    gh secret set GOOGLE_ADS_REFRESH_TOKEN --repo beatriz-moraes082/ibr-vendas-julho-2026")
-    print("    gh secret set GOOGLE_ADS_DEVELOPER_TOKEN --repo beatriz-moraes082/ibr-vendas-julho-2026")
+    print("\n    gh secret set GOOGLE_ADS_CLIENT_ID --repo beatriz-moraes082/mensuracao-ibr")
+    print("    gh secret set GOOGLE_ADS_CLIENT_SECRET --repo beatriz-moraes082/mensuracao-ibr")
+    print("    gh secret set GOOGLE_ADS_REFRESH_TOKEN --repo beatriz-moraes082/mensuracao-ibr")
+    print("    gh secret set GOOGLE_ADS_DEVELOPER_TOKEN --repo beatriz-moraes082/mensuracao-ibr")
     print("\n  Os valores dos três primeiros estão no .env; o developer token vem do API Center.\n")
 
 
