@@ -92,6 +92,23 @@ def main():
     if not client_id:
         client_id = input("  client_id: ").strip()
 
+    # Vale conferir antes de abrir o navegador: um client_id malformado só
+    # aparece lá na frente como "Erro 401: invalid_client", que não diz o motivo.
+    if not re.fullmatch(r"\d+-[a-z0-9]+\.apps\.googleusercontent\.com", client_id):
+        print("\n  ⚠️  Esse client_id não tem o formato que o Google usa.")
+        print("      Esperado:  123456789012-abcdef123456.apps.googleusercontent.com")
+        print(f"      Recebido:  {client_id[:20]}{'…' if len(client_id) > 20 else ''}"
+              f"  ({len(client_id)} caracteres)")
+        if client_id.startswith("AIza"):
+            print("      Isso parece uma API key, não um OAuth client ID.")
+        elif len(client_id) <= 30 and "." not in client_id:
+            print("      Isso parece o developer token ou o ID do projeto.")
+        print("\n      Pegue o correto em https://console.cloud.google.com/apis/credentials")
+        print("      seção 'OAuth 2.0 Client IDs' → o client do tipo Desktop app.")
+        print("      Se a seção estiver vazia, o client ainda não foi criado.\n")
+        if input("  Continuar mesmo assim? [s/N] ").strip().lower() != "s":
+            raise SystemExit("  Cancelado.")
+
     client_secret = getpass.getpass("  client_secret (não aparece): ").strip()
     if not client_id or not client_secret:
         raise SystemExit("  client_id e client_secret são obrigatórios.")
