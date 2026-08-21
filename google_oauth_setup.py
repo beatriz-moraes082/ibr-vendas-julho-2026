@@ -19,6 +19,7 @@ import os
 import re
 import secrets
 import threading
+import time
 import urllib.parse
 import webbrowser
 from pathlib import Path
@@ -61,14 +62,22 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
         q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
-        Handler.resultado = {k: v[0] for k, v in q.items()}
-        ok = "code" in Handler.resultado
+        campos = {k: v[0] for k, v in q.items()}
+        # O navegador também pede /favicon.ico; sem esse filtro esse pedido
+        # contaria como "resposta recebida" e mataria a espera cedo demais.
+        if "code" not in campos and "error" not in campos:
+            self.send_response(204)
+            self.end_headers()
+            return
+
+        Handler.resultado = campos
+        ok = "code" in campos
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.end_headers()
         msg = ("Autorizado. Pode fechar esta aba e voltar ao terminal."
                if ok else
-               f"Falhou: {Handler.resultado.get('error', 'sem código')}")
+               f"Falhou: {campos.get('error', 'sem código')}")
         self.wfile.write(f"<html><body style='font-family:system-ui;padding:40px'>"
                          f"<h2>{msg}</h2></body></html>".encode())
 
@@ -158,14 +167,34 @@ def continuar(client_id, client_secret):
     }
     url = f"{AUTH_URL}?{urllib.parse.urlencode(params)}"
 
-    servidor = http.server.HTTPServer(("127.0.0.1", PORT), Handler)
-    threading.Thread(target=servidor.handle_request, daemon=True).start()
+    Handler.resultado = {}
+    try:
+        servidor = http.server.HTTPServer(("127.0.0.1", PORT), Handler)
+    except OSError as e:
+        raise SystemExit(
+            f"  ABORTA: não consegui abrir a porta {PORT} ({e}).\n"
+            f"  Feche outra execução deste script que possa estar rodando."
+        )
+
+    # serve_forever numa thread: fica no ar até o code chegar. A versão
+    # anterior fechava o servidor logo depois de abrir o navegador, então o
+    # retorno do Google batia numa porta morta (ERR_CONNECTION_REFUSED).
+    threading.Thread(target=servidor.serve_forever, daemon=True).start()
 
     print(f"\n  Abrindo o navegador para autorizar…")
     print(f"  Se não abrir, cole esta URL:\n\n  {url}\n")
     webbrowser.open(url)
-    print("  Aguardando a autorização…")
+    print("  Aguardando a autorização (até 5 min)…")
 
+    limite = time.time() + 300
+    while not Handler.resultado:
+        if time.time() > limite:
+            servidor.shutdown()
+            servidor.server_close()
+            raise SystemExit("  ABORTA: tempo esgotado sem resposta do Google.")
+        time.sleep(0.3)
+
+    servidor.shutdown()
     servidor.server_close()
     r = Handler.resultado
     if r.get("state") != state:
